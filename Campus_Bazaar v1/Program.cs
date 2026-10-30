@@ -1,7 +1,28 @@
+using Campus_Bazaar_v1.Data;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Configure CORS for the frontend during development.
+var frontendOrigin = builder.Configuration["Frontend:Origin"];
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevelopmentFrontend", policy =>
+    {
+        if (!string.IsNullOrWhiteSpace(frontendOrigin))
+        {
+            policy
+                .WithOrigins(frontendOrigin)
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    });
+});
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -17,6 +38,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Apply CORS only during development.
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("DevelopmentFrontend");
+}
 
 app.UseAuthorization();
 
