@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Resources | Campus Bazaar</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: var(--blue);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        .btn-logout:hover {
+            color: #d93838;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* PAGE HEADER & SEARCH SECTION */
+
+        .page-header {
+            background: var(--blue);
+            color: var(--white);
+            padding: 40px 0 45px;
+            border-bottom: 5px solid var(--yellow);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header-text h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .header-text p {
+            color: #d6e0e9;
+            font-size: 14px;
+        }
+
+        .search-filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: var(--white);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-input-wrap {
+            flex: 2;
+            min-width: 240px;
+        }
+
+        .search-input-wrap input {
+            width: 100%;
+            height: 44px;
+            padding: 0 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .search-input-wrap input:focus {
+            border-color: var(--blue);
+        }
+
+        .filter-select {
+            flex: 1;
+            min-width: 150px;
+            height: 44px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .btn-search {
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            padding: 0 24px;
+            height: 44px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-search:hover {
+            background: var(--yellow-hover);
+        }
+
+        /* MAIN RESOURCES GRID LAYOUT */
+
+        .resources-layout {
+            padding: 40px 0 60px;
+            flex: 1;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .resource-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(21, 62, 99, 0.08);
+            border-color: var(--blue-light);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .resource-type-tag {
+            width: 42px;
+            height: 42px;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 12px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            border: 1px solid var(--yellow);
+        }
+
+        .card-meta h3 {
+            font-size: 15px;
+            color: var(--blue);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .card-meta p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+            margin-top: auto;
+        }
+
+        .uploader-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .uploader-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--blue);
+        }
+
+        .btn-download {
+            background: var(--blue-light);
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 12px;
+            padding: 7px 14px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-download:hover {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 950px) {
+            .resources-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filter-bar {
+                flex-direction: column;
+            }
+
+            .btn-search {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="resources.html" class="active-link">Resources</a>
+                <a href="upload.html">Upload</a>
+                <a href="chat.html">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- HEADER & SEARCH SECTION -->
+
+    <section class="page-header">
+        <div class="container header-content">
+            <div class="header-text">
+                <h1>Academic Resources Repository</h1>
+                <p>Browse, filter, and download verified notes, lab manuals, and slide decks.</p>
+            </div>
+
+            <div class="search-filter-bar">
+                <div class="search-input-wrap">
+                    <input type="text" id="searchInput" placeholder="Search by course title, topic, or keyword..." onkeyup="filterResources()">
+                </div>
+
+                <select id="deptFilter" class="filter-select" onchange="filterResources()">
+                    <option value="all">All Departments</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                </select>
+
+                <select id="typeFilter" class="filter-select" onchange="filterResources()">
+                    <option value="all">All Formats</option>
+                    <option value="pdf">PDF Notes</option>
+                    <option value="doc">Word Docs</option>
+                    <option value="ppt">Slide Decks (PPT)</option>
+                </select>
+
+                <button class="btn-search" onclick="filterResources()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN RESOURCES GRID -->
+
+    <main class="resources-layout">
+        <div class="container">
+
+            <div class="resources-grid" id="resourcesGrid">
+
+                <!-- CARD 1 -->
+                <article class="resource-card" data-dept="Computer Science" data-type="pdf">
+                    <div>
+                        <div class="card-top">
+                            <div class="resource-type-tag">PDF</div>
+                            <div class="card-meta">
+                                <h3>Data Structures & Algorithms</h3>
+                                <p>Course Code: CS-201 • CS Department</p>
+                            </div>
+                        </div>
+                        <p class="card-desc">Complete mid-term preparation notes covering Linked Lists, Stacks, Queues, and Binary Search Trees.</p>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="uploader-info">
+                            <img src="assets/male.jpg" alt="Uploader" class="uploader-avatar">
+                            <span>Uploaded 2d ago</span>
+                        </div>
+                        <a href="resource-details.html" class="btn-download">View Resource</a>
+                    </div>
+                </article>
+
+                <!-- CARD 2 -->
+                <article class="resource-card" data-dept="Data Science" data-type="doc">
+                    <div>
+                        <div class="card-top">
+                            <div class="resource-type-tag">DOC</div>
+                            <div class="card-meta">
+                                <h3>Database Systems Lab Manual</h3>
+                                <p>Course Code: DS-302 • Data Science Dept</p>
+                            </div>
+                        </div>
+                        <p class="card-desc">Hands-on SQL query manual featuring relational joins, aggregate functions, and normalization exercises.</p>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="uploader-info">
+                            <img src="assets/female.jpg" alt="Uploader" class="uploader-avatar">
+                            <span>Uploaded 4d ago</span>
+                        </div>
+                        <a href="resource-details.html" class="btn-download">View Resource</a>
+                    </div>
+                </article>
+
+                <!-- CARD 3 -->
+                <article class="resource-card" data-dept="Software Engineering" data-type="ppt">
+                    <div>
+                        <div class="card-top">
+                            <div class="resource-type-tag">PPT</div>
+                            <div class="card-meta">
+                                <h3>Software Process Models</h3>
+                                <p>Course Code: SE-104 • SE Department</p>
+                            </div>
+                        </div>
+                        <p class="card-desc">Slide presentation explaining Waterfall, V-Model, Spiral, Scrum, and Agile software life cycles.</p>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="uploader-info">
+                            <img src="assets/male m.jpg" alt="Uploader" class="uploader-avatar">
+                            <span>Uploaded 1w ago</span>
+                        </div>
+                        <a href="resource-details.html" class="btn-download">View Resource</a>
+                    </div>
+                </article>
+
+                <!-- CARD 4 -->
+                <article class="resource-card" data-dept="Data Science" data-type="pdf">
+                    <div>
+                        <div class="card-top">
+                            <div class="resource-type-tag">PDF</div>
+                            <div class="card-meta">
+                                <h3>Python Pandas & NumPy Guide</h3>
+                                <p>Course Code: DS-205 • Data Science Dept</p>
+                            </div>
+                        </div>
+                        <p class="card-desc">Cheat sheet for data manipulation, DataFrame filtering, handling missing values, and Matplotlib plotting.</p>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="uploader-info">
+                            <img src="assets/female m.jpg" alt="Uploader" class="uploader-avatar">
+                            <span>Uploaded 1w ago</span>
+                        </div>
+                        <a href="resource-details.html" class="btn-download">View Resource</a>
+                    </div>
+                </article>
+
+                <!-- CARD 5 -->
+                <article class="resource-card" data-dept="Computer Science" data-type="pdf">
+                    <div>
+                        <div class="card-top">
+                            <div class="resource-type-tag">PDF</div>
+                            <div class="card-meta">
+                                <h3>Computer Networks Architecture</h3>
+                                <p>Course Code: CS-310 • CS Department</p>
+                            </div>
+                        </div>
+                        <p class="card-desc">OSI 7-layer model summary notes with packet tracer network topology diagram examples.</p>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="uploader-info">
+                            <img src="assets/male.jpg" alt="Uploader" class="uploader-avatar">
+                            <span>Uploaded 2w ago</span>
+                        </div>
+                        <a href="resource-details.html" class="btn-download">View Resource</a>
+                    </div>
+                </article>
+
+                <!-- CARD 6 -->
+                <article class="resource-card" data-dept="Software Engineering" data-type="doc">
+                    <div>
+                        <div class="card-top">
+                            <div class="resource-type-tag">DOC</div>
+                            <div class="card-meta">
+                                <h3>Requirements Engineering SRS</h3>
+                                <p>Course Code: SE-202 • SE Department</p>
+                            </div>
+                        </div>
+                        <p class="card-desc">Sample Software Requirements Specification document template with functional and non-functional specs.</p>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="uploader-info">
+                            <img src="assets/female.jpg" alt="Uploader" class="uploader-avatar">
+                            <span>Uploaded 2w ago</span>
+                        </div>
+                        <a href="resource-details.html" class="btn-download">View Resource</a>
+                    </div>
+                </article>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // Search & Filter Logic
+        function filterResources() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const dept = document.getElementById('deptFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const cards = document.querySelectorAll('.resource-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const cardDept = card.getAttribute('data-dept');
+                const cardType = card.getAttribute('data-type');
+
+                const matchesQuery = text.includes(query);
+                const matchesDept = (dept === 'all' || cardDept === dept);
+                const matchesType = (type === 'all' || cardType === type);
+
+                if (matchesQuery && matchesDept && matchesType) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Load active user profile state from localStorage
+        function loadUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+
+            if (userData) {
+                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
+                if (userData.avatar) {
+                    document.getElementById('navAvatar').src = userData.avatar;
+                }
+            }
+        }
+
+        // Logout function
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have logged out.');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize on page render
+        loadUserProfile();
+    </script>
+</body>
+</html>

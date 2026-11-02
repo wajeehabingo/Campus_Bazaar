@@ -1,0 +1,1185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Bazaar | Your Campus Community</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 90%);
+            margin: auto;
+        }
+
+        /* NAVIGATION */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .login-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-yellow {
+            background: var(--yellow);
+            color: var(--blue);
+        }
+
+        .btn-yellow:hover {
+            background: #ffcd24;
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        .btn-blue:hover {
+            background: #0e2e4c;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* HERO SECTION */
+
+        .hero {
+            background: var(--grey);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            min-height: 545px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 40px;
+            padding-top: 55px;
+            padding-bottom: 55px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 5px;
+            padding: 6px 11px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            color: var(--blue);
+            font-size: clamp(38px, 4.5vw, 59px);
+            line-height: 1.12;
+            letter-spacing: -1.7px;
+            margin-bottom: 22px;
+            max-width: 570px;
+        }
+
+        .hero h1 span {
+            position: relative;
+            display: inline;
+            z-index: 1;
+        }
+
+        .hero h1 span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 2px;
+            height: 12px;
+            background: var(--yellow);
+            z-index: -1;
+        }
+
+        .hero-description {
+            color: var(--muted);
+            font-size: 16px;
+            max-width: 480px;
+            margin-bottom: 28px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-bottom: 30px;
+        }
+
+        .hero-note {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* CSS-DRAWN CAMPUS ILLUSTRATION */
+
+        .hero-art {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .art-background {
+            position: absolute;
+            width: 88%;
+            height: 84%;
+            background: #dce7ef;
+            border-radius: 48% 48% 20px 20px;
+            bottom: 15px;
+        }
+
+        .sun-shape {
+            position: absolute;
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background: var(--yellow);
+            top: 12px;
+            right: 45px;
+        }
+
+        .book-stack {
+            position: absolute;
+            width: 130px;
+            height: 23px;
+            background: #f4f5f6;
+            border: 2px solid var(--blue);
+            border-radius: 4px;
+            bottom: 57px;
+            left: 22px;
+            transform: rotate(-8deg);
+        }
+
+        .book-stack::before {
+            content: "";
+            position: absolute;
+            width: 118px;
+            height: 18px;
+            left: 5px;
+            top: -20px;
+            background: var(--yellow);
+            border: 2px solid var(--blue);
+            border-radius: 4px;
+        }
+
+        .desk {
+            position: absolute;
+            height: 18px;
+            width: 83%;
+            bottom: 38px;
+            left: 8%;
+            background: var(--blue);
+            border-radius: 6px;
+            z-index: 5;
+        }
+
+        .desk::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 50px;
+            right: 15%;
+            top: 16px;
+            background: var(--blue);
+        }
+
+        .laptop {
+            position: absolute;
+            width: 120px;
+            height: 83px;
+            bottom: 56px;
+            left: 42%;
+            background: var(--white);
+            border: 5px solid var(--blue);
+            border-radius: 7px 7px 2px 2px;
+            z-index: 4;
+        }
+
+        .laptop::before {
+            content: "";
+            position: absolute;
+            width: 138px;
+            height: 8px;
+            background: #aab6c0;
+            bottom: -13px;
+            left: -14px;
+            border-radius: 3px;
+        }
+
+        .laptop-screen {
+            position: absolute;
+            width: 46px;
+            height: 46px;
+            border: 5px solid var(--yellow);
+            border-radius: 50%;
+            top: 13px;
+            left: 32px;
+        }
+
+        .person {
+            position: absolute;
+            bottom: 55px;
+            z-index: 3;
+        }
+
+        .person-left {
+            left: 15%;
+            width: 110px;
+            height: 215px;
+        }
+
+        .person-right {
+            right: 12%;
+            width: 115px;
+            height: 235px;
+        }
+
+        .head {
+            position: absolute;
+            width: 65px;
+            height: 75px;
+            left: 22px;
+            top: 0;
+            background: #c88762;
+            border: 3px solid var(--blue);
+            border-radius: 45% 45% 48% 48%;
+            z-index: 2;
+        }
+
+        .hair {
+            position: absolute;
+            width: 70px;
+            height: 35px;
+            left: 19px;
+            top: -3px;
+            background: #303238;
+            border-radius: 50% 50% 20% 20%;
+            z-index: 3;
+        }
+
+        .body-shape {
+            position: absolute;
+            width: 110px;
+            height: 115px;
+            top: 67px;
+            left: 0;
+            background: var(--blue);
+            border: 3px solid var(--blue);
+            border-radius: 32px 32px 8px 8px;
+        }
+
+        .person-right .body-shape {
+            background: var(--yellow);
+        }
+
+        .person-right .head {
+            background: #e0aa83;
+        }
+
+        .person-right .hair {
+            height: 50px;
+            background: #393239;
+            border-radius: 45% 45% 25% 25%;
+        }
+
+        .arm {
+            position: absolute;
+            width: 25px;
+            height: 90px;
+            background: #c88762;
+            border: 3px solid var(--blue);
+            border-radius: 15px;
+            top: 90px;
+            z-index: 4;
+        }
+
+        .arm-left {
+            left: -9px;
+            transform: rotate(20deg);
+        }
+
+        .arm-right {
+            right: -9px;
+            transform: rotate(-28deg);
+        }
+
+        .person-right .arm {
+            background: #e0aa83;
+        }
+
+        .art-label {
+            position: absolute;
+            z-index: 6;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 11px 15px;
+            box-shadow: 0 8px 25px rgba(21, 62, 99, 0.10);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .label-top {
+            top: 55px;
+            left: 2px;
+        }
+
+        .label-bottom {
+            bottom: 115px;
+            right: 0;
+            background: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        /* INTRODUCTION STRIP */
+
+        .intro-strip {
+            background: var(--blue);
+            color: var(--white);
+            padding: 27px 0;
+        }
+
+        .intro-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+        }
+
+        .intro-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .intro-number {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: 16px;
+            font-weight: 900;
+            border-radius: 9px;
+        }
+
+        .intro-item h3 {
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .intro-item p {
+            font-size: 12px;
+            color: #d6e0e9;
+        }
+
+        /* FEATURES */
+
+        .features-section {
+            padding: 85px 0;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 620px;
+            margin: 0 auto 45px;
+        }
+
+        .section-heading .eyebrow {
+            margin-bottom: 13px;
+        }
+
+        .section-heading h2 {
+            color: var(--blue);
+            font-size: clamp(28px, 3vw, 38px);
+            line-height: 1.2;
+            margin-bottom: 13px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 23px;
+        }
+
+        .feature-card {
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 28px;
+            background: var(--white);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px rgba(21, 62, 99, 0.08);
+        }
+
+        .feature-icon {
+            width: 51px;
+            height: 51px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 21px;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: var(--yellow);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: var(--grey);
+        }
+
+        .feature-card h3 {
+            color: var(--blue);
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .text-link {
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .text-link:hover {
+            text-decoration: underline;
+        }
+
+        /* CALL TO ACTION */
+
+        .cta-section {
+            padding: 0 0 80px;
+        }
+
+        .cta-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            padding: 42px;
+            background: var(--yellow);
+            border-radius: 16px;
+        }
+
+        .cta-box h2 {
+            color: var(--blue);
+            font-size: clamp(25px, 3vw, 34px);
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .cta-box p {
+            color: #485563;
+            font-size: 15px;
+            max-width: 570px;
+        }
+
+        .cta-box .btn {
+            flex-shrink: 0;
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 45px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 35px;
+            padding-bottom: 30px;
+        }
+
+        .footer .logo {
+            color: var(--white);
+            margin-bottom: 13px;
+        }
+
+        .footer-description {
+            color: #bdc7d0;
+            max-width: 340px;
+            font-size: 13px;
+        }
+
+        .footer-links h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #bdc7d0;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--yellow);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #3a4652;
+            padding-top: 18px;
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 950px) {
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .nav-actions {
+                gap: 10px;
+            }
+
+            .hero-content {
+                gap: 20px;
+            }
+
+            .hero-art {
+                transform: scale(0.92);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+            .nav-actions .login-link {
+                display: none;
+            }
+
+            .nav-actions .btn {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                padding-top: 55px;
+                padding-bottom: 35px;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-art {
+                width: 100%;
+                max-width: 470px;
+                margin: 0 auto;
+                transform: none;
+            }
+
+            .intro-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-section {
+                padding: 60px 0;
+            }
+
+            .cta-box {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+            }
+
+            .footer-content {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .logo {
+                font-size: 18px;
+                gap: 7px;
+            }
+
+            .logo-mark {
+                width: 33px;
+                height: 33px;
+            }
+
+            .nav-actions .btn {
+                padding: 9px;
+            }
+
+            .hero h1 {
+                font-size: 37px;
+            }
+
+            .hero-art {
+                min-height: 330px;
+                transform: scale(0.9);
+                margin-top: -10px;
+                margin-bottom: -10px;
+            }
+
+            .art-label {
+                font-size: 10px;
+                padding: 8px 10px;
+            }
+
+            .cta-box {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="css/style.css">
+
+<body>
+    <div id="page-loader"></div>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="home page.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="home page.html">Home</a>
+                <a href="#resources">Resources</a>
+                <a href="#community">Community</a>
+                <a href="#mentors">Mentors</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="login-link">Log in</a>
+                <a href="register.html" class="btn btn-yellow">Join Campus Bazaar</a>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+            <div class="container hero-content">
+
+                <div class="hero-text">
+                    <span class="eyebrow">Made for campus life</span>
+
+                    <h1>
+                        Your campus.<br>
+                        Your people.<br>
+                        <span>Your space.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Find study resources, connect with fellow students,
+                        share what you know, and get guidance from mentors
+                        — all in one campus community.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="register.html" class="btn btn-blue">
+                            Get Started
+                        </a>
+
+                        <a href="#resources" class="btn btn-yellow">
+                            Explore Resources
+                        </a>
+                    </div>
+
+                    <p class="hero-note">
+                        Learn together. Share knowledge. Grow together.
+                    </p>
+                </div>
+
+                <!-- CSS-DRAWN CAMPUS ILLUSTRATION -->
+
+                <div class="hero-art" aria-label="Illustration of students studying together" role="img">
+
+                    <div class="art-background"></div>
+                    <div class="sun-shape"></div>
+
+                    <div class="art-label label-top">
+                        A place to learn together
+                    </div>
+
+                    <div class="person person-left">
+                        <div class="head"></div>
+                        <div class="hair"></div>
+                        <div class="body-shape"></div>
+                        <div class="arm arm-left"></div>
+                        <div class="arm arm-right"></div>
+                    </div>
+
+                    <div class="person person-right">
+                        <div class="head"></div>
+                        <div class="hair"></div>
+                        <div class="body-shape"></div>
+                        <div class="arm arm-left"></div>
+                        <div class="arm arm-right"></div>
+                    </div>
+
+                    <div class="book-stack"></div>
+
+                    <div class="laptop">
+                        <div class="laptop-screen"></div>
+                    </div>
+
+                    <div class="desk"></div>
+
+                    <div class="art-label label-bottom">
+                        Study. Connect. Succeed.
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTRODUCTION STRIP -->
+
+        <section class="intro-strip">
+            <div class="container intro-content">
+
+                <div class="intro-item">
+                    <div class="intro-number">01</div>
+                    <div>
+                        <h3>Share Knowledge</h3>
+                        <p>Useful academic material in one place.</p>
+                    </div>
+                </div>
+
+                <div class="intro-item">
+                    <div class="intro-number">02</div>
+                    <div>
+                        <h3>Build Connections</h3>
+                        <p>Learn and communicate with your peers.</p>
+                    </div>
+                </div>
+
+                <div class="intro-item">
+                    <div class="intro-number">03</div>
+                    <div>
+                        <h3>Get Guidance</h3>
+                        <p>Find support throughout your learning journey.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+
+        <section class="features-section" id="resources">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="eyebrow">What you can do</span>
+                    <h2>Everything you need for a better campus experience</h2>
+                    <p>
+                        A shared space where students can find resources,
+                        help each other, and make learning more accessible.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+                        <div class="feature-icon">01</div>
+                        <h3>Academic Resources</h3>
+                        <p>
+                            Discover notes, study guides, and learning
+                            materials shared by students. Find useful
+                            content without searching everywhere.
+                        </p>
+                        <a href="resources.html" class="text-link">
+                            Explore resources &rarr;
+                        </a>
+                    </article>
+
+                    <article class="feature-card" id="community">
+                        <div class="feature-icon">02</div>
+                        <h3>Student Community</h3>
+                        <p>
+                            Connect with fellow students, exchange ideas,
+                            ask questions, and make your campus learning
+                            experience more collaborative.
+                        </p>
+                        <a href="community.html" class="text-link">
+                            Meet the community &rarr;
+                        </a>
+                    </article>
+
+                    <article class="feature-card" id="mentors">
+                        <div class="feature-icon">03</div>
+                        <h3>Mentor Guidance</h3>
+                        <p>
+                            Get support, explore difficult topics, and
+                            learn from people who can help you move
+                            forward with confidence.
+                        </p>
+                        <a href="mentors.html" class="text-link">
+                            Find guidance &rarr;
+                        </a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CALL TO ACTION -->
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-box">
+                    <div>
+                        <h2>Your next campus connection starts here.</h2>
+                        <p>
+                            Join a student-focused space to discover
+                            resources, share knowledge, and grow together.
+                        </p>
+                    </div>
+
+                    <a href="register.html" class="btn">
+                        Join the Community
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div>
+                    <a href="home page.html" class="logo">
+                        <span class="logo-mark">CB</span>
+                        <span>Campus Bazaar</span>
+                    </a>
+
+                    <p class="footer-description">
+                        A campus-focused platform for academic resources,
+                        student connections, and learning support.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Explore</h3>
+                    <a href="home page.html">Home</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="community.html">Community</a>
+                    <a href="mentors.html">Mentors</a>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Your Account</h3>
+                    <a href="login.html">Log in</a>
+                    <a href="register.html">Create an account</a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2026 Campus Bazaar. Built for students, by students.
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation menu
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+
+            const isOpen = navLinks.classList.contains("active");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.textContent = isOpen ? "Close" : "Menu";
+        });
+
+        // Close the mobile menu after clicking a navigation link
+
+        const navigationLinks = navLinks.querySelectorAll("a");
+
+        navigationLinks.forEach(function (link) {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("active");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "Menu";
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById("page-loader");
+
+    // 1. Trigger top progress bar fill and fade page in on load
+    if (loader) {
+        loader.style.width = "70%";
+        setTimeout(() => {
+            loader.style.width = "100%";
+            document.body.classList.add("page-loaded");
+            setTimeout(() => {
+                loader.style.opacity = "0";
+            }, 300);
+        }, 150);
+    } else {
+        document.body.classList.add("page-loaded");
+    }
+
+    // 2. Intercept internal page link clicks for smooth exit transition
+    const links = document.querySelectorAll("a[href]");
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+
+            // Ignore anchor links on the same page (#), external links, or new tab links
+            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
+                return;
+            }
+
+            e.preventDefault();
+
+            // Fade body out and restart top loader
+            document.body.classList.remove("page-loaded");
+            if (loader) {
+                loader.style.opacity = "1";
+                loader.style.width = "40%";
+            }
+
+            // Navigate after smooth fade out (250ms)
+            setTimeout(() => {
+                window.location.href = href;
+            }, 250);
+        });
+    });
+});
+    </script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Campus Bazaar</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 90%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .login-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-yellow {
+            background: var(--yellow);
+            color: var(--blue);
+        }
+
+        .btn-yellow:hover {
+            background: var(--yellow-hover);
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: var(--white);
+            width: 100%;
+            padding: 13px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        .btn-blue:hover {
+            background: var(--blue-dark);
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* BACKGROUND WITH BLUR AND FLOATING VISUALS */
+
+        .register-wrapper {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            overflow: hidden;
+        }
+
+        .bg-art-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            filter: blur(12px);
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        .float-item {
+            position: absolute;
+            border-radius: 8px;
+            animation: float 14s infinite ease-in-out;
+        }
+
+        .float-book1 {
+            width: 120px;
+            height: 22px;
+            background: var(--yellow);
+            border: 3px solid var(--blue);
+            top: 12%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .float-book2 {
+            width: 140px;
+            height: 26px;
+            background: var(--blue);
+            top: 75%;
+            left: 10%;
+            animation-delay: -4s;
+        }
+
+        .float-laptop {
+            width: 160px;
+            height: 100px;
+            border: 6px solid var(--blue);
+            background: var(--white);
+            border-radius: 10px;
+            top: 18%;
+            right: 8%;
+            animation-delay: -2s;
+        }
+
+        .float-circle {
+            width: 180px;
+            height: 180px;
+            background: var(--yellow);
+            border-radius: 50%;
+            bottom: 8%;
+            right: 12%;
+            animation-delay: -6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(4deg); }
+        }
+
+        /* REGISTER CARD */
+
+        .register-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--white);
+            border-radius: 18px;
+            padding: 40px 35px;
+            box-shadow: 0 18px 45px rgba(21, 62, 99, 0.12);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 5px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .card-header h1 {
+            color: var(--blue);
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .card-header p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* ROLE TOGGLE SWITCH */
+
+        .role-switch {
+            display: flex;
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 22px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .role-btn.active {
+            background: var(--blue);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(21, 62, 99, 0.15);
+        }
+
+        /* DYNAMIC AVATAR PREVIEW */
+
+        .avatar-preview-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--blue-light);
+            border: 1px dashed var(--blue);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+        }
+
+        .avatar-img {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--blue);
+            background: var(--white);
+            flex-shrink: 0;
+        }
+
+        .avatar-text {
+            font-size: 12px;
+            color: var(--blue);
+            line-height: 1.4;
+        }
+
+        .avatar-text strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        /* FORM CONTROLS */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(21, 62, 99, 0.1);
+        }
+
+        .form-footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .form-footer-link a {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .form-footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .register-card {
+                padding: 30px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="page-loader"></div>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="home page.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="home page.html">Home</a>
+                <a href="home page.html#resources">Resources</a>
+                <a href="home page.html#community">Community</a>
+                <a href="home page.html#mentors">Mentors</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="login-link">Log in</a>
+                <a href="register.html" class="btn btn-yellow">Join Campus Bazaar</a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN REGISTER SECTION -->
+
+    <main class="register-wrapper">
+
+        <!-- BLURRED BACKGROUND ACADEMIC VISUALS -->
+        <div class="bg-art-layer">
+            <div class="float-item float-book1"></div>
+            <div class="float-item float-book2"></div>
+            <div class="float-item float-laptop"></div>
+            <div class="float-item float-circle"></div>
+        </div>
+
+        <!-- REGISTER FORM CARD -->
+
+        <div class="register-card">
+
+            <div class="card-header">
+                <span class="eyebrow" id="roleBadge">Student Registration</span>
+                <h1>Join Campus Bazaar</h1>
+                <p id="roleSubtitle">Create your profile with department details</p>
+            </div>
+
+            <!-- ROLE SELECTOR -->
+
+            <div class="role-switch">
+                <button type="button" class="role-btn active" id="btnStudent" onclick="switchRole('student')">
+                    Student
+                </button>
+                <button type="button" class="role-btn" id="btnMentor" onclick="switchRole('mentor')">
+                    Mentor
+                </button>
+            </div>
+
+            <!-- DYNAMIC AVATAR ASSIGNMENT PREVIEW -->
+
+            <div class="avatar-preview-box">
+                <img id="avatarPreview" src="assets/male.jpg" alt="Avatar Preview" class="avatar-img">
+                <div class="avatar-text">
+                    <strong id="avatarTitle">Assigned Avatar</strong>
+                    <span id="avatarDesc">Selecting your gender assigns your official campus avatar automatically.</span>
+                </div>
+            </div>
+
+            <!-- REGISTRATION FORM -->
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+
+                <div class="form-group">
+                    <label for="fullNameInput">Full Name</label>
+                    <input type="text" id="fullNameInput" class="form-control" placeholder="e.g. John Doe" required>
+                </div>
+
+                <!-- DYNAMIC FIELD 1 (Reg No for Student / Mentor ID for Mentor) -->
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="idInput" id="idLabel">Registration Number</label>
+                        <input type="text" id="idInput" class="form-control" placeholder="e.g. 2023-BS-DS-01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genderSelect">Gender</label>
+                        <select id="genderSelect" class="form-control" onchange="updateAvatarPreview()" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="emailInput">Campus Email</label>
+                    <input type="email" id="emailInput" class="form-control" placeholder="student@university.edu" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="passwordInput">Password</label>
+                        <input type="password" id="passwordInput" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPasswordInput">Confirm Password</label>
+                        <input type="password" id="confirmPasswordInput" class="form-control" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-blue">Create Account</button>
+
+                <p class="form-footer-link">
+                    Already registered? <a href="login.html">Log in here</a>
+                </p>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script>
+        // Current role tracking
+        let currentRole = 'student';
+
+        // Avatar Image Paths
+        const avatarMap = {
+            student: {
+                male: 'assets/male.jpg',
+                female: 'assets/female.jpg'
+            },
+            mentor: {
+                male: 'assets/male m.jpg',
+                female: 'assets/female m.jpg'
+            }
+        };
+
+        // Mobile menu toggle logic
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // Switch role function (Student vs Mentor)
+        function switchRole(role) {
+            currentRole = role;
+
+            const btnStudent = document.getElementById('btnStudent');
+            const btnMentor = document.getElementById('btnMentor');
+            const roleBadge = document.getElementById('roleBadge');
+            const roleSubtitle = document.getElementById('roleSubtitle');
+            const idLabel = document.getElementById('idLabel');
+            const idInput = document.getElementById('idInput');
+
+            if (role === 'student') {
+                btnStudent.classList.add('active');
+                btnMentor.classList.remove('active');
+                roleBadge.textContent = 'Student Registration';
+                roleSubtitle.textContent = 'Create your profile with department details';
+                idLabel.textContent = 'Registration Number';
+                idInput.placeholder = 'e.g. 2023-BS-DS-01';
+            } else {
+                btnMentor.classList.add('active');
+                btnStudent.classList.remove('active');
+                roleBadge.textContent = 'Mentor Registration';
+                roleSubtitle.textContent = 'Register as an official mentor';
+                idLabel.textContent = 'Mentor ID';
+                idInput.placeholder = 'e.g. MTR-8841';
+            }
+
+            updateAvatarPreview();
+        }
+
+        // Update avatar image based on role & gender
+        function updateAvatarPreview() {
+            const gender = document.getElementById('genderSelect').value;
+            const previewImg = document.getElementById('avatarPreview');
+            const avatarTitle = document.getElementById('avatarTitle');
+
+            const selectedPath = avatarMap[currentRole][gender];
+            previewImg.src = selectedPath;
+
+            const roleTitle = currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
+            const genderTitle = gender.charAt(0).toUpperCase() + gender.slice(1);
+            avatarTitle.textContent = `${roleTitle} Avatar (${genderTitle})`;
+        }
+
+        // Handle Registration
+        function handleRegister(event) {
+            event.preventDefault();
+
+            const password = document.getElementById('passwordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const gender = document.getElementById('genderSelect').value;
+            const assignedAvatar = avatarMap[currentRole][gender];
+            const fullName = document.getElementById('fullNameInput').value;
+
+            // Save user profile state
+            localStorage.setItem('currentUser', JSON.stringify({
+                role: currentRole,
+                name: fullName,
+                gender: gender,
+                avatar: assignedAvatar
+            }));
+
+            alert(`Registration successful! Account created for ${fullName} as a ${currentRole.toUpperCase()}.\nAssigned avatar saved.`);
+            window.location.href = 'login.html';
+        }
+
+        // Initial preview
+        updateAvatarPreview();
+        document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById("page-loader");
+
+    // 1. Trigger top progress bar fill and fade page in on load
+    if (loader) {
+        loader.style.width = "70%";
+        setTimeout(() => {
+            loader.style.width = "100%";
+            document.body.classList.add("page-loaded");
+            setTimeout(() => {
+                loader.style.opacity = "0";
+            }, 300);
+        }, 150);
+    } else {
+        document.body.classList.add("page-loaded");
+    }
+
+    // 2. Intercept internal page link clicks for smooth exit transition
+    const links = document.querySelectorAll("a[href]");
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+
+            // Ignore anchor links on the same page (#), external links, or new tab links
+            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
+                return;
+            }
+
+            e.preventDefault();
+
+            // Fade body out and restart top loader
+            document.body.classList.remove("page-loaded");
+            if (loader) {
+                loader.style.opacity = "1";
+                loader.style.width = "40%";
+            }
+
+            // Navigate after smooth fade out (250ms)
+            setTimeout(() => {
+                window.location.href = href;
+            }, 250);
+        });
+    });
+});
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>

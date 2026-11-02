@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Campus Bazaar</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: var(--blue);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        .btn-logout:hover {
+            color: #d93838;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* MAIN DASHBOARD LAYOUT */
+
+        .dashboard-layout {
+            padding: 35px 0 60px;
+            flex: 1;
+        }
+
+        .welcome-banner {
+            background: var(--blue);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 32px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.12);
+            border-left: 6px solid var(--yellow);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-avatar {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--yellow);
+            background: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .welcome-text h1 {
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .welcome-text p {
+            color: #d6e0e9;
+            font-size: 14px;
+        }
+
+        .badge-role {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-upload-quick {
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-upload-quick:hover {
+            transform: translateY(-2px);
+            background: var(--yellow-hover);
+        }
+
+        /* GRID SYSTEM */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .dash-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+            color: var(--blue);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--yellow);
+            border-radius: 2px;
+        }
+
+        .card-title a {
+            font-size: 13px;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+
+        /* QUICK ACTION CARDS & CUSTOM CSS VISUAL ICONS */
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .action-box {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 15px;
+            text-align: center;
+            transition: border-color 0.2s, transform 0.2s, background 0.2s;
+        }
+
+        .action-box:hover {
+            border-color: var(--blue);
+            background: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(21, 62, 99, 0.06);
+        }
+
+        .action-icon-wrap {
+            width: 52px;
+            height: 52px;
+            background: var(--white);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            border: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .action-box:hover .action-icon-wrap {
+            background: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        /* --- VISUAL 1: CSS BOOK STACK (BROWSE NOTES) --- */
+        .icon-book {
+            position: relative;
+            width: 24px;
+            height: 16px;
+            background: var(--blue);
+            border-radius: 2px;
+        }
+        .icon-book::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 2px;
+            width: 20px;
+            height: 4px;
+            background: var(--yellow);
+            border-radius: 1px;
+        }
+        .icon-book::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 24px;
+            height: 3px;
+            background: #aab6c0;
+            border-radius: 1px;
+        }
+
+        /* --- VISUAL 2: CSS PEER AVATARS (STUDY GROUPS) --- */
+        .icon-peers {
+            position: relative;
+            width: 28px;
+            height: 20px;
+        }
+        .peer-head {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--blue);
+            border-radius: 50%;
+            top: 0;
+        }
+        .peer-head.p1 { left: 2px; }
+        .peer-head.p2 { right: 2px; background: #687582; }
+        .peer-body {
+            position: absolute;
+            bottom: 0;
+            width: 16px;
+            height: 8px;
+            background: var(--blue);
+            border-radius: 6px 6px 0 0;
+        }
+        .peer-body.p1 { left: 0; }
+        .peer-body.p2 { right: 0; background: #687582; }
+
+        /* --- VISUAL 3: CSS MINI LAPTOP (AI TUTOR) --- */
+        .icon-laptop {
+            position: relative;
+            width: 26px;
+            height: 16px;
+            background: var(--white);
+            border: 2px solid var(--blue);
+            border-radius: 3px 3px 0 0;
+        }
+        .icon-laptop::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: -4px;
+            width: 30px;
+            height: 3px;
+            background: var(--blue);
+            border-radius: 2px;
+        }
+        .icon-laptop-screen {
+            width: 8px;
+            height: 8px;
+            background: var(--yellow);
+            border-radius: 50%;
+            margin: 2px auto 0;
+        }
+
+        .action-box h3 {
+            font-size: 14px;
+            color: var(--blue);
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .action-box p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* RESOURCE LIST STYLING */
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .resource-type-tag {
+        width: 38px;
+        height: 38px;
+        background: var(--yellow); /* Changed from var(--blue-light) to var(--yellow) */
+        color: var(--blue);
+        font-weight: 800;
+        font-size: 11px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        text-transform: uppercase;
+        border: 1px solid var(--yellow);
+        }
+
+        .resource-type-tag.yellow-accent {
+            background: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        .resource-details h4 {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .resource-details p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .btn-view-res {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--blue-light);
+            padding: 7px 14px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-view-res:hover {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* SIDEBAR ANNOUNCEMENTS & PROMO */
+
+        .notice-board {
+            list-style: none;
+        }
+
+        .notice-board li {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 13px;
+        }
+
+        .notice-board li:last-child {
+            border-bottom: none;
+        }
+
+        .notice-date {
+            font-size: 11px;
+            color: var(--blue);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .ai-promo-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--yellow);
+            border-radius: 12px;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .ai-promo-box h3 {
+            color: var(--blue);
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .ai-promo-box p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="css/style.css">
+<body>
+    <div id="page-loader"></div>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html" class="active-link">Dashboard</a>
+                <a href="resources.html">Resources</a>
+                <a href="upload.html">Upload</a>
+                <a href="chat.html">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+
+    <main class="dashboard-layout">
+        <div class="container">
+
+            <!-- WELCOME HEADER BANNER -->
+
+            <div class="welcome-banner">
+                <div class="profile-header">
+                    <img id="mainAvatar" src="assets/male.jpg" alt="Assigned Avatar" class="main-avatar">
+                    <div class="welcome-text">
+                        <h1>Welcome back, <span id="displayName">Student</span>!</h1>
+                        <p id="displayDetail">Department of Data Science</p>
+                        <span id="displayRole" class="badge-role">Student</span>
+                    </div>
+                </div>
+
+                <a href="upload.html" class="btn-upload-quick">
+                    + Upload Notes
+                </a>
+            </div>
+
+            <!-- DASHBOARD GRID -->
+
+            <div class="dashboard-grid">
+
+                <!-- LEFT COLUMN: QUICK ACTIONS & RECENT RESOURCES -->
+
+                <div>
+
+                    <!-- QUICK ACTIONS WITH CUSTOM ACADEMIC CSS SHAPES -->
+
+                    <div class="dash-card">
+                        <div class="card-title">
+                            <h2>Quick Actions</h2>
+                        </div>
+
+                        <div class="action-grid">
+
+                            <!-- BROWSE NOTES ACTION -->
+                            <a href="resources.html" class="action-box">
+                                <div class="action-icon-wrap">
+                                    <div class="icon-book"></div>
+                                </div>
+                                <h3>Browse Notes</h3>
+                                <p>Search study materials</p>
+                            </a>
+
+                            <!-- STUDY GROUPS ACTION -->
+                            <a href="chat.html" class="action-box">
+                                <div class="action-icon-wrap">
+                                    <div class="icon-peers">
+                                        <div class="peer-head p1"></div>
+                                        <div class="peer-body p1"></div>
+                                        <div class="peer-head p2"></div>
+                                        <div class="peer-body p2"></div>
+                                    </div>
+                                </div>
+                                <h3>Study Groups</h3>
+                                <p>Chat with classmates</p>
+                            </a>
+
+                            <!-- AI TUTOR ACTION -->
+                            <a href="ai-assistant.html" class="action-box">
+                                <div class="action-icon-wrap">
+                                    <div class="icon-laptop">
+                                        <div class="icon-laptop-screen"></div>
+                                    </div>
+                                </div>
+                                <h3>AI Tutor</h3>
+                                <p>Get instant answers</p>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- RECENTLY SHARED ACADEMIC RESOURCES -->
+
+                    <div class="dash-card">
+                        <div class="card-title">
+                            <h2>Recent Course Materials</h2>
+                            <a href="resources.html">View all &rarr;</a>
+                        </div>
+
+                        <div class="resource-item">
+                            <div class="resource-info">
+                                <div class="resource-type-tag yellow-accent">PDF</div>
+                                <div class="resource-details">
+                                    <h4>Data Structures & Algorithms Lecture Notes</h4>
+                                    <p>Uploaded by CS Dept • 2 days ago</p>
+                                </div>
+                            </div>
+                            <a href="resource-details.html" class="btn-view-res">View File</a>
+                        </div>
+
+                        <div class="resource-item">
+                            <div class="resource-info">
+                                <div class="resource-type-tag">DOC</div>
+                                <div class="resource-details">
+                                    <h4>Database Management Systems Lab Manual</h4>
+                                    <p>Uploaded by Data Science Dept • 4 days ago</p>
+                                </div>
+                            </div>
+                            <a href="resource-details.html" class="btn-view-res">View File</a>
+                        </div>
+
+                        <div class="resource-item">
+                            <div class="resource-info">
+                                <div class="resource-type-tag yellow-accent">PPT</div>
+                                <div class="resource-details">
+                                    <h4>Software Engineering Methodologies Slide Deck</h4>
+                                    <p>Uploaded by SE Dept • 1 week ago</p>
+                                </div>
+                            </div>
+                            <a href="resource-details.html" class="btn-view-res">View File</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: ANNOUNCEMENTS & AI ASSISTANT BANNER -->
+
+                <div>
+
+                    <!-- CAMPUS ANNOUNCEMENTS -->
+
+                    <div class="dash-card">
+                        <div class="card-title">
+                            <h2>Campus Announcements</h2>
+                        </div>
+
+                        <ul class="notice-board">
+                            <li>
+                                <span class="notice-date">October 22, 2026</span>
+                                <strong>Midterm Exam Schedule Posted</strong><br>
+                                Check your department bulletin for course time slots.
+                            </li>
+                            <li>
+                                <span class="notice-date">October 18, 2026</span>
+                                <strong>New AI Assistant Launched</strong><br>
+                                Practice university coursework directly on Campus Bazaar.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- AI TUTOR PROMO -->
+
+                    <div class="ai-promo-box">
+                        <h3>Need Study Help?</h3>
+                        <p>Ask our Campus AI Assistant to summarize notes, generate quiz questions, or explain complex concepts.</p>
+                        <a href="ai-assistant.html" class="btn-upload-quick" style="display: block; text-align: center;">
+                            Open AI Assistant
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // Load active user profile state from localStorage
+        function loadUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+
+            if (userData) {
+                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
+                if (userData.avatar) {
+                    document.getElementById('navAvatar').src = userData.avatar;
+                    document.getElementById('mainAvatar').src = userData.avatar;
+                }
+
+                document.getElementById('displayName').textContent = userData.name || userData.regNo || 'Student';
+                document.getElementById('displayRole').textContent = (userData.role || 'Student').toUpperCase();
+
+                if (userData.regNo) {
+                    document.getElementById('displayDetail').textContent = `Reg No: ${userData.regNo}`;
+                }
+            }
+        }
+
+        // Logout function
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have logged out.');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize user profile on load
+        loadUserProfile();
+        document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById("page-loader");
+
+    // 1. Trigger top progress bar fill and fade page in on load
+    if (loader) {
+        loader.style.width = "70%";
+        setTimeout(() => {
+            loader.style.width = "100%";
+            document.body.classList.add("page-loaded");
+            setTimeout(() => {
+                loader.style.opacity = "0";
+            }, 300);
+        }, 150);
+    } else {
+        document.body.classList.add("page-loaded");
+    }
+
+    // 2. Intercept internal page link clicks for smooth exit transition
+    const links = document.querySelectorAll("a[href]");
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+
+            // Ignore anchor links on the same page (#), external links, or new tab links
+            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
+                return;
+            }
+
+            e.preventDefault();
+
+            // Fade body out and restart top loader
+            document.body.classList.remove("page-loaded");
+            if (loader) {
+                loader.style.opacity = "1";
+                loader.style.width = "40%";
+            }
+
+            // Navigate after smooth fade out (250ms)
+            setTimeout(() => {
+                window.location.href = href;
+            }, 250);
+        });
+    });
+});
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>

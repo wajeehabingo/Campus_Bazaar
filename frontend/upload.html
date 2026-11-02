@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resource | Campus Bazaar</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: var(--blue);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        .btn-logout:hover {
+            color: #d93838;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* UPLOAD SECTION LAYOUT */
+
+        .upload-layout {
+            padding: 40px 0 60px;
+            flex: 1;
+        }
+
+        .upload-card {
+            max-width: 720px;
+            margin: 0 auto;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px 40px;
+            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.05);
+        }
+
+        .upload-header {
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 18px;
+        }
+
+        .upload-header h1 {
+            color: var(--blue);
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-header h1::before {
+            content: "";
+            display: inline-block;
+            width: 5px;
+            height: 22px;
+            background: var(--yellow);
+            border-radius: 2px;
+        }
+
+        .upload-header p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* DRAG & DROP FILE ZONE */
+
+        .drop-zone {
+            border: 2px dashed var(--blue);
+            background: var(--blue-light);
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            background: #dbe8f5;
+            border-color: var(--blue-dark);
+        }
+
+        .drop-zone-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--yellow);
+            border: 2px solid var(--blue);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 12px;
+            font-weight: 900;
+            color: var(--blue);
+            font-size: 20px;
+        }
+
+        .drop-zone-text h3 {
+            font-size: 15px;
+            color: var(--blue);
+            margin-bottom: 4px;
+        }
+
+        .drop-zone-text p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-selected-info {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--yellow);
+            color: var(--blue);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* FORM CONTROLS */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea.form-control {
+            height: 100px;
+            padding: 12px 14px;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(21, 62, 99, 0.1);
+        }
+
+        .btn-submit-upload {
+            width: 100%;
+            height: 48px;
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit-upload:hover {
+            background: var(--yellow-hover);
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .upload-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="resources.html">Resources</a>
+                <a href="upload.html" class="active-link">Upload</a>
+                <a href="chat.html">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- UPLOAD FORM CONTAINER -->
+
+    <main class="upload-layout">
+        <div class="container">
+
+            <div class="upload-card">
+
+                <div class="upload-header">
+                    <h1>Share Study Material</h1>
+                    <p>Contribute notes, lab manuals, or slide decks to help fellow students.</p>
+                </div>
+
+                <form id="uploadForm" onsubmit="handleUpload(event)">
+
+                    <!-- FILE DROP ZONE -->
+
+                    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div class="drop-zone-icon">↑</div>
+                        <div class="drop-zone-text">
+                            <h3>Click or Drag & Drop File Here</h3>
+                            <p>Supports PDF, DOC, DOCX, and PPTX up to 25MB</p>
+                        </div>
+                        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx" onchange="showSelectedFile(this.files)">
+                    </div>
+
+                    <div class="file-selected-info" id="fileSelectedInfo">
+                        <span id="fileNameDisplay">Selected: notes.pdf</span>
+                        <span style="cursor: pointer;" onclick="clearSelectedFile(event)">✕ Remove</span>
+                    </div>
+
+                    <!-- METADATA FORM FIELDS -->
+
+                    <div class="form-group">
+                        <label for="titleInput">Document Title</label>
+                        <input type="text" id="titleInput" class="form-control" placeholder="e.g. Data Structures Midterm Notes" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deptSelect">Target Department</label>
+                            <select id="deptSelect" class="form-control" required>
+                                <option value="Data Science">Data Science</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="courseCodeInput">Course Code</label>
+                            <input type="text" id="courseCodeInput" class="form-control" placeholder="e.g. CS-201" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descInput">Brief Description</label>
+                        <textarea id="descInput" class="form-control" placeholder="Add details about what concepts this study material covers..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit-upload">Publish to Campus Repository</button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // File Selection Logic
+        function showSelectedFile(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                document.getElementById('fileNameDisplay').textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                document.getElementById('fileSelectedInfo').style.display = 'flex';
+            }
+        }
+
+        function clearSelectedFile(e) {
+            e.stopPropagation();
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileSelectedInfo').style.display = 'none';
+        }
+
+        // Drag and Drop Effects
+        const dropZone = document.getElementById('dropZone');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('fileInput').files = files;
+                showSelectedFile(files);
+            }
+        });
+
+        // Handle Form Submission
+        function handleUpload(event) {
+            event.preventDefault();
+            const title = document.getElementById('titleInput').value;
+            alert(`Success! "${title}" has been submitted to the Campus Bazaar repository.`);
+            window.location.href = 'resources.html';
+        }
+
+        // Load user profile
+        function loadUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+
+            if (userData) {
+                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
+                if (userData.avatar) {
+                    document.getElementById('navAvatar').src = userData.avatar;
+                }
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have logged out.');
+            window.location.href = 'login.html';
+        }
+
+        loadUserProfile();
+    </script>
+</body>
+</html>

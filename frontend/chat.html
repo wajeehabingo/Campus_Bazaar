@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Messages | Campus Bazaar</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: var(--blue);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        .btn-logout:hover {
+            color: #d93838;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* MAIN CHAT LAYOUT */
+
+        .chat-container {
+            flex: 1;
+            padding: 20px 0;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .chat-card {
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.05);
+        }
+
+        /* SIDEBAR / CHANNELS LIST */
+
+        .chat-sidebar {
+            background: var(--grey);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h2 {
+            font-size: 17px;
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            list-style: none;
+        }
+
+        .chat-item {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .chat-item:hover, .chat-item.active {
+            background: var(--blue-light);
+        }
+
+        .group-tag-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 13px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--yellow);
+            flex-shrink: 0;
+        }
+
+        .chat-item-text h4 {
+            font-size: 14px;
+            color: var(--blue);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .chat-item-text p {
+            font-size: 12px;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 190px;
+        }
+
+        /* MAIN CHAT WINDOW */
+
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+        }
+
+        .chat-main-header {
+            padding: 16px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title-area h3 {
+            font-size: 16px;
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .header-title-area p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* MESSAGES AREA */
+
+        .messages-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #fafbfc;
+        }
+
+        .msg-row {
+            display: flex;
+            gap: 12px;
+            max-width: 75%;
+        }
+
+        .msg-row.outbound {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--blue);
+            flex-shrink: 0;
+        }
+
+        .msg-bubble {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-top-left-radius: 2px;
+        }
+
+        .msg-row.outbound .msg-bubble {
+            background: var(--blue);
+            color: var(--white);
+            border-color: var(--blue);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 2px;
+        }
+
+        .msg-sender {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 4px;
+        }
+
+        .msg-row.outbound .msg-sender {
+            color: var(--yellow);
+            text-align: right;
+        }
+
+        .msg-text {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .msg-time {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+            display: block;
+        }
+
+        .msg-row.outbound .msg-time {
+            color: #d6e0e9;
+            text-align: right;
+        }
+
+        /* CHAT INPUT AREA */
+
+        .chat-input-area {
+            padding: 16px 25px;
+            border-top: 1px solid var(--border);
+            background: var(--white);
+        }
+
+        .chat-input-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input-field {
+            flex: 1;
+            height: 44px;
+            padding: 0 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .chat-input-field:focus {
+            border-color: var(--blue);
+        }
+
+        .btn-send {
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            padding: 0 22px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-send:hover {
+            background: var(--yellow-hover);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 15px 0;
+            flex-shrink: 0;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .chat-card {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="resources.html">Resources</a>
+                <a href="upload.html">Upload</a>
+                <a href="chat.html" class="active-link">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN CHAT INTERFACE -->
+
+    <main class="chat-container">
+        <div class="container" style="height: 100%;">
+
+            <div class="chat-card">
+
+                <!-- LEFT SIDEBAR: STUDY GROUPS & CHANNELS -->
+
+                <div class="chat-sidebar">
+                    <div class="sidebar-header">
+                        <h2>Study Groups</h2>
+                    </div>
+
+                    <ul class="chat-list">
+                        <li class="chat-item active" onclick="switchChannel('Data Science Sem 3', '12 Members • Active now', this)">
+                            <div class="group-tag-icon">DS</div>
+                            <div class="chat-item-text">
+                                <h4>Data Science Sem 3</h4>
+                                <p>Has anyone completed the Pandas lab?</p>
+                            </div>
+                        </li>
+
+                        <li class="chat-item" onclick="switchChannel('Software Engineering Project', '3 Members • Active today', this)">
+                            <div class="group-tag-icon">SE</div>
+                            <div class="chat-item-text">
+                                <h4>SE Project Team</h4>
+                                <p>Repo updated with new frontend code.</p>
+                            </div>
+                        </li>
+
+                        <li class="chat-item" onclick="switchChannel('CS-201 DSA Discussion', '28 Members • Active 1h ago', this)">
+                            <div class="group-tag-icon">DSA</div>
+                            <div class="chat-item-text">
+                                <h4>CS-201 DSA Discussion</h4>
+                                <p>Check the midterm study notes!</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT MAIN CHAT AREA -->
+
+                <div class="chat-main">
+
+                    <div class="chat-main-header">
+                        <div class="header-title-area">
+                            <h3 id="channelTitle">Data Science Sem 3</h3>
+                            <p id="channelSubtitle">12 Members • Active now</p>
+                        </div>
+                    </div>
+
+                    <!-- MESSAGES CONTAINER -->
+
+                    <div class="messages-area" id="messagesArea">
+
+                        <!-- INBOUND MESSAGE -->
+                        <div class="msg-row">
+                            <img src="assets/female.jpg" alt="Ayesha" class="msg-avatar">
+                            <div class="msg-bubble">
+                                <div class="msg-sender">Ayesha Khan</div>
+                                <div class="msg-text">Has anyone solved Question 4 in the Data Science assignment?</div>
+                                <span class="msg-time">2:14 PM</span>
+                            </div>
+                        </div>
+
+                        <!-- INBOUND MESSAGE -->
+                        <div class="msg-row">
+                            <img src="assets/male m.jpg" alt="Mentor Vance" class="msg-avatar">
+                            <div class="msg-bubble">
+                                <div class="msg-sender">Dr. Alex Vance</div>
+                                <div class="msg-text">Make sure to normalize your DataFrame columns before running the linear regression model.</div>
+                                <span class="msg-time">2:18 PM</span>
+                            </div>
+                        </div>
+
+                        <!-- OUTBOUND MESSAGE -->
+                        <div class="msg-row outbound">
+                            <img id="myChatAvatar" src="assets/male.jpg" alt="You" class="msg-avatar">
+                            <div class="msg-bubble">
+                                <div class="msg-sender">You</div>
+                                <div class="msg-text">Thanks Dr. Vance! I just uploaded the reference cheat sheet to the Resources tab.</div>
+                                <span class="msg-time">2:20 PM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- CHAT INPUT FORM -->
+
+                    <div class="chat-input-area">
+                        <form class="chat-input-form" onsubmit="sendMessage(event)">
+                            <input type="text" id="chatInput" class="chat-input-field" placeholder="Type your message..." required autocomplete="off">
+                            <button type="submit" class="btn-send">Send</button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // Switch Active Study Channel
+        function switchChannel(title, subtitle, element) {
+            document.getElementById('channelTitle').textContent = title;
+            document.getElementById('channelSubtitle').textContent = subtitle;
+
+            const items = document.querySelectorAll('.chat-item');
+            items.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Send Message Logic
+        function sendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chatInput');
+            const messageText = input.value.trim();
+
+            if (!messageText) return;
+
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser')) || { name: 'You', avatar: 'assets/male.jpg' };
+
+            const messagesArea = document.getElementById('messagesArea');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const msgRow = document.createElement('div');
+            msgRow.className = 'msg-row outbound';
+            msgRow.innerHTML = `
+                <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar">
+                <div class="msg-bubble">
+                    <div class="msg-sender">You</div>
+                    <div class="msg-text">${escapeHtml(messageText)}</div>
+                    <span class="msg-time">${timeString}</span>
+                </div>
+            `;
+
+            messagesArea.appendChild(msgRow);
+            input.value = '';
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load active user profile state
+        function loadUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+
+            if (userData) {
+                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
+                if (userData.avatar) {
+                    document.getElementById('navAvatar').src = userData.avatar;
+                    document.getElementById('myChatAvatar').src = userData.avatar;
+                }
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have logged out.');
+            window.location.href = 'login.html';
+        }
+
+        loadUserProfile();
+    </script>
+</body>
+</html>
