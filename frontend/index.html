@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="stylesheet" href="css/style.css">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnHub | Student Resource Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="page-loader"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <a href="#" class="brand" data-page="dashboard">
+            <span class="brand-icon">L</span>
+            Learn<span class="lime-text">Hub</span>
+        </a>
+
+        <p class="nav-heading">WORKSPACE</p>
+
+        <nav>
+            <button class="nav-link active" data-page="dashboard">▦ Dashboard</button>
+            <button class="nav-link" data-page="catalogue">▤ Resource Catalogue</button>
+            <button class="nav-link" data-page="upload">↑ Upload Resource</button>
+            <button class="nav-link" data-page="chat">✳ AI Assistant</button>
+            <button class="nav-link" data-page="profile">◎ My Profile</button>
+            <button class="nav-link admin-only hidden" data-page="admin">⚙ Admin Panel</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <p>Learn together.<br>Grow together.</p>
+            <button class="nav-link" id="logoutBtn">↪ Log Out</button>
+        </div>
+    </aside>
+
+    <main class="main-area">
+        <header class="topbar">
+            <button id="menuToggle" class="menu-button">☰</button>
+            <div>
+                <span class="muted">Workspace / </span>
+                <strong id="pageTitle">Dashboard</strong>
+            </div>
+            <button class="avatar" id="profileShortcut">S</button>
+        </header>
+
+        <section id="app" class="page-content">
+            <p>Loading...</p>
+        </section>
+
+        <footer>
+            <span>© 2026 LearnHub</span>
+            <span>Student Resource Portal</span>
+        </footer>
+    </main>
+
+    <div id="toastRegion" class="toast-region"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

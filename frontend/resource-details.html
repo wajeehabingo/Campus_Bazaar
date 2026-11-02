@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Details | Campus Bazaar</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, textarea {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: var(--blue);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        .btn-logout:hover {
+            color: #d93838;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* MAIN CONTENT LAYOUT */
+
+        .details-layout {
+            padding: 35px 0 60px;
+            flex: 1;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 25px;
+        }
+
+        /* RESOURCE HEADER */
+
+        .resource-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .resource-type-tag {
+            width: 54px;
+            height: 54px;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 900;
+            font-size: 15px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            border: 1px solid var(--yellow);
+        }
+
+        .resource-title-area h1 {
+            font-size: 22px;
+            color: var(--blue);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+
+        .meta-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* PREVIEW BOX */
+
+        .preview-box {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .preview-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            border: 2px solid var(--blue);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            color: var(--blue);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .preview-box h3 {
+            font-size: 15px;
+            color: var(--blue);
+            margin-bottom: 4px;
+        }
+
+        .preview-box p {
+            font-size: 13px;
+            color: var(--muted);
+            max-width: 360px;
+        }
+
+        /* DESCRIPTION & DETAILS */
+
+        .section-heading {
+            font-size: 16px;
+            color: var(--blue);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .description-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 25px;
+        }
+
+        /* COMMENTS SECTION */
+
+        .comments-list {
+            margin-bottom: 20px;
+        }
+
+        .comment-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--blue);
+            flex-shrink: 0;
+        }
+
+        .comment-body h4 {
+            font-size: 13px;
+            color: var(--blue);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .comment-body span {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: normal;
+            margin-left: 6px;
+        }
+
+        .comment-body p {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 4px;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .comment-input {
+            flex: 1;
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .btn-comment {
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            padding: 0 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-comment:hover {
+            background: var(--blue-dark);
+        }
+
+        /* SIDEBAR INFO CARD */
+
+        .action-card {
+            text-align: center;
+        }
+
+        .btn-download-main {
+            width: 100%;
+            height: 48px;
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-download-main:hover {
+            background: var(--yellow-hover);
+            transform: translateY(-2px);
+        }
+
+        .info-list {
+            text-align: left;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+
+        .info-row {
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .info-row span {
+            color: var(--muted);
+        }
+
+        .info-row strong {
+            color: var(--blue);
+        }
+
+        .uploader-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--grey);
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .uploader-avatar-large {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+        }
+
+        .uploader-text h4 {
+            font-size: 14px;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .uploader-text p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="resources.html" class="active-link">Resources</a>
+                <a href="upload.html">Upload</a>
+                <a href="chat.html">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN DETAILS SECTION -->
+
+    <main class="details-layout">
+        <div class="container">
+
+            <a href="resources.html" class="back-link">&larr; Back to Resources Repository</a>
+
+            <div class="details-grid">
+
+                <!-- LEFT COLUMN: RESOURCE DETAILS & PREVIEW -->
+
+                <div>
+
+                    <div class="card">
+
+                        <div class="resource-header">
+                            <div class="resource-type-tag">PDF</div>
+                            <div class="resource-title-area">
+                                <h1>Data Structures & Algorithms Lecture Notes</h1>
+                                <div class="meta-tags">
+                                    <span class="tag">Course: CS-201</span>
+                                    <span class="tag">Computer Science</span>
+                                    <span class="tag">Midterm Syllabus</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DOCUMENT PREVIEW AREA -->
+
+                        <div class="preview-box">
+                            <div class="preview-icon">PDF</div>
+                            <h3>Document Preview</h3>
+                            <p>This PDF covers Linked Lists, Stacks, Queues, Recursion, and Binary Search Trees with code snippets.</p>
+                        </div>
+
+                        <h2 class="section-heading">Resource Overview</h2>
+                        <p class="description-text">
+                            These comprehensive study notes were compiled for the CS-201 midterm examination. 
+                            The material includes step-by-step pointers diagrams for single and double linked lists, 
+                            stack implementation using arrays, queue overflow conditions, and practice problems 
+                            with time complexity analyses ($O(1)$, $O(n)$, $O(\log n)$).
+                        </p>
+
+                    </div>
+
+                    <!-- COMMENTS / DISCUSSION SECTION -->
+
+                    <div class="card">
+                        <h2 class="section-heading">Student Discussion & Feedback</h2>
+
+                        <div class="comments-list" id="commentsList">
+
+                            <div class="comment-item">
+                                <img src="assets/female.jpg" alt="Student" class="comment-avatar">
+                                <div class="comment-body">
+                                    <h4>Ayesha Khan <span>• 1 day ago</span></h4>
+                                    <p>The recursion diagrams on page 12 were super helpful for understanding the call stack during midterm prep!</p>
+                                </div>
+                            </div>
+
+                            <div class="comment-item">
+                                <img src="assets/male.jpg" alt="Student" class="comment-avatar">
+                                <div class="comment-body">
+                                    <h4>Hamza Ahmed <span>• 2 days ago</span></h4>
+                                    <p>Thanks for sharing! Does this cover AVL tree rotation code as well?</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- ADD COMMENT FORM -->
+
+                        <form class="comment-form" onsubmit="addComment(event)">
+                            <input type="text" id="commentInput" class="comment-input" placeholder="Ask a question or leave feedback..." required>
+                            <button type="submit" class="btn-comment">Post</button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: DOWNLOAD ACTION & METADATA -->
+
+                <div>
+
+                    <div class="card action-card">
+
+                        <button class="btn-download-main" onclick="downloadFile()">
+                            ↓ Download Resource
+                        </button>
+
+                        <div class="info-list">
+                            <div class="info-row">
+                                <span>File Format</span>
+                                <strong>PDF Document</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>File Size</span>
+                                <strong>4.2 MB</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Total Downloads</span>
+                                <strong>148 times</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Uploaded On</span>
+                                <strong>October 20, 2026</strong>
+                            </div>
+                        </div>
+
+                        <div class="uploader-box">
+                            <img src="assets/male m.jpg" alt="Uploader" class="uploader-avatar-large">
+                            <div class="uploader-text">
+                                <h4>Dr. Alex Vance</h4>
+                                <p>Faculty • CS Dept</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // Handle Download Action
+        function downloadFile() {
+            alert("Starting download for Data Structures & Algorithms Lecture Notes (PDF)...");
+        }
+
+        // Add New Comment
+        function addComment(event) {
+            event.preventDefault();
+            const input = document.getElementById('commentInput');
+            const commentText = input.value.trim();
+
+            if (!commentText) return;
+
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser')) || { name: 'You', avatar: 'assets/male.jpg' };
+
+            const commentsList = document.getElementById('commentsList');
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.innerHTML = `
+                <img src="${userData.avatar || 'assets/male.jpg'}" alt="User" class="comment-avatar">
+                <div class="comment-body">
+                    <h4>${userData.name || 'You'} <span>• Just now</span></h4>
+                    <p>${commentText}</p>
+                </div>
+            `;
+
+            commentsList.appendChild(newComment);
+            input.value = '';
+        }
+
+        // Load active user profile state from localStorage
+        function loadUserProfile() {
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+
+            if (userData) {
+                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
+                if (userData.avatar) {
+                    document.getElementById('navAvatar').src = userData.avatar;
+                }
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have logged out.');
+            window.location.href = 'login.html';
+        }
+
+        loadUserProfile();
+    </script>
+</body>
+</html>

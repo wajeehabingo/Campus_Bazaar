@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Campus Bazaar</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: #485563;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: var(--blue);
+        }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+        .btn-logout:hover {
+            color: #d93838;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* MAIN PROFILE LAYOUT */
+
+        .profile-layout {
+            padding: 35px 0 60px;
+            flex: 1;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* LEFT SIDEBAR: AVATAR & INFO CARD */
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar-wrap {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 18px;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--yellow);
+            background: var(--white);
+            box-shadow: 0 6px 20px rgba(21, 62, 99, 0.12);
+        }
+
+        .badge-verified {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 26px;
+            height: 26px;
+            background: var(--blue);
+            color: var(--yellow);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: 900;
+            border: 2px solid var(--white);
+        }
+
+        .profile-card h1 {
+            font-size: 22px;
+            color: var(--blue);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .profile-card p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .badge-role {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            margin-bottom: 22px;
+        }
+
+        .info-list {
+            text-align: left;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+
+        .info-row {
+            margin-bottom: 14px;
+        }
+
+        .info-row span {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .info-row strong {
+            font-size: 14px;
+            color: var(--blue);
+        }
+
+        /* RIGHT SECTION: DETAILS & TABS */
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .card-title h2 {
+            font-size: 18px;
+            color: var(--blue);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--yellow);
+            border-radius: 2px;
+        }
+
+        /* STATS COUNTER */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 24px;
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .stat-box span {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        /* TAB ACTIVITY STYLING */
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--blue);
+            color: var(--white);
+            border-color: var(--blue);
+        }
+
+        /* ITEM LIST */
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .resource-tag {
+            width: 38px;
+            height: 38px;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 11px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--yellow);
+        }
+
+        .activity-details h4 {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .activity-details p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .btn-action {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--blue-light);
+            padding: 7px 14px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-top: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="css/style.css">
+<body>
+    <div id="page-loader"></div>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="resources.html">Resources</a>
+                <a href="upload.html">Upload</a>
+                <a href="chat.html">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN PROFILE SECTION -->
+
+    <main class="profile-layout">
+        <div class="container">
+
+            <div class="profile-grid">
+
+                <!-- LEFT COLUMN: USER AVATAR & METADATA -->
+
+                <div class="card profile-card">
+                    <div class="avatar-wrap">
+                        <img id="profileAvatar" src="assets/male.jpg" alt="Official Assigned Avatar" class="profile-avatar">
+                        <div class="badge-verified" title="Official Department Account">✓</div>
+                    </div>
+
+                    <h1 id="profileName">Student Name</h1>
+                    <p id="profileSub">Department of Data Science</p>
+                    <span id="profileRole" class="badge-role">Student</span>
+
+                    <div class="info-list">
+                        <div class="info-row">
+                            <span>ID / Registration No</span>
+                            <strong id="profileRegNo">2023-BS-DS-01</strong>
+                        </div>
+
+                        <div class="info-row">
+                            <span>Department Gender</span>
+                            <strong id="profileGender">Male</strong>
+                        </div>
+
+                        <div class="info-row">
+                            <span>Member Status</span>
+                            <strong style="color: #27ae60;">Active Academic Account</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: STATS & USER ACTIVITY -->
+
+                <div>
+
+                    <!-- ACADEMIC STATS -->
+
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <strong id="statNotes">4</strong>
+                            <span>Uploaded Notes</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong id="statDownloads">28</strong>
+                            <span>Material Downloads</span>
+                        </div>
+                        <div class="stat-box">
+                            <strong id="statGroups">2</strong>
+                            <span>Study Groups</span>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVITY & CONTRIBUTION TABS -->
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h2>My Contributions</h2>
+                        </div>
+
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" onclick="switchTab('uploads', this)">My Uploads</button>
+                            <button class="tab-btn" onclick="switchTab('groups', this)">My Study Groups</button>
+                        </div>
+
+                        <!-- TAB CONTENT: MY UPLOADS -->
+
+                        <div id="tabUploads">
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">PDF</div>
+                                    <div class="activity-details">
+                                        <h4>Data Structures Lecture 04 - Linked Lists</h4>
+                                        <p>Shared on Oct 18, 2026 • 14 downloads</p>
+                                    </div>
+                                </div>
+                                <a href="resource-details.html" class="btn-action">View</a>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">DOC</div>
+                                    <div class="activity-details">
+                                        <h4>Python Pandas & Data Cleaning Cheat Sheet</h4>
+                                        <p>Shared on Oct 10, 2026 • 14 downloads</p>
+                                    </div>
+                                </div>
+                                <a href="resource-details.html" class="btn-action">View</a>
+                            </div>
+                        </div>
+
+                        <!-- TAB CONTENT: MY STUDY GROUPS (HIDDEN BY DEFAULT) -->
+
+                        <div id="tabGroups" style="display: none;">
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">GRP</div>
+                                    <div class="activity-details">
+                                        <h4>Data Science Semester 3 Group</h4>
+                                        <p>12 Members • Active yesterday</p>
+                                    </div>
+                                </div>
+                                <a href="chat.html" class="btn-action">Open Chat</a>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">GRP</div>
+                                    <div class="activity-details">
+                                        <h4>Software Engineering Project Group</h4>
+                                        <p>3 Members • Active today</p>
+                                    </div>
+                                </div>
+                                <a href="chat.html" class="btn-action">Open Chat</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabName, element) {
+            const tabUploads = document.getElementById('tabUploads');
+            const tabGroups = document.getElementById('tabGroups');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            if (tabName === 'uploads') {
+                tabUploads.style.display = 'block';
+                tabGroups.style.display = 'none';
+            } else {
+                tabUploads.style.display = 'none';
+                tabGroups.style.display = 'block';
+            }
+        }
+
+        // Load logged in user profile details
+        function loadProfileData() {
+            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+
+            if (userData) {
+                // Update Nav Header
+                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
+                if (userData.avatar) {
+                    document.getElementById('navAvatar').src = userData.avatar;
+                    document.getElementById('profileAvatar').src = userData.avatar;
+                }
+
+                // Update Profile Details
+                document.getElementById('profileName').textContent = userData.name || 'Student Name';
+                document.getElementById('profileRegNo').textContent = userData.regNo || '2023-BS-DS-01';
+                document.getElementById('profileRole').textContent = (userData.role || 'Student').toUpperCase();
+                
+                if (userData.gender) {
+                    const g = userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1);
+                    document.getElementById('profileGender').textContent = g;
+                }
+            }
+        }
+
+        // Logout function
+        function logoutUser() {
+            localStorage.removeItem('currentUser');
+            alert('You have logged out.');
+            window.location.href = 'login.html';
+        }
+
+        // Load user info on page render
+        loadProfileData();
+        document.addEventListener("DOMContentLoaded", function () {
+    const loader = document.getElementById("page-loader");
+
+    // 1. Trigger top progress bar fill and fade page in on load
+    if (loader) {
+        loader.style.width = "70%";
+        setTimeout(() => {
+            loader.style.width = "100%";
+            document.body.classList.add("page-loaded");
+            setTimeout(() => {
+                loader.style.opacity = "0";
+            }, 300);
+        }, 150);
+    } else {
+        document.body.classList.add("page-loaded");
+    }
+
+    // 2. Intercept internal page link clicks for smooth exit transition
+    const links = document.querySelectorAll("a[href]");
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+
+            // Ignore anchor links on the same page (#), external links, or new tab links
+            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
+                return;
+            }
+
+            e.preventDefault();
+
+            // Fade body out and restart top loader
+            document.body.classList.remove("page-loaded");
+            if (loader) {
+                loader.style.opacity = "1";
+                loader.style.width = "40%";
+            }
+
+            // Navigate after smooth fade out (250ms)
+            setTimeout(() => {
+                window.location.href = href;
+            }, 250);
+        });
+    });
+});
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>
