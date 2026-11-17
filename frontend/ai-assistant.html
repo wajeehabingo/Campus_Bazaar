@@ -514,6 +514,7 @@
         </div>
     </footer>
 
+    <script src="js/config.js"></script>
     <script src="js/main.js"></script>
 
     <script>
@@ -540,7 +541,7 @@
 
                     // Load active user profile state
                     const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+                                        JSON.parse(localStorage.getItem('currentUser') || 'null');
 
                     if (userData) {
                         const navName = document.getElementById('navName');
@@ -571,8 +572,8 @@
                     if (!query) return;
 
                     const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null') ||
-                                     { name: 'You', avatar: 'assets/male.jpg' };
+                                        JSON.parse(localStorage.getItem('currentUser') || 'null') ||
+                                        { name: 'You', avatar: 'assets/male.jpg' };
                     const chatArea = document.getElementById('aiChatArea');
                     if (!chatArea) return;
 
@@ -583,7 +584,7 @@
                         <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar-icon">
                         <div class="msg-bubble-content">
                             <div class="msg-sender-title">You</div>
-                            ${escapeHtml(query)}
+                            ${escapeAiHtml(query)}
                         </div>
                     `;
                     chatArea.appendChild(userMsg);
@@ -615,11 +616,11 @@
                     } else if (q.includes('agile') || q.includes('waterfall')) {
                         return '<strong>Waterfall</strong> is a sequential, rigid software development process, whereas <strong>Agile</strong> is an iterative, flexible approach centered around sprint cycles and continuous feedback.';
                     } else {
-                        return `Here is a summary for "<em>${escapeHtml(query)}</em>": <br><br>The key concepts for this topic involve reviewing core course lectures, practicing problems, and referencing verified notes in the <strong>Resources</strong> section.`;
+                        return `Here is a summary for "<em>${escapeAiHtml(query)}</em>": <br><br>The key concepts for this topic involve reviewing core course lectures, practicing problems, and referencing verified notes in the <strong>Resources</strong> section.`;
                     }
                 }
 
-                function escapeHtml(text) {
+                function escapeAiHtml(text) {
                     const div = document.createElement('div');
                     div.textContent = text;
                     return div.innerHTML;

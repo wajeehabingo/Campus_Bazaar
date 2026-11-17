@@ -542,118 +542,120 @@
     </footer>
 
     <script>
-                (function () {
-                    // Mobile navigation toggle
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                            const isOpen = navLinks.classList.contains("active");
-                            menuToggle.setAttribute("aria-expanded", String(isOpen));
-                            menuToggle.textContent = isOpen ? "Close" : "Menu";
-                        });
-                    }
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                    const isOpen = navLinks.classList.contains("active");
+                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                                });
+                            }
 
-                    // Page loader & smooth link transitions
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const loader = document.getElementById("page-loader");
+                            // Page loader & smooth link transitions
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const loader = document.getElementById("page-loader");
 
-                        if (loader) {
-                            loader.style.width = "70%";
-                            setTimeout(() => {
-                                loader.style.width = "100%";
-                                document.body.classList.add("page-loaded");
-                                setTimeout(() => {
-                                    loader.style.opacity = "0";
-                                }, 300);
-                            }, 150);
-                        } else {
-                            document.body.classList.add("page-loaded");
+                                if (loader) {
+                                    loader.style.width = "70%";
+                                    setTimeout(() => {
+                                        loader.style.width = "100%";
+                                        document.body.classList.add("page-loaded");
+                                        setTimeout(() => {
+                                            loader.style.opacity = "0";
+                                        }, 300);
+                                    }, 150);
+                                } else {
+                                    document.body.classList.add("page-loaded");
+                                }
+
+                                const links = document.querySelectorAll("a[href]");
+                                links.forEach(link => {
+                                    link.addEventListener("click", function (e) {
+                                        const href = this.getAttribute("href");
+
+                                        if (!href || href.startsWith("#") || href.startsWith("http") || this.getAttribute("target") === "_blank") {
+                                            return;
+                                        }
+
+                                        e.preventDefault();
+                                        document.body.classList.remove("page-loaded");
+                                        if (loader) {
+                                            loader.style.opacity = "1";
+                                            loader.style.width = "40%";
+                                        }
+
+                                        setTimeout(() => {
+                                            window.location.href = href;
+                                        }, 250);
+                                    });
+                                });
+                            });
+                        })();
+
+                        // Automatically load registered user's avatar from local storage if available
+                        function checkStoredAvatar() {
+                            const regNoInput = document.getElementById('regNoInput');
+                            const avatarPreview = document.getElementById('avatarPreview');
+                            const avatarDesc = document.getElementById('avatarDesc');
+
+                            if (!regNoInput || !avatarPreview || !avatarDesc) return;
+
+                            const regNo = String(regNoInput['value'] || '').trim();
+                            const storedUser = JSON.parse(localStorage.getItem('registeredStudent') || 'null');
+
+                            if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
+                                avatarPreview.setAttribute('src', storedUser.avatar);
+                                avatarDesc.textContent = `Recognized profile for ${storedUser.name}.`;
+                            } else {
+                                avatarPreview.setAttribute('src', 'assets/male.jpg');
+                                avatarDesc.textContent = 'Enter your registration number to load your profile.';
+                            }
                         }
 
-                        const links = document.querySelectorAll("a[href]");
-                        links.forEach(link => {
-                            link.addEventListener("click", function (e) {
-                                const href = this.getAttribute("href");
+                        // Handle Login Submission
+                        function handleLogin(event) {
+                            event.preventDefault();
 
-                                if (!href || href.startsWith("#") || href.startsWith("http") || this.getAttribute("target") === "_blank") {
+                            const regNoInput = document.getElementById('regNoInput');
+                            const passwordInput = document.getElementById('passwordInput');
+                            if (!regNoInput || !passwordInput) return;
+
+                            const regNo = String(regNoInput['value'] || '').trim();
+                            const password = String(passwordInput['value'] || '');
+                            const storedUser = JSON.parse(localStorage.getItem('registeredStudent') || 'null');
+
+                            if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
+                                if (password === storedUser.password) {
+                                    localStorage.setItem('currentUser', JSON.stringify(storedUser));
+                                    alert(`Login Successful! Welcome back, ${storedUser.name}.`);
+                                    window.location.href = 'home page.html';
+                                    return;
+                                } else {
+                                    alert('Incorrect password. Please try again.');
                                     return;
                                 }
+                            }
 
-                                e.preventDefault();
-                                document.body.classList.remove("page-loaded");
-                                if (loader) {
-                                    loader.style.opacity = "1";
-                                    loader.style.width = "40%";
-                                }
-
-                                setTimeout(() => {
-                                    window.location.href = href;
-                                }, 250);
-                            });
-                        });
-                    });
-                })();
-
-                // Automatically load registered user's avatar from local storage if available
-                function checkStoredAvatar() {
-                    const regNoInput = document.getElementById('regNoInput');
-                    const avatarPreview = document.getElementById('avatarPreview');
-                    const avatarDesc = document.getElementById('avatarDesc');
-
-                    if (!regNoInput || !avatarPreview || !avatarDesc) return;
-
-                    const regNo = String(regNoInput['value'] || '').trim();
-                    const storedUser = JSON.parse(localStorage.getItem('registeredStudent') || 'null');
-
-                    if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
-                        avatarPreview.setAttribute('src', storedUser.avatar);
-                        avatarDesc.textContent = `Recognized profile for ${storedUser.name}.`;
-                    } else {
-                        avatarPreview.setAttribute('src', 'assets/male.jpg');
-                        avatarDesc.textContent = 'Enter your registration number to load your profile.';
-                    }
-                }
-
-                // Handle Login Submission
-                function handleLogin(event) {
-                    event.preventDefault();
-
-                    const regNoInput = document.getElementById('regNoInput');
-                    const passwordInput = document.getElementById('passwordInput');
-                    if (!regNoInput || !passwordInput) return;
-
-                    const regNo = String(regNoInput['value'] || '').trim();
-                    const password = String(passwordInput['value'] || '');
-                    const storedUser = JSON.parse(localStorage.getItem('registeredStudent') || 'null');
-
-                    if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
-                        if (password === storedUser.password) {
-                            localStorage.setItem('currentUser', JSON.stringify(storedUser));
-                            alert(`Login Successful! Welcome back, ${storedUser.name}.`);
+                            // Demo fallback if logging in without registering first
+                            localStorage.setItem('currentUser', JSON.stringify({
+                                regNo: regNo,
+                                name: regNo,
+                                avatar: 'assets/male.jpg'
+                            }));
+                            alert(`Logged in with Registration Number: ${regNo}`);
                             window.location.href = 'home page.html';
-                            return;
-                        } else {
-                            alert('Incorrect password. Please try again.');
-                            return;
                         }
-                    }
 
-                    // Demo fallback if logging in without registering first
-                    localStorage.setItem('currentUser', JSON.stringify({
-                        regNo: regNo,
-                        name: regNo,
-                        avatar: 'assets/male.jpg'
-                    }));
-                    alert(`Logged in with Registration Number: ${regNo}`);
-                    window.location.href = 'home page.html';
-                }
-
-                // Run check on page load
-                checkStoredAvatar();
+                        // Run check on page load
+                        checkStoredAvatar();
     </script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

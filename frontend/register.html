@@ -613,198 +613,200 @@
     </footer>
 
     <script>
-                // Current role tracking
-                let currentRole = 'student';
+                        // Current role tracking
+                        let currentRole = 'student';
 
-                // Student Avatar Image Paths
-                const avatarMap = {
-                    male: 'assets/male.jpg',
-                    female: 'assets/female.jpg'
-                };
+                        // Student Avatar Image Paths
+                        const avatarMap = {
+                            male: 'assets/male.jpg',
+                            female: 'assets/female.jpg'
+                        };
 
-                (function () {
-                    // Mobile menu toggle logic
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile menu toggle logic
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                            const isOpen = navLinks.classList.contains("active");
-                            menuToggle.setAttribute("aria-expanded", String(isOpen));
-                            menuToggle.textContent = isOpen ? "Close" : "Menu";
-                        });
-                    }
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                    const isOpen = navLinks.classList.contains("active");
+                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                                });
+                            }
 
-                    // Page loader & smooth exit transitions
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const loader = document.getElementById("page-loader");
+                            // Page loader & smooth exit transitions
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const loader = document.getElementById("page-loader");
 
-                        if (loader) {
-                            loader.style.width = "70%";
-                            setTimeout(() => {
-                                loader.style.width = "100%";
-                                document.body.classList.add("page-loaded");
-                                setTimeout(() => {
-                                    loader.style.opacity = "0";
-                                }, 300);
-                            }, 150);
-                        } else {
-                            document.body.classList.add("page-loaded");
+                                if (loader) {
+                                    loader.style.width = "70%";
+                                    setTimeout(() => {
+                                        loader.style.width = "100%";
+                                        document.body.classList.add("page-loaded");
+                                        setTimeout(() => {
+                                            loader.style.opacity = "0";
+                                        }, 300);
+                                    }, 150);
+                                } else {
+                                    document.body.classList.add("page-loaded");
+                                }
+
+                                const links = document.querySelectorAll("a[href]");
+                                links.forEach(link => {
+                                    link.addEventListener("click", function (e) {
+                                        const href = this.getAttribute("href");
+
+                                        if (!href || href.startsWith("#") || href.startsWith("http") || this.getAttribute("target") === "_blank") {
+                                            return;
+                                        }
+
+                                        e.preventDefault();
+                                        document.body.classList.remove("page-loaded");
+                                        if (loader) {
+                                            loader.style.opacity = "1";
+                                            loader.style.width = "40%";
+                                        }
+
+                                        setTimeout(() => {
+                                            window.location.href = href;
+                                        }, 250);
+                                    });
+                                });
+                            });
+                        })();
+
+                        // Switch role function (Student vs Admin)
+                        function switchRole(role) {
+                            currentRole = role;
+
+                            const btnStudent = document.getElementById('btnStudent');
+                            const btnAdmin = document.getElementById('btnAdmin');
+                            const roleBadge = document.getElementById('roleBadge');
+                            const roleSubtitle = document.getElementById('roleSubtitle');
+                            const idLabel = document.getElementById('idLabel');
+                            const idInput = document.getElementById('idInput');
+                            const emailInput = document.getElementById('emailInput');
+                            const avatarPreviewBox = document.getElementById('avatarPreviewBox');
+                            const genderGroup = document.getElementById('genderGroup');
+                            const idGenderRow = document.getElementById('idGenderRow');
+
+                            if (!btnStudent || !btnAdmin || !roleBadge || !roleSubtitle || !idLabel || !idInput || !emailInput || !avatarPreviewBox || !genderGroup || !idGenderRow) {
+                                return;
+                            }
+
+                            if (role === 'student') {
+                                btnStudent.classList.add('active');
+                                btnAdmin.classList.remove('active');
+                                roleBadge.textContent = 'Student Registration';
+                                roleSubtitle.textContent = 'Create your profile with department details';
+                                idLabel.textContent = 'Registration Number';
+                                idInput.setAttribute('placeholder', 'e.g. 2023-BS-DS-01');
+                                emailInput.setAttribute('placeholder', 'student@university.edu');
+
+                                // Show Student Avatar & Gender
+                                avatarPreviewBox.style.display = 'flex';
+                                genderGroup.style.display = 'block';
+                                idGenderRow.classList.remove('single-col');
+                                updateAvatarPreview();
+                            } else {
+                                btnAdmin.classList.add('active');
+                                btnStudent.classList.remove('active');
+                                roleBadge.textContent = 'Admin Registration';
+                                roleSubtitle.textContent = 'Register an administrative account';
+                                idLabel.textContent = 'Admin ID';
+                                idInput.setAttribute('placeholder', 'e.g. ADM-1001');
+                                emailInput.setAttribute('placeholder', 'admin@university.edu');
+
+                                // Hide unnecessary Avatar & Gender fields for Admin
+                                avatarPreviewBox.style.display = 'none';
+                                genderGroup.style.display = 'none';
+                                idGenderRow.classList.add('single-col');
+                            }
                         }
 
-                        const links = document.querySelectorAll("a[href]");
-                        links.forEach(link => {
-                            link.addEventListener("click", function (e) {
-                                const href = this.getAttribute("href");
+                        // Update avatar image based on gender (Student only)
+                        function updateAvatarPreview() {
+                            const genderSelect = document.getElementById('genderSelect');
+                            const previewImg = document.getElementById('avatarPreview');
+                            const avatarTitle = document.getElementById('avatarTitle');
 
-                                if (!href || href.startsWith("#") || href.startsWith("http") || this.getAttribute("target") === "_blank") {
-                                    return;
-                                }
+                            if (!genderSelect || !previewImg || !avatarTitle) return;
 
-                                e.preventDefault();
-                                document.body.classList.remove("page-loaded");
-                                if (loader) {
-                                    loader.style.opacity = "1";
-                                    loader.style.width = "40%";
-                                }
+                            const gender = String(genderSelect['value'] || 'male');
+                            const selectedPath = avatarMap[gender] || 'assets/male.jpg';
+                            previewImg.setAttribute('src', selectedPath);
 
-                                setTimeout(() => {
-                                    window.location.href = href;
-                                }, 250);
-                            });
-                        });
-                    });
-                })();
+                            const genderTitle = gender.charAt(0).toUpperCase() + gender.slice(1);
+                            avatarTitle.textContent = `Student Avatar (${genderTitle})`;
+                        }
 
-                // Switch role function (Student vs Admin)
-                function switchRole(role) {
-                    currentRole = role;
+                        // Handle Registration
+                        function handleRegister(event) {
+                            event.preventDefault();
 
-                    const btnStudent = document.getElementById('btnStudent');
-                    const btnAdmin = document.getElementById('btnAdmin');
-                    const roleBadge = document.getElementById('roleBadge');
-                    const roleSubtitle = document.getElementById('roleSubtitle');
-                    const idLabel = document.getElementById('idLabel');
-                    const idInput = document.getElementById('idInput');
-                    const emailInput = document.getElementById('emailInput');
-                    const avatarPreviewBox = document.getElementById('avatarPreviewBox');
-                    const genderGroup = document.getElementById('genderGroup');
-                    const idGenderRow = document.getElementById('idGenderRow');
+                            const fullNameInput = document.getElementById('fullNameInput');
+                            const idInput = document.getElementById('idInput');
+                            const emailInput = document.getElementById('emailInput');
+                            const passwordInput = document.getElementById('passwordInput');
+                            const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+                            const genderSelect = document.getElementById('genderSelect');
 
-                    if (!btnStudent || !btnAdmin || !roleBadge || !roleSubtitle || !idLabel || !idInput || !emailInput || !avatarPreviewBox || !genderGroup || !idGenderRow) {
-                        return;
-                    }
+                            if (!fullNameInput || !idInput || !emailInput || !passwordInput || !confirmPasswordInput) return;
 
-                    if (role === 'student') {
-                        btnStudent.classList.add('active');
-                        btnAdmin.classList.remove('active');
-                        roleBadge.textContent = 'Student Registration';
-                        roleSubtitle.textContent = 'Create your profile with department details';
-                        idLabel.textContent = 'Registration Number';
-                        idInput.setAttribute('placeholder', 'e.g. 2023-BS-DS-01');
-                        emailInput.setAttribute('placeholder', 'student@university.edu');
+                            const fullName = String(fullNameInput['value'] || '').trim();
+                            const regNo = String(idInput['value'] || '').trim();
+                            const email = String(emailInput['value'] || '').trim();
+                            const password = String(passwordInput['value'] || '');
+                            const confirmPassword = String(confirmPasswordInput['value'] || '');
 
-                        // Show Student Avatar & Gender
-                        avatarPreviewBox.style.display = 'flex';
-                        genderGroup.style.display = 'block';
-                        idGenderRow.classList.remove('single-col');
+                            if (password !== confirmPassword) {
+                                alert("Passwords do not match!");
+                                return;
+                            }
+
+                            if (currentRole === 'student') {
+                                const gender = genderSelect ? String(genderSelect['value'] || 'male') : 'male';
+                                const assignedAvatar = avatarMap[gender] || 'assets/male.jpg';
+
+                                const studentData = {
+                                    role: 'student',
+                                    name: fullName,
+                                    regNo: regNo,
+                                    email: email,
+                                    gender: gender,
+                                    avatar: assignedAvatar,
+                                    password: password
+                                };
+
+                                localStorage.setItem('registeredStudent', JSON.stringify(studentData));
+                                localStorage.setItem('currentUser', JSON.stringify(studentData));
+
+                                alert(`Registration successful! Account created for ${fullName} as a STUDENT.`);
+                            } else {
+                                const adminData = {
+                                    role: 'admin',
+                                    name: fullName,
+                                    adminId: regNo,
+                                    email: email,
+                                    password: password
+                                };
+
+                                localStorage.setItem('registeredAdmin', JSON.stringify(adminData));
+                                localStorage.setItem('currentUser', JSON.stringify(adminData));
+
+                                alert(`Registration successful! Account created for ${fullName} as an ADMIN.`);
+                            }
+
+                            window.location.href = 'login.html';
+                        }
+
+                        // Initial preview
                         updateAvatarPreview();
-                    } else {
-                        btnAdmin.classList.add('active');
-                        btnStudent.classList.remove('active');
-                        roleBadge.textContent = 'Admin Registration';
-                        roleSubtitle.textContent = 'Register an administrative account';
-                        idLabel.textContent = 'Admin ID';
-                        idInput.setAttribute('placeholder', 'e.g. ADM-1001');
-                        emailInput.setAttribute('placeholder', 'admin@university.edu');
-
-                        // Hide unnecessary Avatar & Gender fields for Admin
-                        avatarPreviewBox.style.display = 'none';
-                        genderGroup.style.display = 'none';
-                        idGenderRow.classList.add('single-col');
-                    }
-                }
-
-                // Update avatar image based on gender (Student only)
-                function updateAvatarPreview() {
-                    const genderSelect = document.getElementById('genderSelect');
-                    const previewImg = document.getElementById('avatarPreview');
-                    const avatarTitle = document.getElementById('avatarTitle');
-
-                    if (!genderSelect || !previewImg || !avatarTitle) return;
-
-                    const gender = String(genderSelect['value'] || 'male');
-                    const selectedPath = avatarMap[gender] || 'assets/male.jpg';
-                    previewImg.setAttribute('src', selectedPath);
-
-                    const genderTitle = gender.charAt(0).toUpperCase() + gender.slice(1);
-                    avatarTitle.textContent = `Student Avatar (${genderTitle})`;
-                }
-
-                // Handle Registration
-                function handleRegister(event) {
-                    event.preventDefault();
-
-                    const fullNameInput = document.getElementById('fullNameInput');
-                    const idInput = document.getElementById('idInput');
-                    const emailInput = document.getElementById('emailInput');
-                    const passwordInput = document.getElementById('passwordInput');
-                    const confirmPasswordInput = document.getElementById('confirmPasswordInput');
-                    const genderSelect = document.getElementById('genderSelect');
-
-                    if (!fullNameInput || !idInput || !emailInput || !passwordInput || !confirmPasswordInput) return;
-
-                    const fullName = String(fullNameInput['value'] || '').trim();
-                    const regNo = String(idInput['value'] || '').trim();
-                    const email = String(emailInput['value'] || '').trim();
-                    const password = String(passwordInput['value'] || '');
-                    const confirmPassword = String(confirmPasswordInput['value'] || '');
-
-                    if (password !== confirmPassword) {
-                        alert("Passwords do not match!");
-                        return;
-                    }
-
-                    if (currentRole === 'student') {
-                        const gender = genderSelect ? String(genderSelect['value'] || 'male') : 'male';
-                        const assignedAvatar = avatarMap[gender] || 'assets/male.jpg';
-
-                        const studentData = {
-                            role: 'student',
-                            name: fullName,
-                            regNo: regNo,
-                            email: email,
-                            gender: gender,
-                            avatar: assignedAvatar,
-                            password: password
-                        };
-
-                        localStorage.setItem('registeredStudent', JSON.stringify(studentData));
-                        localStorage.setItem('currentUser', JSON.stringify(studentData));
-
-                        alert(`Registration successful! Account created for ${fullName} as a STUDENT.`);
-                    } else {
-                        const adminData = {
-                            role: 'admin',
-                            name: fullName,
-                            adminId: regNo,
-                            email: email,
-                            password: password
-                        };
-
-                        localStorage.setItem('registeredAdmin', JSON.stringify(adminData));
-                        localStorage.setItem('currentUser', JSON.stringify(adminData));
-
-                        alert(`Registration successful! Account created for ${fullName} as an ADMIN.`);
-                    }
-
-                    window.location.href = 'login.html';
-                }
-
-                // Initial preview
-                updateAvatarPreview();
     </script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

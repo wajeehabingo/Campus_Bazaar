@@ -825,56 +825,57 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
-
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
     <script>
-                (function () {
-                    // Mobile navigation toggle
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                        });
-                    }
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                });
+                            }
 
-                    // Logout button listener
-                    const logoutBtn = document.getElementById("logoutBtn");
-                    if (logoutBtn) {
-                        logoutBtn.addEventListener("click", function () {
-                            localStorage.removeItem('currentUser');
-                            alert('You have logged out.');
-                            window.location.href = 'login.html';
-                        });
-                    }
+                            // Logout button listener
+                            const logoutBtn = document.getElementById("logoutBtn");
+                            if (logoutBtn) {
+                                logoutBtn.addEventListener("click", function () {
+                                    localStorage.removeItem('currentUser');
+                                    alert('You have logged out.');
+                                    window.location.href = 'login.html';
+                                });
+                            }
 
-                    // Load active user profile state from localStorage
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+                            // Load active user profile state from localStorage
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-                    if (userData) {
-                        const navName = document.getElementById('navName');
-                        const navAvatar = document.getElementById('navAvatar');
-                        const mainAvatar = document.getElementById('mainAvatar');
-                        const displayName = document.getElementById('displayName');
-                        const displayRole = document.getElementById('displayRole');
-                        const displayDetail = document.getElementById('displayDetail');
+                            if (userData) {
+                                const navName = document.getElementById('navName');
+                                const navAvatar = document.getElementById('navAvatar');
+                                const mainAvatar = document.getElementById('mainAvatar');
+                                const displayName = document.getElementById('displayName');
+                                const displayRole = document.getElementById('displayRole');
+                                const displayDetail = document.getElementById('displayDetail');
 
-                        if (navName) navName.textContent = userData.name || userData.regNo || 'User';
-                        if (userData.avatar) {
-                            if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
-                            if (mainAvatar) mainAvatar.setAttribute('src', userData.avatar);
-                        }
+                                if (navName) navName.textContent = userData.name || userData.regNo || 'User';
+                                if (userData.avatar) {
+                                    if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
+                                    if (mainAvatar) mainAvatar.setAttribute('src', userData.avatar);
+                                }
 
-                        if (displayName) displayName.textContent = userData.name || userData.regNo || 'Student';
-                        if (displayRole) displayRole.textContent = (userData.role || 'Student').toUpperCase();
+                                if (displayName) displayName.textContent = userData.name || userData.regNo || 'Student';
+                                if (displayRole) displayRole.textContent = (userData.role || 'Student').toUpperCase();
 
-                        if (userData.regNo && displayDetail) {
-                            displayDetail.textContent = `Reg No: ${userData.regNo}`;
-                        }
-                    }
-                })();
+                                if (userData.regNo && displayDetail) {
+                                    displayDetail.textContent = `Reg No: ${userData.regNo}`;
+                                }
+                            }
+                        })();
     </script>
 </body>
 </html>

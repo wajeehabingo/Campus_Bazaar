@@ -493,118 +493,119 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
-
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                (function () {
-                    // Mobile navigation toggle
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                            const isOpen = navLinks.classList.contains("active");
-                            menuToggle.setAttribute("aria-expanded", String(isOpen));
-                            menuToggle.textContent = isOpen ? "Close" : "Menu";
-                        });
-                    }
-
-                    // File Selection Logic
-                    const dropZone = document.getElementById('dropZone');
-                    const fileInput = document.getElementById('fileInput');
-                    const fileSelectedInfo = document.getElementById('fileSelectedInfo');
-                    const fileNameDisplay = document.getElementById('fileNameDisplay');
-                    const removeFileBtn = document.getElementById('removeFileBtn');
-
-                    function showSelectedFile(files) {
-                        if (files && files.length > 0 && fileNameDisplay && fileSelectedInfo) {
-                            const file = files[0];
-                            fileNameDisplay.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-                            fileSelectedInfo.style.display = 'flex';
-                        }
-                    }
-
-                    if (dropZone && fileInput) {
-                        dropZone.addEventListener('click', function () {
-                            fileInput.click();
-                        });
-
-                        fileInput.addEventListener('change', function () {
-                            showSelectedFile(fileInput['files']);
-                        });
-
-                        ['dragenter', 'dragover'].forEach(eventName => {
-                            dropZone.addEventListener(eventName, function (e) {
-                                e.preventDefault();
-                                dropZone.classList.add('dragover');
-                            });
-                        });
-
-                        ['dragleave', 'drop'].forEach(eventName => {
-                            dropZone.addEventListener(eventName, function (e) {
-                                e.preventDefault();
-                                dropZone.classList.remove('dragover');
-                            });
-                        });
-
-                        dropZone.addEventListener('drop', function (e) {
-                            const dt = e['dataTransfer'];
-                            const files = dt ? dt.files : null;
-                            if (files && files.length > 0) {
-                                fileInput['files'] = files;
-                                showSelectedFile(files);
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                    const isOpen = navLinks.classList.contains("active");
+                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                                });
                             }
-                        });
-                    }
 
-                    if (removeFileBtn) {
-                        removeFileBtn.addEventListener('click', function (e) {
-                            e.stopPropagation();
-                            if (fileInput) fileInput['value'] = '';
-                            if (fileSelectedInfo) fileSelectedInfo.style.display = 'none';
-                        });
-                    }
+                            // File Selection Logic
+                            const dropZone = document.getElementById('dropZone');
+                            const fileInput = document.getElementById('fileInput');
+                            const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+                            const fileNameDisplay = document.getElementById('fileNameDisplay');
+                            const removeFileBtn = document.getElementById('removeFileBtn');
 
-                    // Handle Form Submission
-                    const uploadForm = document.getElementById('uploadForm');
-                    if (uploadForm) {
-                        uploadForm.addEventListener('submit', function (event) {
-                            event.preventDefault();
-                            const titleInput = document.getElementById('titleInput');
-                            const title = titleInput ? String(titleInput['value'] || '').trim() : 'Resource';
-                            alert(`Success! "${title}" has been submitted to the Campus Bazaar repository.`);
-                            window.location.href = 'resources.html';
-                        });
-                    }
+                            function showSelectedFile(files) {
+                                if (files && files.length > 0 && fileNameDisplay && fileSelectedInfo) {
+                                    const file = files[0];
+                                    fileNameDisplay.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                                    fileSelectedInfo.style.display = 'flex';
+                                }
+                            }
 
-                    // Load user profile
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+                            if (dropZone && fileInput) {
+                                dropZone.addEventListener('click', function () {
+                                    fileInput.click();
+                                });
 
-                    const navName = document.getElementById('navName');
-                    const navAvatar = document.getElementById('navAvatar');
+                                fileInput.addEventListener('change', function () {
+                                    showSelectedFile(fileInput['files']);
+                                });
 
-                    if (userData) {
-                        if (navName) {
-                            navName.textContent = userData.name || userData.regNo || 'User';
-                        }
-                        if (navAvatar && userData.avatar) {
-                            navAvatar.setAttribute('src', userData.avatar);
-                        }
-                    }
+                                ['dragenter', 'dragover'].forEach(eventName => {
+                                    dropZone.addEventListener(eventName, function (e) {
+                                        e.preventDefault();
+                                        dropZone.classList.add('dragover');
+                                    });
+                                });
 
-                    // Logout button handler
-                    const logoutBtn = document.getElementById('logoutBtn');
-                    if (logoutBtn) {
-                        logoutBtn.addEventListener('click', function () {
-                            localStorage.removeItem('currentUser');
-                            alert('You have logged out.');
-                            window.location.href = 'login.html';
-                        });
-                    }
-                })();
+                                ['dragleave', 'drop'].forEach(eventName => {
+                                    dropZone.addEventListener(eventName, function (e) {
+                                        e.preventDefault();
+                                        dropZone.classList.remove('dragover');
+                                    });
+                                });
+
+                                dropZone.addEventListener('drop', function (e) {
+                                    const dt = e['dataTransfer'];
+                                    const files = dt ? dt.files : null;
+                                    if (files && files.length > 0) {
+                                        fileInput['files'] = files;
+                                        showSelectedFile(files);
+                                    }
+                                });
+                            }
+
+                            if (removeFileBtn) {
+                                removeFileBtn.addEventListener('click', function (e) {
+                                    e.stopPropagation();
+                                    if (fileInput) fileInput['value'] = '';
+                                    if (fileSelectedInfo) fileSelectedInfo.style.display = 'none';
+                                });
+                            }
+
+                            // Handle Form Submission
+                            const uploadForm = document.getElementById('uploadForm');
+                            if (uploadForm) {
+                                uploadForm.addEventListener('submit', function (event) {
+                                    event.preventDefault();
+                                    const titleInput = document.getElementById('titleInput');
+                                    const title = titleInput ? String(titleInput['value'] || '').trim() : 'Resource';
+                                    alert(`Success! "${title}" has been submitted to the Campus Bazaar repository.`);
+                                    window.location.href = 'resources.html';
+                                });
+                            }
+
+                            // Load user profile
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                            const navName = document.getElementById('navName');
+                            const navAvatar = document.getElementById('navAvatar');
+
+                            if (userData) {
+                                if (navName) {
+                                    navName.textContent = userData.name || userData.regNo || 'User';
+                                }
+                                if (navAvatar && userData.avatar) {
+                                    navAvatar.setAttribute('src', userData.avatar);
+                                }
+                            }
+
+                            // Logout button handler
+                            const logoutBtn = document.getElementById('logoutBtn');
+                            if (logoutBtn) {
+                                logoutBtn.addEventListener('click', function () {
+                                    localStorage.removeItem('currentUser');
+                                    alert('You have logged out.');
+                                    window.location.href = 'login.html';
+                                });
+                            }
+                        })();
     </script>
 </body>
 </html>

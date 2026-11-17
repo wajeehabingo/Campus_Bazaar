@@ -1108,77 +1108,79 @@
     </footer>
 
     <script>
-        // Mobile navigation menu
+                // Mobile navigation menu
 
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+                const menuToggle = document.getElementById("menuToggle");
+                const navLinks = document.getElementById("navLinks");
 
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
+                menuToggle.addEventListener("click", function () {
+                    navLinks.classList.toggle("active");
 
-            const isOpen = navLinks.classList.contains("active");
+                    const isOpen = navLinks.classList.contains("active");
 
-            menuToggle.setAttribute("aria-expanded", String(isOpen));
-            menuToggle.textContent = isOpen ? "Close" : "Menu";
-        });
+                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                });
 
-        // Close the mobile menu after clicking a navigation link
+                // Close the mobile menu after clicking a navigation link
 
-        const navigationLinks = navLinks.querySelectorAll("a");
+                const navigationLinks = navLinks.querySelectorAll("a");
 
-        navigationLinks.forEach(function (link) {
-            link.addEventListener("click", function () {
-                navLinks.classList.remove("active");
-                menuToggle.setAttribute("aria-expanded", "false");
-                menuToggle.textContent = "Menu";
-            });
-        });
-        document.addEventListener("DOMContentLoaded", function () {
-    const loader = document.getElementById("page-loader");
+                navigationLinks.forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        navLinks.classList.remove("active");
+                        menuToggle.setAttribute("aria-expanded", "false");
+                        menuToggle.textContent = "Menu";
+                    });
+                });
+                document.addEventListener("DOMContentLoaded", function () {
+            const loader = document.getElementById("page-loader");
 
-    // 1. Trigger top progress bar fill and fade page in on load
-    if (loader) {
-        loader.style.width = "70%";
-        setTimeout(() => {
-            loader.style.width = "100%";
-            document.body.classList.add("page-loaded");
-            setTimeout(() => {
-                loader.style.opacity = "0";
-            }, 300);
-        }, 150);
-    } else {
-        document.body.classList.add("page-loaded");
-    }
-
-    // 2. Intercept internal page link clicks for smooth exit transition
-    const links = document.querySelectorAll("a[href]");
-
-    links.forEach(link => {
-        link.addEventListener("click", function (e) {
-            const href = this.getAttribute("href");
-
-            // Ignore anchor links on the same page (#), external links, or new tab links
-            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
-                return;
-            }
-
-            e.preventDefault();
-
-            // Fade body out and restart top loader
-            document.body.classList.remove("page-loaded");
+            // 1. Trigger top progress bar fill and fade page in on load
             if (loader) {
-                loader.style.opacity = "1";
-                loader.style.width = "40%";
+                loader.style.width = "70%";
+                setTimeout(() => {
+                    loader.style.width = "100%";
+                    document.body.classList.add("page-loaded");
+                    setTimeout(() => {
+                        loader.style.opacity = "0";
+                    }, 300);
+                }, 150);
+            } else {
+                document.body.classList.add("page-loaded");
             }
 
-            // Navigate after smooth fade out (250ms)
-            setTimeout(() => {
-                window.location.href = href;
-            }, 250);
-        });
-    });
+            // 2. Intercept internal page link clicks for smooth exit transition
+            const links = document.querySelectorAll("a[href]");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (e) {
+                    const href = this.getAttribute("href");
+
+                    // Ignore anchor links on the same page (#), external links, or new tab links
+                    if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
+                        return;
+                    }
+
+                    e.preventDefault();
+
+                    // Fade body out and restart top loader
+                    document.body.classList.remove("page-loaded");
+                    if (loader) {
+                        loader.style.opacity = "1";
+                        loader.style.width = "40%";
+                    }
+
+                    // Navigate after smooth fade out (250ms)
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 250);
+                });
+            });
 });
     </script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
 </body>

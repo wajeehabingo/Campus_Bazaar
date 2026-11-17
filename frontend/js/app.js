@@ -833,3 +833,4 @@ renderPage = function () {
 
 document.getElementById("profileShortcut").textContent = "S";
 renderPage();
+loadResources();

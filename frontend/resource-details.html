@@ -680,83 +680,84 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
-
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                (function () {
-                    // Mobile navigation toggle
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                            const isOpen = navLinks.classList.contains("active");
-                            menuToggle.setAttribute("aria-expanded", String(isOpen));
-                            menuToggle.textContent = isOpen ? "Close" : "Menu";
-                        });
-                    }
-                })();
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                    const isOpen = navLinks.classList.contains("active");
+                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                                });
+                            }
+                        })();
 
-                // Handle Download Action
-                function downloadFile() {
-                    alert("Starting download for Data Structures & Algorithms Lecture Notes (PDF)...");
-                }
-
-                // Add New Comment
-                function addComment(event) {
-                    event.preventDefault();
-                    const input = document.getElementById('commentInput');
-                    const commentsList = document.getElementById('commentsList');
-                    if (!input || !commentsList) return;
-
-                    const commentText = String(input['value'] || '').trim();
-                    if (!commentText) return;
-
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null') ||
-                                     { name: 'You', avatar: 'assets/male.jpg' };
-
-                    const newComment = document.createElement('div');
-                    newComment.className = 'comment-item';
-                    newComment.innerHTML = `
-                        <img src="${userData.avatar || 'assets/male.jpg'}" alt="User" class="comment-avatar">
-                        <div class="comment-body">
-                            <h4>${userData.name || 'You'} <span>• Just now</span></h4>
-                            <p>${commentText}</p>
-                        </div>
-                    `;
-
-                    commentsList.appendChild(newComment);
-                    input['value'] = '';
-                }
-
-                // Load active user profile state from localStorage
-                function loadUserProfile() {
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
-
-                    const navName = document.getElementById('navName');
-                    const navAvatar = document.getElementById('navAvatar');
-
-                    if (userData) {
-                        if (navName) {
-                            navName.textContent = userData.name || userData.regNo || 'User';
+                        // Handle Download Action
+                        function downloadFile() {
+                            alert("Starting download for Data Structures & Algorithms Lecture Notes (PDF)...");
                         }
-                        if (navAvatar && userData.avatar) {
-                            navAvatar.setAttribute('src', userData.avatar);
+
+                        // Add New Comment
+                        function addComment(event) {
+                            event.preventDefault();
+                            const input = document.getElementById('commentInput');
+                            const commentsList = document.getElementById('commentsList');
+                            if (!input || !commentsList) return;
+
+                            const commentText = String(input['value'] || '').trim();
+                            if (!commentText) return;
+
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null') ||
+                                             { name: 'You', avatar: 'assets/male.jpg' };
+
+                            const newComment = document.createElement('div');
+                            newComment.className = 'comment-item';
+                            newComment.innerHTML = `
+                                <img src="${userData.avatar || 'assets/male.jpg'}" alt="User" class="comment-avatar">
+                                <div class="comment-body">
+                                    <h4>${userData.name || 'You'} <span>• Just now</span></h4>
+                                    <p>${commentText}</p>
+                                </div>
+                            `;
+
+                            commentsList.appendChild(newComment);
+                            input['value'] = '';
                         }
-                    }
-                }
 
-                function logoutUser() {
-                    localStorage.removeItem('currentUser');
-                    alert('You have logged out.');
-                    window.location.href = 'login.html';
-                }
+                        // Load active user profile state from localStorage
+                        function loadUserProfile() {
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-                loadUserProfile();
+                            const navName = document.getElementById('navName');
+                            const navAvatar = document.getElementById('navAvatar');
+
+                            if (userData) {
+                                if (navName) {
+                                    navName.textContent = userData.name || userData.regNo || 'User';
+                                }
+                                if (navAvatar && userData.avatar) {
+                                    navAvatar.setAttribute('src', userData.avatar);
+                                }
+                            }
+                        }
+
+                        function logoutUser() {
+                            localStorage.removeItem('currentUser');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        }
+
+                        loadUserProfile();
     </script>
 </body>
 </html>

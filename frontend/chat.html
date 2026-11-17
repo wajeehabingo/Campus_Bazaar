@@ -599,6 +599,7 @@
         </div>
     </footer>
 
+    <script src="js/config.js"></script>
     <script src="js/main.js"></script>
 
     <script>
@@ -625,7 +626,7 @@
 
                     // Load active user profile state
                     const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+                                        JSON.parse(localStorage.getItem('currentUser') || 'null');
 
                     if (userData) {
                         const navName = document.getElementById('navName');
@@ -640,7 +641,7 @@
                     }
                 })();
 
-                function escapeHtml(text) {
+                function escapeChatHtml(text) {
                     const div = document.createElement('div');
                     div.textContent = text;
                     return div.innerHTML;
@@ -669,8 +670,8 @@
                     if (!messageText) return;
 
                     const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null') ||
-                                     { name: 'You', avatar: 'assets/male.jpg' };
+                                        JSON.parse(localStorage.getItem('currentUser') || 'null') ||
+                                        { name: 'You', avatar: 'assets/male.jpg' };
 
                     const messagesArea = document.getElementById('messagesArea');
                     if (!messagesArea) return;
@@ -684,7 +685,7 @@
                         <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar">
                         <div class="msg-bubble">
                             <div class="msg-sender">You</div>
-                            <div class="msg-text">${escapeHtml(messageText)}</div>
+                            <div class="msg-text">${escapeChatHtml(messageText)}</div>
                             <span class="msg-time">${timeString}</span>
                         </div>
                     `;

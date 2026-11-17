@@ -633,80 +633,81 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
-
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                (function () {
-                    // Mobile navigation toggle
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                            const isOpen = navLinks.classList.contains("active");
-                            menuToggle.setAttribute("aria-expanded", String(isOpen));
-                            menuToggle.textContent = isOpen ? "Close" : "Menu";
-                        });
-                    }
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                    const isOpen = navLinks.classList.contains("active");
+                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                                });
+                            }
 
-                    // Search & Filter Logic
-                    const searchInput = document.getElementById('searchInput');
-                    const deptFilter = document.getElementById('deptFilter');
-                    const typeFilter = document.getElementById('typeFilter');
-                    const searchBtn = document.getElementById('searchBtn');
+                            // Search & Filter Logic
+                            const searchInput = document.getElementById('searchInput');
+                            const deptFilter = document.getElementById('deptFilter');
+                            const typeFilter = document.getElementById('typeFilter');
+                            const searchBtn = document.getElementById('searchBtn');
 
-                    function filterPageResources() {
-                        const query = searchInput ? String(searchInput['value'] || '').toLowerCase() : '';
-                        const dept = deptFilter ? String(deptFilter['value'] || 'all') : 'all';
-                        const type = typeFilter ? String(typeFilter['value'] || 'all') : 'all';
-                        const cards = document.querySelectorAll('.resource-card');
+                            function filterPageResources() {
+                                const query = searchInput ? String(searchInput['value'] || '').toLowerCase() : '';
+                                const dept = deptFilter ? String(deptFilter['value'] || 'all') : 'all';
+                                const type = typeFilter ? String(typeFilter['value'] || 'all') : 'all';
+                                const cards = document.querySelectorAll('.resource-card');
 
-                        cards.forEach(card => {
-                            const text = (card.textContent || '').toLowerCase();
-                            const cardDept = card.getAttribute('data-dept');
-                            const cardType = card.getAttribute('data-type');
+                                cards.forEach(card => {
+                                    const text = (card.textContent || '').toLowerCase();
+                                    const cardDept = card.getAttribute('data-dept');
+                                    const cardType = card.getAttribute('data-type');
 
-                            const matchesQuery = text.includes(query);
-                            const matchesDept = (dept === 'all' || cardDept === dept);
-                            const matchesType = (type === 'all' || cardType === type);
+                                    const matchesQuery = text.includes(query);
+                                    const matchesDept = (dept === 'all' || cardDept === dept);
+                                    const matchesType = (type === 'all' || cardType === type);
 
-                            card['style'].display = (matchesQuery && matchesDept && matchesType) ? 'flex' : 'none';
-                        });
-                    }
+                                    card['style'].display = (matchesQuery && matchesDept && matchesType) ? 'flex' : 'none';
+                                });
+                            }
 
-                    if (searchInput) searchInput.addEventListener('keyup', filterPageResources);
-                    if (deptFilter) deptFilter.addEventListener('change', filterPageResources);
-                    if (typeFilter) typeFilter.addEventListener('change', filterPageResources);
-                    if (searchBtn) searchBtn.addEventListener('click', filterPageResources);
+                            if (searchInput) searchInput.addEventListener('keyup', filterPageResources);
+                            if (deptFilter) deptFilter.addEventListener('change', filterPageResources);
+                            if (typeFilter) typeFilter.addEventListener('change', filterPageResources);
+                            if (searchBtn) searchBtn.addEventListener('click', filterPageResources);
 
-                    // Load active user profile state from localStorage
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+                            // Load active user profile state from localStorage
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-                    const navName = document.getElementById('navName');
-                    const navAvatar = document.getElementById('navAvatar');
+                            const navName = document.getElementById('navName');
+                            const navAvatar = document.getElementById('navAvatar');
 
-                    if (userData) {
-                        if (navName) {
-                            navName.textContent = userData.name || userData.regNo || 'User';
-                        }
-                        if (navAvatar && userData.avatar) {
-                            navAvatar.setAttribute('src', userData.avatar);
-                        }
-                    }
+                            if (userData) {
+                                if (navName) {
+                                    navName.textContent = userData.name || userData.regNo || 'User';
+                                }
+                                if (navAvatar && userData.avatar) {
+                                    navAvatar.setAttribute('src', userData.avatar);
+                                }
+                            }
 
-                    // Logout button handler
-                    const logoutBtn = document.getElementById('logoutBtn');
-                    if (logoutBtn) {
-                        logoutBtn.addEventListener('click', function () {
-                            localStorage.removeItem('currentUser');
-                            alert('You have logged out.');
-                            window.location.href = 'login.html';
-                        });
-                    }
-                })();
+                            // Logout button handler
+                            const logoutBtn = document.getElementById('logoutBtn');
+                            if (logoutBtn) {
+                                logoutBtn.addEventListener('click', function () {
+                                    localStorage.removeItem('currentUser');
+                                    alert('You have logged out.');
+                                    window.location.href = 'login.html';
+                                });
+                            }
+                        })();
     </script>
 </body>
 </html>

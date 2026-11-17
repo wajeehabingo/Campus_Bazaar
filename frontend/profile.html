@@ -539,7 +539,7 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+                <button class="btn-logout" onclick="[logoutUser()">Log out</button>
             </div>
 
         </div>
@@ -685,70 +685,71 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
-
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                (function () {
-                    // Mobile navigation toggle
-                    const menuToggle = document.getElementById("menuToggle");
-                    const navLinks = document.getElementById("navLinks");
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
 
-                    if (menuToggle && navLinks) {
-                        menuToggle.addEventListener("click", function () {
-                            navLinks.classList.toggle("active");
-                        });
-                    }
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                });
+                            }
 
-                    // Load logged in user profile details
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+                            // Load logged in user profile details
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-                    if (userData) {
-                        const navName = document.getElementById('navName');
-                        const navAvatar = document.getElementById('navAvatar');
-                        const profileAvatar = document.getElementById('profileAvatar');
-                        const profileName = document.getElementById('profileName');
-                        const profileRegNo = document.getElementById('profileRegNo');
-                        const profileRole = document.getElementById('profileRole');
-                        const profileGender = document.getElementById('profileGender');
+                            if (userData) {
+                                const navName = document.getElementById('navName');
+                                const navAvatar = document.getElementById('navAvatar');
+                                const profileAvatar = document.getElementById('profileAvatar');
+                                const profileName = document.getElementById('profileName');
+                                const profileRegNo = document.getElementById('profileRegNo');
+                                const profileRole = document.getElementById('profileRole');
+                                const profileGender = document.getElementById('profileGender');
 
-                        if (navName) navName.textContent = userData.name || userData.regNo || 'User';
-                        if (userData.avatar) {
-                            if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
-                            if (profileAvatar) profileAvatar.setAttribute('src', userData.avatar);
+                                if (navName) navName.textContent = userData.name || userData.regNo || 'User';
+                                if (userData.avatar) {
+                                    if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
+                                    if (profileAvatar) profileAvatar.setAttribute('src', userData.avatar);
+                                }
+
+                                if (profileName) profileName.textContent = userData.name || 'Student Name';
+                                if (profileRegNo) profileRegNo.textContent = userData.regNo || '2023-BS-DS-01';
+                                if (profileRole) profileRole.textContent = (userData.role || 'Student').toUpperCase();
+
+                                if (userData.gender && profileGender) {
+                                    const g = userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1);
+                                    profileGender.textContent = g;
+                                }
+                            }
+                        })();
+
+                        // Tab Switching Logic
+                        function switchProfileTab(tabName, element) {
+                            const tabUploads = document.getElementById('tabUploads');
+                            const tabGroups = document.getElementById('tabGroups');
+                            const buttons = document.querySelectorAll('.cb-tab-btn');
+
+                            buttons.forEach(btn => btn.classList.remove('active'));
+                            if (element) element.classList.add('active');
+
+                            if (tabUploads && tabGroups) {
+                                if (tabName === 'uploads') {
+                                    tabUploads.style.display = 'block';
+                                    tabGroups.style.display = 'none';
+                                } else {
+                                    tabUploads.style.display = 'none';
+                                    tabGroups.style.display = 'block';
+                                }
+                            }
                         }
-
-                        if (profileName) profileName.textContent = userData.name || 'Student Name';
-                        if (profileRegNo) profileRegNo.textContent = userData.regNo || '2023-BS-DS-01';
-                        if (profileRole) profileRole.textContent = (userData.role || 'Student').toUpperCase();
-
-                        if (userData.gender && profileGender) {
-                            const g = userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1);
-                            profileGender.textContent = g;
-                        }
-                    }
-                })();
-
-                // Tab Switching Logic
-                function switchProfileTab(tabName, element) {
-                    const tabUploads = document.getElementById('tabUploads');
-                    const tabGroups = document.getElementById('tabGroups');
-                    const buttons = document.querySelectorAll('.cb-tab-btn');
-
-                    buttons.forEach(btn => btn.classList.remove('active'));
-                    if (element) element.classList.add('active');
-
-                    if (tabUploads && tabGroups) {
-                        if (tabName === 'uploads') {
-                            tabUploads.style.display = 'block';
-                            tabGroups.style.display = 'none';
-                        } else {
-                            tabUploads.style.display = 'none';
-                            tabGroups.style.display = 'block';
-                        }
-                    }
-                }
     </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     // 1. Create the Transition Overlay dynamically
     let overlay = document.getElementById("academic-transition-overlay");
 
@@ -25,15 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const links = document.querySelectorAll("a[href]");
 
     links.forEach((link) => {
-        link.addEventListener("click", function (e) {
+        link.addEventListener("click", function(e) {
             const href = this.getAttribute("href");
 
-            // Ignore anchors, JS calls, external links, or new tab links
+            // Ignore anchors, JS calls, external/backend links, or new tab links
             if (
                 !href ||
                 href.startsWith("#") ||
                 href.startsWith("javascript:") ||
                 href.startsWith("http") ||
+                href.startsWith("/api") ||
                 this.target === "_blank"
             ) {
                 return;
