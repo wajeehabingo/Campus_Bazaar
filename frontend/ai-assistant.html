@@ -98,17 +98,17 @@
             gap: 24px;
         }
 
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #485563;
-            transition: color 0.2s;
-        }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
 
-        .nav-links a:hover,
-        .nav-links a.active-link {
-            color: var(--blue);
-        }
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
 
         .user-nav-profile {
             display: flex;
@@ -145,9 +145,9 @@
             padding-left: 4px;
         }
 
-        .btn-logout:hover {
-            color: #d93838;
-        }
+            .btn-logout:hover {
+                color: #d93838;
+            }
 
         .menu-toggle {
             display: none;
@@ -242,10 +242,10 @@
             transition: background 0.2s, border-color 0.2s;
         }
 
-        .prompt-chip:hover {
-            background: var(--yellow);
-            border-color: var(--yellow);
-        }
+            .prompt-chip:hover {
+                background: var(--yellow);
+                border-color: var(--yellow);
+            }
 
         /* CHAT MESSAGES CONTAINER */
 
@@ -265,10 +265,10 @@
             max-width: 80%;
         }
 
-        .chat-msg.user {
-            margin-left: auto;
-            flex-direction: row-reverse;
-        }
+            .chat-msg.user {
+                margin-left: auto;
+                flex-direction: row-reverse;
+            }
 
         .msg-avatar-icon {
             width: 36px;
@@ -346,9 +346,9 @@
             font-size: 14px;
         }
 
-        .ai-input:focus {
-            border-color: var(--blue);
-        }
+            .ai-input:focus {
+                border-color: var(--blue);
+            }
 
         .btn-ask {
             background: var(--yellow);
@@ -362,9 +362,9 @@
             transition: background 0.2s;
         }
 
-        .btn-ask:hover {
-            background: var(--yellow-hover);
-        }
+            .btn-ask:hover {
+                background: var(--yellow-hover);
+            }
 
         /* FOOTER */
 
@@ -404,14 +404,14 @@
                 padding: 10px 0;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+                .nav-links.active {
+                    display: flex;
+                }
 
-            .nav-links a {
-                padding: 10px 0;
-                border-top: 1px solid var(--border);
-            }
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
 
             .chat-msg {
                 max-width: 90%;
@@ -446,7 +446,7 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+                <button type="button" class="btn-logout" id="logoutBtn">Log out</button>
             </div>
 
         </div>
@@ -472,9 +472,9 @@
                 <!-- QUICK PROMPT CHIPS -->
 
                 <div class="quick-prompts">
-                    <button class="prompt-chip" onclick="usePrompt('Summarize Data Structures Linked Lists')">💡 Summarize Linked Lists</button>
-                    <button class="prompt-chip" onclick="usePrompt('Generate 3 practice questions for Database SQL joins')">📝 3 Practice SQL Questions</button>
-                    <button class="prompt-chip" onclick="usePrompt('Explain Waterfall vs Agile Software Models')">⚡ Waterfall vs Agile</button>
+                    <button type="button" class="prompt-chip" onclick="usePrompt('Summarize Data Structures Linked Lists')">💡 Summarize Linked Lists</button>
+                    <button type="button" class="prompt-chip" onclick="usePrompt('Generate 3 practice questions for Database SQL joins')">📝 3 Practice SQL Questions</button>
+                    <button type="button" class="prompt-chip" onclick="usePrompt('Explain Waterfall vs Agile Software Models')">⚡ Waterfall vs Agile</button>
                 </div>
 
                 <!-- CHAT MESSAGES AREA -->
@@ -517,98 +517,113 @@
     <script src="js/main.js"></script>
 
     <script>
-        // Mobile navigation toggle
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+                (function () {
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
 
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
-        });
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                        });
+                    }
 
-        // Quick prompt helper
-        function usePrompt(text) {
-            document.getElementById('aiInput').value = text;
-        }
+                    // Logout button listener
+                    const logoutBtn = document.getElementById("logoutBtn");
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener("click", function () {
+                            localStorage.removeItem('currentUser');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
 
-        // Handle AI Form Submission
-        function handleAiSubmit(event) {
-            event.preventDefault();
-            const input = document.getElementById('aiInput');
-            const query = input.value.trim();
+                    // Load active user profile state
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-            if (!query) return;
+                    if (userData) {
+                        const navName = document.getElementById('navName');
+                        const navAvatar = document.getElementById('navAvatar');
 
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser')) || { name: 'You', avatar: 'assets/male.jpg' };
-            const chatArea = document.getElementById('aiChatArea');
+                        if (navName) navName.textContent = userData.name || userData.regNo || 'User';
+                        if (userData.avatar && navAvatar) {
+                            navAvatar.setAttribute('src', userData.avatar);
+                        }
+                    }
+                })();
 
-            // Append User Question
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-msg user';
-            userMsg.innerHTML = `
-                <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar-icon">
-                <div class="msg-bubble-content">
-                    <div class="msg-sender-title">You</div>
-                    ${escapeHtml(query)}
-                </div>
-            `;
-            chatArea.appendChild(userMsg);
-            input.value = '';
-            chatArea.scrollTop = chatArea.scrollHeight;
-
-            // Generate Simulated AI Answer
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'chat-msg';
-                aiMsg.innerHTML = `
-                    <div class="ai-avatar-icon">AI</div>
-                    <div class="msg-bubble-content">
-                        <div class="msg-sender-title">Campus AI Assistant</div>
-                        ${generateAiResponse(query)}
-                    </div>
-                `;
-                chatArea.appendChild(aiMsg);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }, 700);
-        }
-
-        function generateAiResponse(query) {
-            const q = query.toLowerCase();
-            if (q.includes('linked list')) {
-                return 'A <strong>Linked List</strong> is a linear data structure where elements (nodes) are stored in memory non-contiguously. Each node contains a data field and a pointer (reference) to the next node in the sequence.';
-            } else if (q.includes('sql') || q.includes('database')) {
-                return ' Here are 2 practice SQL queries:<br>1. <code>SELECT * FROM Students WHERE Dept = "Data Science";</code><br>2. <code>SELECT Dept, COUNT(*) FROM Students GROUP BY Dept;</code>';
-            } else if (q.includes('agile') || q.includes('waterfall')) {
-                return '<strong>Waterfall</strong> is a sequential, rigid software development process, whereas <strong>Agile</strong> is an iterative, flexible approach centered around sprint cycles and continuous feedback.';
-            } else {
-                return `Here is a summary for "<em>${escapeHtml(query)}</em>": <br><br>The key concepts for this topic involve reviewing core course lectures, practicing problems, and referencing verified notes in the <strong>Resources</strong> section.`;
-            }
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Load active user profile state
-        function loadUserProfile() {
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
-
-            if (userData) {
-                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
-                if (userData.avatar) {
-                    document.getElementById('navAvatar').src = userData.avatar;
+                // Quick prompt helper
+                function usePrompt(text) {
+                    const input = document.getElementById('aiInput');
+                    if (input) {
+                        input['value'] = text;
+                    }
                 }
-            }
-        }
 
-        function logoutUser() {
-            localStorage.removeItem('currentUser');
-            alert('You have logged out.');
-            window.location.href = 'login.html';
-        }
+                // Handle AI Form Submission
+                function handleAiSubmit(event) {
+                    event.preventDefault();
+                    const input = document.getElementById('aiInput');
+                    if (!input) return;
 
-        loadUserProfile();
+                    const query = String(input['value'] || '').trim();
+                    if (!query) return;
+
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null') ||
+                                     { name: 'You', avatar: 'assets/male.jpg' };
+                    const chatArea = document.getElementById('aiChatArea');
+                    if (!chatArea) return;
+
+                    // Append User Question
+                    const userMsg = document.createElement('div');
+                    userMsg.className = 'chat-msg user';
+                    userMsg.innerHTML = `
+                        <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar-icon">
+                        <div class="msg-bubble-content">
+                            <div class="msg-sender-title">You</div>
+                            ${escapeHtml(query)}
+                        </div>
+                    `;
+                    chatArea.appendChild(userMsg);
+                    input['value'] = '';
+                    chatArea.scrollTop = chatArea.scrollHeight;
+
+                    // Generate Simulated AI Answer
+                    setTimeout(() => {
+                        const aiMsg = document.createElement('div');
+                        aiMsg.className = 'chat-msg';
+                        aiMsg.innerHTML = `
+                            <div class="ai-avatar-icon">AI</div>
+                            <div class="msg-bubble-content">
+                                <div class="msg-sender-title">Campus AI Assistant</div>
+                                ${generateAiResponse(query)}
+                            </div>
+                        `;
+                        chatArea.appendChild(aiMsg);
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                    }, 700);
+                }
+
+                function generateAiResponse(query) {
+                    const q = query.toLowerCase();
+                    if (q.includes('linked list')) {
+                        return 'A <strong>Linked List</strong> is a linear data structure where elements (nodes) are stored in memory non-contiguously. Each node contains a data field and a pointer (reference) to the next node in the sequence.';
+                    } else if (q.includes('sql') || q.includes('database')) {
+                        return 'Here are 2 practice SQL queries:<br>1. <code>SELECT * FROM Students WHERE Dept = "Data Science";</code><br>2. <code>SELECT Dept, COUNT(*) FROM Students GROUP BY Dept;</code>';
+                    } else if (q.includes('agile') || q.includes('waterfall')) {
+                        return '<strong>Waterfall</strong> is a sequential, rigid software development process, whereas <strong>Agile</strong> is an iterative, flexible approach centered around sprint cycles and continuous feedback.';
+                    } else {
+                        return `Here is a summary for "<em>${escapeHtml(query)}</em>": <br><br>The key concepts for this topic involve reviewing core course lectures, practicing problems, and referencing verified notes in the <strong>Resources</strong> section.`;
+                    }
+                }
+
+                function escapeHtml(text) {
+                    const div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                }
     </script>
 </body>
 </html>

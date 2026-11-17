@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In | Campus Bazaar</title>
+    <link rel="stylesheet" href="css/style.css">
 
     <style>
         :root {
@@ -95,16 +95,16 @@
             gap: 27px;
         }
 
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #485563;
-            transition: color 0.2s;
-        }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
 
-        .nav-links a:hover {
-            color: var(--blue);
-        }
+                .nav-links a:hover {
+                    color: var(--blue);
+                }
 
         .nav-actions {
             display: flex;
@@ -125,18 +125,18 @@
             transition: transform 0.2s, background 0.2s;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
+            .btn:hover {
+                transform: translateY(-2px);
+            }
 
         .btn-yellow {
             background: var(--yellow);
             color: var(--blue);
         }
 
-        .btn-yellow:hover {
-            background: var(--yellow-hover);
-        }
+            .btn-yellow:hover {
+                background: var(--yellow-hover);
+            }
 
         .btn-blue {
             background: var(--blue);
@@ -147,9 +147,9 @@
             margin-top: 10px;
         }
 
-        .btn-blue:hover {
-            background: var(--blue-dark);
-        }
+            .btn-blue:hover {
+                background: var(--blue-dark);
+            }
 
         .menu-toggle {
             display: none;
@@ -232,8 +232,13 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(4deg); }
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-25px) rotate(4deg);
+            }
         }
 
         /* MAIN LOGIN CARD */
@@ -312,10 +317,10 @@
             line-height: 1.4;
         }
 
-        .avatar-text strong {
-            display: block;
-            font-size: 13px;
-        }
+            .avatar-text strong {
+                display: block;
+                font-size: 13px;
+            }
 
         /* FORM CONTROLS */
 
@@ -323,13 +328,13 @@
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--blue);
-            margin-bottom: 6px;
-        }
+            .form-group label {
+                display: block;
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
 
         .form-control {
             width: 100%;
@@ -343,10 +348,10 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .form-control:focus {
-            border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(21, 62, 99, 0.1);
-        }
+            .form-control:focus {
+                border-color: var(--blue);
+                box-shadow: 0 0 0 3px rgba(21, 62, 99, 0.1);
+            }
 
         .form-options {
             display: flex;
@@ -358,14 +363,14 @@
             margin-bottom: 18px;
         }
 
-        .form-options a {
-            color: var(--blue);
-            font-weight: 700;
-        }
+            .form-options a {
+                color: var(--blue);
+                font-weight: 700;
+            }
 
-        .form-options a:hover {
-            text-decoration: underline;
-        }
+                .form-options a:hover {
+                    text-decoration: underline;
+                }
 
         .form-footer-link {
             text-align: center;
@@ -374,14 +379,14 @@
             color: var(--muted);
         }
 
-        .form-footer-link a {
-            color: var(--blue);
-            font-weight: 700;
-        }
+            .form-footer-link a {
+                color: var(--blue);
+                font-weight: 700;
+            }
 
-        .form-footer-link a:hover {
-            text-decoration: underline;
-        }
+                .form-footer-link a:hover {
+                    text-decoration: underline;
+                }
 
         /* FOOTER */
 
@@ -419,14 +424,14 @@
                 padding: 10px 0;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+                .nav-links.active {
+                    display: flex;
+                }
 
-            .nav-links a {
-                padding: 10px 0;
-                border-top: 1px solid var(--border);
-            }
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
 
             .login-card {
                 padding: 30px 22px;
@@ -434,7 +439,6 @@
         }
     </style>
 </head>
-<link rel="stylesheet" href="css/style.css">
 <body>
     <div id="page-loader"></div>
 
@@ -448,7 +452,7 @@
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -538,103 +542,117 @@
     </footer>
 
     <script>
-        // Mobile navigation toggle
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+                (function () {
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
 
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
-        });
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
 
-        // Automatically load registered user's avatar from local storage if available
-        function checkStoredAvatar() {
-            const regNo = document.getElementById('regNoInput').value.trim();
-            const avatarPreview = document.getElementById('avatarPreview');
-            const avatarDesc = document.getElementById('avatarDesc');
+                    // Page loader & smooth link transitions
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const loader = document.getElementById("page-loader");
 
-            const storedUser = JSON.parse(localStorage.getItem('registeredStudent'));
+                        if (loader) {
+                            loader.style.width = "70%";
+                            setTimeout(() => {
+                                loader.style.width = "100%";
+                                document.body.classList.add("page-loaded");
+                                setTimeout(() => {
+                                    loader.style.opacity = "0";
+                                }, 300);
+                            }, 150);
+                        } else {
+                            document.body.classList.add("page-loaded");
+                        }
 
-            if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
-                avatarPreview.src = storedUser.avatar;
-                avatarDesc.textContent = `Recognized profile for ${storedUser.name}.`;
-            } else {
-                avatarPreview.src = 'assets/male.jpg';
-                avatarDesc.textContent = 'Enter your registration number to load your profile.';
-            }
-        }
+                        const links = document.querySelectorAll("a[href]");
+                        links.forEach(link => {
+                            link.addEventListener("click", function (e) {
+                                const href = this.getAttribute("href");
 
-        // Handle Login Submission
-        function handleLogin(event) {
-            event.preventDefault();
+                                if (!href || href.startsWith("#") || href.startsWith("http") || this.getAttribute("target") === "_blank") {
+                                    return;
+                                }
 
-            const regNo = document.getElementById('regNoInput').value.trim();
-            const password = document.getElementById('passwordInput').value;
-            const storedUser = JSON.parse(localStorage.getItem('registeredStudent'));
+                                e.preventDefault();
+                                document.body.classList.remove("page-loaded");
+                                if (loader) {
+                                    loader.style.opacity = "1";
+                                    loader.style.width = "40%";
+                                }
 
-            // Check against local storage (or backend DB in the future)
-            if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
-                if (password === storedUser.password) {
-                    alert(`Login Successful! Welcome back, ${storedUser.name}.`);
-                    window.location.href = 'home page.html';
-                    return;
-                } else {
-                    alert('Incorrect password. Please try again.');
-                    return;
+                                setTimeout(() => {
+                                    window.location.href = href;
+                                }, 250);
+                            });
+                        });
+                    });
+                })();
+
+                // Automatically load registered user's avatar from local storage if available
+                function checkStoredAvatar() {
+                    const regNoInput = document.getElementById('regNoInput');
+                    const avatarPreview = document.getElementById('avatarPreview');
+                    const avatarDesc = document.getElementById('avatarDesc');
+
+                    if (!regNoInput || !avatarPreview || !avatarDesc) return;
+
+                    const regNo = String(regNoInput['value'] || '').trim();
+                    const storedUser = JSON.parse(localStorage.getItem('registeredStudent') || 'null');
+
+                    if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
+                        avatarPreview.setAttribute('src', storedUser.avatar);
+                        avatarDesc.textContent = `Recognized profile for ${storedUser.name}.`;
+                    } else {
+                        avatarPreview.setAttribute('src', 'assets/male.jpg');
+                        avatarDesc.textContent = 'Enter your registration number to load your profile.';
+                    }
                 }
-            }
 
-            // Demo fallback if logging in without registering first
-            alert(`Logged in with Registration Number: ${regNo}`);
-            window.location.href = 'home page.html';
-        }
+                // Handle Login Submission
+                function handleLogin(event) {
+                    event.preventDefault();
 
-        // Run check on page load
-        checkStoredAvatar();
-        document.addEventListener("DOMContentLoaded", function () {
-    const loader = document.getElementById("page-loader");
+                    const regNoInput = document.getElementById('regNoInput');
+                    const passwordInput = document.getElementById('passwordInput');
+                    if (!regNoInput || !passwordInput) return;
 
-    // 1. Trigger top progress bar fill and fade page in on load
-    if (loader) {
-        loader.style.width = "70%";
-        setTimeout(() => {
-            loader.style.width = "100%";
-            document.body.classList.add("page-loaded");
-            setTimeout(() => {
-                loader.style.opacity = "0";
-            }, 300);
-        }, 150);
-    } else {
-        document.body.classList.add("page-loaded");
-    }
+                    const regNo = String(regNoInput['value'] || '').trim();
+                    const password = String(passwordInput['value'] || '');
+                    const storedUser = JSON.parse(localStorage.getItem('registeredStudent') || 'null');
 
-    // 2. Intercept internal page link clicks for smooth exit transition
-    const links = document.querySelectorAll("a[href]");
+                    if (storedUser && regNo.toLowerCase() === storedUser.regNo.toLowerCase()) {
+                        if (password === storedUser.password) {
+                            localStorage.setItem('currentUser', JSON.stringify(storedUser));
+                            alert(`Login Successful! Welcome back, ${storedUser.name}.`);
+                            window.location.href = 'home page.html';
+                            return;
+                        } else {
+                            alert('Incorrect password. Please try again.');
+                            return;
+                        }
+                    }
 
-    links.forEach(link => {
-        link.addEventListener("click", function (e) {
-            const href = this.getAttribute("href");
+                    // Demo fallback if logging in without registering first
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        regNo: regNo,
+                        name: regNo,
+                        avatar: 'assets/male.jpg'
+                    }));
+                    alert(`Logged in with Registration Number: ${regNo}`);
+                    window.location.href = 'home page.html';
+                }
 
-            // Ignore anchor links on the same page (#), external links, or new tab links
-            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
-                return;
-            }
-
-            e.preventDefault();
-
-            // Fade body out and restart top loader
-            document.body.classList.remove("page-loaded");
-            if (loader) {
-                loader.style.opacity = "1";
-                loader.style.width = "40%";
-            }
-
-            // Navigate after smooth fade out (250ms)
-            setTimeout(() => {
-                window.location.href = href;
-            }, 250);
-        });
-    });
-});
+                // Run check on page load
+                checkStoredAvatar();
     </script>
     <script src="js/main.js"></script>
 </body>

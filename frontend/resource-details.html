@@ -96,17 +96,17 @@
             gap: 24px;
         }
 
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #485563;
-            transition: color 0.2s;
-        }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
 
-        .nav-links a:hover,
-        .nav-links a.active-link {
-            color: var(--blue);
-        }
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
 
         .user-nav-profile {
             display: flex;
@@ -143,9 +143,9 @@
             padding-left: 4px;
         }
 
-        .btn-logout:hover {
-            color: #d93838;
-        }
+            .btn-logout:hover {
+                color: #d93838;
+            }
 
         .menu-toggle {
             display: none;
@@ -174,9 +174,9 @@
             margin-bottom: 20px;
         }
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
+            .back-link:hover {
+                text-decoration: underline;
+            }
 
         .details-grid {
             display: grid;
@@ -311,9 +311,9 @@
             gap: 12px;
         }
 
-        .comment-item:last-child {
-            border-bottom: none;
-        }
+            .comment-item:last-child {
+                border-bottom: none;
+            }
 
         .comment-avatar {
             width: 32px;
@@ -371,9 +371,9 @@
             cursor: pointer;
         }
 
-        .btn-comment:hover {
-            background: var(--blue-dark);
-        }
+            .btn-comment:hover {
+                background: var(--blue-dark);
+            }
 
         /* SIDEBAR INFO CARD */
 
@@ -399,10 +399,10 @@
             gap: 8px;
         }
 
-        .btn-download-main:hover {
-            background: var(--yellow-hover);
-            transform: translateY(-2px);
-        }
+            .btn-download-main:hover {
+                background: var(--yellow-hover);
+                transform: translateY(-2px);
+            }
 
         .info-list {
             text-align: left;
@@ -418,13 +418,13 @@
             font-size: 13px;
         }
 
-        .info-row span {
-            color: var(--muted);
-        }
+            .info-row span {
+                color: var(--muted);
+            }
 
-        .info-row strong {
-            color: var(--blue);
-        }
+            .info-row strong {
+                color: var(--blue);
+            }
 
         .uploader-box {
             display: flex;
@@ -500,14 +500,14 @@
                 padding: 10px 0;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+                .nav-links.active {
+                    display: flex;
+                }
 
-            .nav-links a {
-                padding: 10px 0;
-                border-top: 1px solid var(--border);
-            }
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
         }
     </style>
 </head>
@@ -523,7 +523,7 @@
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -581,9 +581,9 @@
 
                         <h2 class="section-heading">Resource Overview</h2>
                         <p class="description-text">
-                            These comprehensive study notes were compiled for the CS-201 midterm examination. 
-                            The material includes step-by-step pointers diagrams for single and double linked lists, 
-                            stack implementation using arrays, queue overflow conditions, and practice problems 
+                            These comprehensive study notes were compiled for the CS-201 midterm examination.
+                            The material includes step-by-step pointers diagrams for single and double linked lists,
+                            stack implementation using arrays, queue overflow conditions, and practice problems
                             with time complexity analyses ($O(1)$, $O(n)$, $O(\log n)$).
                         </p>
 
@@ -684,63 +684,79 @@
     <script src="js/main.js"></script>
 
     <script>
-        // Mobile navigation toggle
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+                (function () {
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
 
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
-        });
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
+                })();
 
-        // Handle Download Action
-        function downloadFile() {
-            alert("Starting download for Data Structures & Algorithms Lecture Notes (PDF)...");
-        }
-
-        // Add New Comment
-        function addComment(event) {
-            event.preventDefault();
-            const input = document.getElementById('commentInput');
-            const commentText = input.value.trim();
-
-            if (!commentText) return;
-
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser')) || { name: 'You', avatar: 'assets/male.jpg' };
-
-            const commentsList = document.getElementById('commentsList');
-            const newComment = document.createElement('div');
-            newComment.className = 'comment-item';
-            newComment.innerHTML = `
-                <img src="${userData.avatar || 'assets/male.jpg'}" alt="User" class="comment-avatar">
-                <div class="comment-body">
-                    <h4>${userData.name || 'You'} <span>• Just now</span></h4>
-                    <p>${commentText}</p>
-                </div>
-            `;
-
-            commentsList.appendChild(newComment);
-            input.value = '';
-        }
-
-        // Load active user profile state from localStorage
-        function loadUserProfile() {
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
-
-            if (userData) {
-                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
-                if (userData.avatar) {
-                    document.getElementById('navAvatar').src = userData.avatar;
+                // Handle Download Action
+                function downloadFile() {
+                    alert("Starting download for Data Structures & Algorithms Lecture Notes (PDF)...");
                 }
-            }
-        }
 
-        function logoutUser() {
-            localStorage.removeItem('currentUser');
-            alert('You have logged out.');
-            window.location.href = 'login.html';
-        }
+                // Add New Comment
+                function addComment(event) {
+                    event.preventDefault();
+                    const input = document.getElementById('commentInput');
+                    const commentsList = document.getElementById('commentsList');
+                    if (!input || !commentsList) return;
 
-        loadUserProfile();
+                    const commentText = String(input['value'] || '').trim();
+                    if (!commentText) return;
+
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null') ||
+                                     { name: 'You', avatar: 'assets/male.jpg' };
+
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment-item';
+                    newComment.innerHTML = `
+                        <img src="${userData.avatar || 'assets/male.jpg'}" alt="User" class="comment-avatar">
+                        <div class="comment-body">
+                            <h4>${userData.name || 'You'} <span>• Just now</span></h4>
+                            <p>${commentText}</p>
+                        </div>
+                    `;
+
+                    commentsList.appendChild(newComment);
+                    input['value'] = '';
+                }
+
+                // Load active user profile state from localStorage
+                function loadUserProfile() {
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                    const navName = document.getElementById('navName');
+                    const navAvatar = document.getElementById('navAvatar');
+
+                    if (userData) {
+                        if (navName) {
+                            navName.textContent = userData.name || userData.regNo || 'User';
+                        }
+                        if (navAvatar && userData.avatar) {
+                            navAvatar.setAttribute('src', userData.avatar);
+                        }
+                    }
+                }
+
+                function logoutUser() {
+                    localStorage.removeItem('currentUser');
+                    alert('You have logged out.');
+                    window.location.href = 'login.html';
+                }
+
+                loadUserProfile();
     </script>
 </body>
 </html>

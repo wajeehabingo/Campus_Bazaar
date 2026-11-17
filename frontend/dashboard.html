@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Campus Bazaar</title>
+    <link rel="stylesheet" href="css/style.css">
 
     <style>
         :root {
@@ -95,17 +95,17 @@
             gap: 24px;
         }
 
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #485563;
-            transition: color 0.2s;
-        }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
 
-        .nav-links a:hover,
-        .nav-links a.active-link {
-            color: var(--blue);
-        }
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
 
         .user-nav-profile {
             display: flex;
@@ -142,9 +142,9 @@
             padding-left: 4px;
         }
 
-        .btn-logout:hover {
-            color: #d93838;
-        }
+            .btn-logout:hover {
+                color: #d93838;
+            }
 
         .menu-toggle {
             display: none;
@@ -232,10 +232,10 @@
             flex-shrink: 0;
         }
 
-        .btn-upload-quick:hover {
-            transform: translateY(-2px);
-            background: var(--yellow-hover);
-        }
+            .btn-upload-quick:hover {
+                transform: translateY(-2px);
+                background: var(--yellow-hover);
+            }
 
         /* GRID SYSTEM */
 
@@ -260,33 +260,33 @@
             margin-bottom: 20px;
         }
 
-        .card-title h2 {
-            font-size: 18px;
-            color: var(--blue);
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+            .card-title h2 {
+                font-size: 18px;
+                color: var(--blue);
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
 
-        .card-title h2::before {
-            content: "";
-            display: inline-block;
-            width: 4px;
-            height: 18px;
-            background: var(--yellow);
-            border-radius: 2px;
-        }
+                .card-title h2::before {
+                    content: "";
+                    display: inline-block;
+                    width: 4px;
+                    height: 18px;
+                    background: var(--yellow);
+                    border-radius: 2px;
+                }
 
-        .card-title a {
-            font-size: 13px;
-            color: var(--blue);
-            font-weight: 700;
-        }
+            .card-title a {
+                font-size: 13px;
+                color: var(--blue);
+                font-weight: 700;
+            }
 
-        .card-title a:hover {
-            text-decoration: underline;
-        }
+                .card-title a:hover {
+                    text-decoration: underline;
+                }
 
         /* QUICK ACTION CARDS & CUSTOM CSS VISUAL ICONS */
 
@@ -305,12 +305,12 @@
             transition: border-color 0.2s, transform 0.2s, background 0.2s;
         }
 
-        .action-box:hover {
-            border-color: var(--blue);
-            background: var(--white);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(21, 62, 99, 0.06);
-        }
+            .action-box:hover {
+                border-color: var(--blue);
+                background: var(--white);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(21, 62, 99, 0.06);
+            }
 
         .action-icon-wrap {
             width: 52px;
@@ -338,26 +338,28 @@
             background: var(--blue);
             border-radius: 2px;
         }
-        .icon-book::before {
-            content: "";
-            position: absolute;
-            top: -5px;
-            left: 2px;
-            width: 20px;
-            height: 4px;
-            background: var(--yellow);
-            border-radius: 1px;
-        }
-        .icon-book::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 24px;
-            height: 3px;
-            background: #aab6c0;
-            border-radius: 1px;
-        }
+
+            .icon-book::before {
+                content: "";
+                position: absolute;
+                top: -5px;
+                left: 2px;
+                width: 20px;
+                height: 4px;
+                background: var(--yellow);
+                border-radius: 1px;
+            }
+
+            .icon-book::after {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 24px;
+                height: 3px;
+                background: #aab6c0;
+                border-radius: 1px;
+            }
 
         /* --- VISUAL 2: CSS PEER AVATARS (STUDY GROUPS) --- */
         .icon-peers {
@@ -365,6 +367,7 @@
             width: 28px;
             height: 20px;
         }
+
         .peer-head {
             position: absolute;
             width: 12px;
@@ -373,8 +376,16 @@
             border-radius: 50%;
             top: 0;
         }
-        .peer-head.p1 { left: 2px; }
-        .peer-head.p2 { right: 2px; background: #687582; }
+
+            .peer-head.p1 {
+                left: 2px;
+            }
+
+            .peer-head.p2 {
+                right: 2px;
+                background: #687582;
+            }
+
         .peer-body {
             position: absolute;
             bottom: 0;
@@ -383,8 +394,15 @@
             background: var(--blue);
             border-radius: 6px 6px 0 0;
         }
-        .peer-body.p1 { left: 0; }
-        .peer-body.p2 { right: 0; background: #687582; }
+
+            .peer-body.p1 {
+                left: 0;
+            }
+
+            .peer-body.p2 {
+                right: 0;
+                background: #687582;
+            }
 
         /* --- VISUAL 3: CSS MINI LAPTOP (AI TUTOR) --- */
         .icon-laptop {
@@ -395,16 +413,18 @@
             border: 2px solid var(--blue);
             border-radius: 3px 3px 0 0;
         }
-        .icon-laptop::after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            left: -4px;
-            width: 30px;
-            height: 3px;
-            background: var(--blue);
-            border-radius: 2px;
-        }
+
+            .icon-laptop::after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                left: -4px;
+                width: 30px;
+                height: 3px;
+                background: var(--blue);
+                border-radius: 2px;
+            }
+
         .icon-laptop-screen {
             width: 8px;
             height: 8px;
@@ -435,9 +455,9 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .resource-item:last-child {
-            border-bottom: none;
-        }
+            .resource-item:last-child {
+                border-bottom: none;
+            }
 
         .resource-info {
             display: flex;
@@ -446,23 +466,23 @@
         }
 
         .resource-type-tag {
-        width: 38px;
-        height: 38px;
-        background: var(--yellow); /* Changed from var(--blue-light) to var(--yellow) */
-        color: var(--blue);
-        font-weight: 800;
-        font-size: 11px;
-        border-radius: 8px;
-        display: grid;
-        place-items: center;
-        text-transform: uppercase;
-        border: 1px solid var(--yellow);
+            width: 38px;
+            height: 38px;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 11px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            text-transform: uppercase;
+            border: 1px solid var(--yellow);
         }
 
-        .resource-type-tag.yellow-accent {
-            background: var(--yellow);
-            border-color: var(--yellow);
-        }
+            .resource-type-tag.yellow-accent {
+                background: var(--yellow);
+                border-color: var(--yellow);
+            }
 
         .resource-details h4 {
             font-size: 14px;
@@ -485,10 +505,10 @@
             transition: background 0.2s, color 0.2s;
         }
 
-        .btn-view-res:hover {
-            background: var(--blue);
-            color: var(--white);
-        }
+            .btn-view-res:hover {
+                background: var(--blue);
+                color: var(--white);
+            }
 
         /* SIDEBAR ANNOUNCEMENTS & PROMO */
 
@@ -496,15 +516,15 @@
             list-style: none;
         }
 
-        .notice-board li {
-            padding: 12px 0;
-            border-bottom: 1px dashed var(--border);
-            font-size: 13px;
-        }
+            .notice-board li {
+                padding: 12px 0;
+                border-bottom: 1px dashed var(--border);
+                font-size: 13px;
+            }
 
-        .notice-board li:last-child {
-            border-bottom: none;
-        }
+                .notice-board li:last-child {
+                    border-bottom: none;
+                }
 
         .notice-date {
             font-size: 11px;
@@ -523,19 +543,19 @@
             text-align: center;
         }
 
-        .ai-promo-box h3 {
-            color: var(--blue);
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
+            .ai-promo-box h3 {
+                color: var(--blue);
+                font-size: 16px;
+                font-weight: 800;
+                margin-bottom: 8px;
+            }
 
-        .ai-promo-box p {
-            font-size: 13px;
-            color: var(--muted);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
+            .ai-promo-box p {
+                font-size: 13px;
+                color: var(--muted);
+                margin-bottom: 16px;
+                line-height: 1.5;
+            }
 
         /* FOOTER */
 
@@ -586,14 +606,14 @@
                 padding: 10px 0;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+                .nav-links.active {
+                    display: flex;
+                }
 
-            .nav-links a {
-                padding: 10px 0;
-                border-top: 1px solid var(--border);
-            }
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
 
             .action-grid {
                 grid-template-columns: 1fr;
@@ -601,7 +621,6 @@
         }
     </style>
 </head>
-<link rel="stylesheet" href="css/style.css">
 <body>
     <div id="page-loader"></div>
 
@@ -630,7 +649,7 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+                <button type="button" class="btn-logout" id="logoutBtn">Log out</button>
             </div>
 
         </div>
@@ -724,8 +743,8 @@
                             <div class="resource-info">
                                 <div class="resource-type-tag yellow-accent">PDF</div>
                                 <div class="resource-details">
-                                    <h4>Data Structures & Algorithms Lecture Notes</h4>
-                                    <p>Uploaded by CS Dept • 2 days ago</p>
+                                    <h4>Data Structures &amp; Algorithms Lecture Notes</h4>
+                                    <p>Uploaded by CS Dept &bull; 2 days ago</p>
                                 </div>
                             </div>
                             <a href="resource-details.html" class="btn-view-res">View File</a>
@@ -736,7 +755,7 @@
                                 <div class="resource-type-tag">DOC</div>
                                 <div class="resource-details">
                                     <h4>Database Management Systems Lab Manual</h4>
-                                    <p>Uploaded by Data Science Dept • 4 days ago</p>
+                                    <p>Uploaded by Data Science Dept &bull; 4 days ago</p>
                                 </div>
                             </div>
                             <a href="resource-details.html" class="btn-view-res">View File</a>
@@ -747,7 +766,7 @@
                                 <div class="resource-type-tag yellow-accent">PPT</div>
                                 <div class="resource-details">
                                     <h4>Software Engineering Methodologies Slide Deck</h4>
-                                    <p>Uploaded by SE Dept • 1 week ago</p>
+                                    <p>Uploaded by SE Dept &bull; 1 week ago</p>
                                 </div>
                             </div>
                             <a href="resource-details.html" class="btn-view-res">View File</a>
@@ -807,90 +826,55 @@
         </div>
     </footer>
 
-    <script>
-        // Mobile navigation toggle
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
-
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
-        });
-
-        // Load active user profile state from localStorage
-        function loadUserProfile() {
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
-
-            if (userData) {
-                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
-                if (userData.avatar) {
-                    document.getElementById('navAvatar').src = userData.avatar;
-                    document.getElementById('mainAvatar').src = userData.avatar;
-                }
-
-                document.getElementById('displayName').textContent = userData.name || userData.regNo || 'Student';
-                document.getElementById('displayRole').textContent = (userData.role || 'Student').toUpperCase();
-
-                if (userData.regNo) {
-                    document.getElementById('displayDetail').textContent = `Reg No: ${userData.regNo}`;
-                }
-            }
-        }
-
-        // Logout function
-        function logoutUser() {
-            localStorage.removeItem('currentUser');
-            alert('You have logged out.');
-            window.location.href = 'login.html';
-        }
-
-        // Initialize user profile on load
-        loadUserProfile();
-        document.addEventListener("DOMContentLoaded", function () {
-    const loader = document.getElementById("page-loader");
-
-    // 1. Trigger top progress bar fill and fade page in on load
-    if (loader) {
-        loader.style.width = "70%";
-        setTimeout(() => {
-            loader.style.width = "100%";
-            document.body.classList.add("page-loaded");
-            setTimeout(() => {
-                loader.style.opacity = "0";
-            }, 300);
-        }, 150);
-    } else {
-        document.body.classList.add("page-loaded");
-    }
-
-    // 2. Intercept internal page link clicks for smooth exit transition
-    const links = document.querySelectorAll("a[href]");
-
-    links.forEach(link => {
-        link.addEventListener("click", function (e) {
-            const href = this.getAttribute("href");
-
-            // Ignore anchor links on the same page (#), external links, or new tab links
-            if (!href || href.startsWith("#") || href.startsWith("http") || this.target === "_blank") {
-                return;
-            }
-
-            e.preventDefault();
-
-            // Fade body out and restart top loader
-            document.body.classList.remove("page-loaded");
-            if (loader) {
-                loader.style.opacity = "1";
-                loader.style.width = "40%";
-            }
-
-            // Navigate after smooth fade out (250ms)
-            setTimeout(() => {
-                window.location.href = href;
-            }, 250);
-        });
-    });
-});
-    </script>
     <script src="js/main.js"></script>
+    <script>
+                (function () {
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
+
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                        });
+                    }
+
+                    // Logout button listener
+                    const logoutBtn = document.getElementById("logoutBtn");
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener("click", function () {
+                            localStorage.removeItem('currentUser');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
+
+                    // Load active user profile state from localStorage
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                    if (userData) {
+                        const navName = document.getElementById('navName');
+                        const navAvatar = document.getElementById('navAvatar');
+                        const mainAvatar = document.getElementById('mainAvatar');
+                        const displayName = document.getElementById('displayName');
+                        const displayRole = document.getElementById('displayRole');
+                        const displayDetail = document.getElementById('displayDetail');
+
+                        if (navName) navName.textContent = userData.name || userData.regNo || 'User';
+                        if (userData.avatar) {
+                            if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
+                            if (mainAvatar) mainAvatar.setAttribute('src', userData.avatar);
+                        }
+
+                        if (displayName) displayName.textContent = userData.name || userData.regNo || 'Student';
+                        if (displayRole) displayRole.textContent = (userData.role || 'Student').toUpperCase();
+
+                        if (userData.regNo && displayDetail) {
+                            displayDetail.textContent = `Reg No: ${userData.regNo}`;
+                        }
+                    }
+                })();
+    </script>
 </body>
 </html>

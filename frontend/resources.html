@@ -96,17 +96,17 @@
             gap: 24px;
         }
 
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #485563;
-            transition: color 0.2s;
-        }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
 
-        .nav-links a:hover,
-        .nav-links a.active-link {
-            color: var(--blue);
-        }
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
 
         .user-nav-profile {
             display: flex;
@@ -143,9 +143,9 @@
             padding-left: 4px;
         }
 
-        .btn-logout:hover {
-            color: #d93838;
-        }
+            .btn-logout:hover {
+                color: #d93838;
+            }
 
         .menu-toggle {
             display: none;
@@ -198,20 +198,20 @@
             min-width: 240px;
         }
 
-        .search-input-wrap input {
-            width: 100%;
-            height: 44px;
-            padding: 0 16px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            outline: none;
-            color: var(--text);
-            font-size: 14px;
-        }
+            .search-input-wrap input {
+                width: 100%;
+                height: 44px;
+                padding: 0 16px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                outline: none;
+                color: var(--text);
+                font-size: 14px;
+            }
 
-        .search-input-wrap input:focus {
-            border-color: var(--blue);
-        }
+                .search-input-wrap input:focus {
+                    border-color: var(--blue);
+                }
 
         .filter-select {
             flex: 1;
@@ -239,9 +239,9 @@
             transition: background 0.2s;
         }
 
-        .btn-search:hover {
-            background: var(--yellow-hover);
-        }
+            .btn-search:hover {
+                background: var(--yellow-hover);
+            }
 
         /* MAIN RESOURCES GRID LAYOUT */
 
@@ -267,11 +267,11 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .resource-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(21, 62, 99, 0.08);
-            border-color: var(--blue-light);
-        }
+            .resource-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 28px rgba(21, 62, 99, 0.08);
+                border-color: var(--blue-light);
+            }
 
         .card-top {
             display: flex;
@@ -350,10 +350,10 @@
             transition: background 0.2s, color 0.2s;
         }
 
-        .btn-download:hover {
-            background: var(--blue);
-            color: var(--white);
-        }
+            .btn-download:hover {
+                background: var(--blue);
+                color: var(--white);
+            }
 
         /* FOOTER */
 
@@ -399,14 +399,14 @@
                 padding: 10px 0;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+                .nav-links.active {
+                    display: flex;
+                }
 
-            .nav-links a {
-                padding: 10px 0;
-                border-top: 1px solid var(--border);
-            }
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
 
             .resources-grid {
                 grid-template-columns: 1fr;
@@ -434,7 +434,7 @@
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -449,7 +449,7 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+                <button class="btn-logout" id="logoutBtn" type="button">Log out</button>
             </div>
 
         </div>
@@ -466,24 +466,24 @@
 
             <div class="search-filter-bar">
                 <div class="search-input-wrap">
-                    <input type="text" id="searchInput" placeholder="Search by course title, topic, or keyword..." onkeyup="filterResources()">
+                    <input type="text" id="searchInput" placeholder="Search by course title, topic, or keyword...">
                 </div>
 
-                <select id="deptFilter" class="filter-select" onchange="filterResources()">
+                <select id="deptFilter" class="filter-select">
                     <option value="all">All Departments</option>
                     <option value="Data Science">Data Science</option>
                     <option value="Computer Science">Computer Science</option>
                     <option value="Software Engineering">Software Engineering</option>
                 </select>
 
-                <select id="typeFilter" class="filter-select" onchange="filterResources()">
+                <select id="typeFilter" class="filter-select">
                     <option value="all">All Formats</option>
                     <option value="pdf">PDF Notes</option>
                     <option value="doc">Word Docs</option>
                     <option value="ppt">Slide Decks (PPT)</option>
                 </select>
 
-                <button class="btn-search" onclick="filterResources()">Search</button>
+                <button class="btn-search" id="searchBtn" type="button">Search</button>
             </div>
         </div>
     </section>
@@ -637,59 +637,76 @@
     <script src="js/main.js"></script>
 
     <script>
-        // Mobile navigation toggle
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+                (function () {
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
 
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
-        });
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
 
-        // Search & Filter Logic
-        function filterResources() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const dept = document.getElementById('deptFilter').value;
-            const type = document.getElementById('typeFilter').value;
-            const cards = document.querySelectorAll('.resource-card');
+                    // Search & Filter Logic
+                    const searchInput = document.getElementById('searchInput');
+                    const deptFilter = document.getElementById('deptFilter');
+                    const typeFilter = document.getElementById('typeFilter');
+                    const searchBtn = document.getElementById('searchBtn');
 
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                const cardDept = card.getAttribute('data-dept');
-                const cardType = card.getAttribute('data-type');
+                    function filterPageResources() {
+                        const query = searchInput ? String(searchInput['value'] || '').toLowerCase() : '';
+                        const dept = deptFilter ? String(deptFilter['value'] || 'all') : 'all';
+                        const type = typeFilter ? String(typeFilter['value'] || 'all') : 'all';
+                        const cards = document.querySelectorAll('.resource-card');
 
-                const matchesQuery = text.includes(query);
-                const matchesDept = (dept === 'all' || cardDept === dept);
-                const matchesType = (type === 'all' || cardType === type);
+                        cards.forEach(card => {
+                            const text = (card.textContent || '').toLowerCase();
+                            const cardDept = card.getAttribute('data-dept');
+                            const cardType = card.getAttribute('data-type');
 
-                if (matchesQuery && matchesDept && matchesType) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+                            const matchesQuery = text.includes(query);
+                            const matchesDept = (dept === 'all' || cardDept === dept);
+                            const matchesType = (type === 'all' || cardType === type);
 
-        // Load active user profile state from localStorage
-        function loadUserProfile() {
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+                            card['style'].display = (matchesQuery && matchesDept && matchesType) ? 'flex' : 'none';
+                        });
+                    }
 
-            if (userData) {
-                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
-                if (userData.avatar) {
-                    document.getElementById('navAvatar').src = userData.avatar;
-                }
-            }
-        }
+                    if (searchInput) searchInput.addEventListener('keyup', filterPageResources);
+                    if (deptFilter) deptFilter.addEventListener('change', filterPageResources);
+                    if (typeFilter) typeFilter.addEventListener('change', filterPageResources);
+                    if (searchBtn) searchBtn.addEventListener('click', filterPageResources);
 
-        // Logout function
-        function logoutUser() {
-            localStorage.removeItem('currentUser');
-            alert('You have logged out.');
-            window.location.href = 'login.html';
-        }
+                    // Load active user profile state from localStorage
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-        // Initialize on page render
-        loadUserProfile();
+                    const navName = document.getElementById('navName');
+                    const navAvatar = document.getElementById('navAvatar');
+
+                    if (userData) {
+                        if (navName) {
+                            navName.textContent = userData.name || userData.regNo || 'User';
+                        }
+                        if (navAvatar && userData.avatar) {
+                            navAvatar.setAttribute('src', userData.avatar);
+                        }
+                    }
+
+                    // Logout button handler
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function () {
+                            localStorage.removeItem('currentUser');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
+                })();
     </script>
 </body>
 </html>

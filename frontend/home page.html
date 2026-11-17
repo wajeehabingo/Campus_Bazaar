@@ -1118,7 +1118,7 @@
 
             const isOpen = navLinks.classList.contains("active");
 
-            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
             menuToggle.textContent = isOpen ? "Close" : "Menu";
         });
 

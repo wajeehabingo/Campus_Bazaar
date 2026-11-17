@@ -96,17 +96,17 @@
             gap: 24px;
         }
 
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #485563;
-            transition: color 0.2s;
-        }
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
 
-        .nav-links a:hover,
-        .nav-links a.active-link {
-            color: var(--blue);
-        }
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
 
         .user-nav-profile {
             display: flex;
@@ -143,9 +143,9 @@
             padding-left: 4px;
         }
 
-        .btn-logout:hover {
-            color: #d93838;
-        }
+            .btn-logout:hover {
+                color: #d93838;
+            }
 
         .menu-toggle {
             display: none;
@@ -180,29 +180,29 @@
             padding-bottom: 18px;
         }
 
-        .upload-header h1 {
-            color: var(--blue);
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+            .upload-header h1 {
+                color: var(--blue);
+                font-size: 26px;
+                font-weight: 800;
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
 
-        .upload-header h1::before {
-            content: "";
-            display: inline-block;
-            width: 5px;
-            height: 22px;
-            background: var(--yellow);
-            border-radius: 2px;
-        }
+                .upload-header h1::before {
+                    content: "";
+                    display: inline-block;
+                    width: 5px;
+                    height: 22px;
+                    background: var(--yellow);
+                    border-radius: 2px;
+                }
 
-        .upload-header p {
-            color: var(--muted);
-            font-size: 14px;
-        }
+            .upload-header p {
+                color: var(--muted);
+                font-size: 14px;
+            }
 
         /* DRAG & DROP FILE ZONE */
 
@@ -218,10 +218,10 @@
             position: relative;
         }
 
-        .drop-zone:hover, .drop-zone.dragover {
-            background: #dbe8f5;
-            border-color: var(--blue-dark);
-        }
+            .drop-zone:hover, .drop-zone.dragover {
+                background: #dbe8f5;
+                border-color: var(--blue-dark);
+            }
 
         .drop-zone-icon {
             width: 52px;
@@ -263,6 +263,7 @@
             font-size: 13px;
             font-weight: 700;
             margin-top: 15px;
+            margin-bottom: 20px;
         }
 
         /* FORM CONTROLS */
@@ -277,13 +278,13 @@
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--blue);
-            margin-bottom: 8px;
-        }
+            .form-group label {
+                display: block;
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--blue);
+                margin-bottom: 8px;
+            }
 
         .form-control {
             width: 100%;
@@ -322,10 +323,10 @@
             margin-top: 10px;
         }
 
-        .btn-submit-upload:hover {
-            background: var(--yellow-hover);
-            transform: translateY(-2px);
-        }
+            .btn-submit-upload:hover {
+                background: var(--yellow-hover);
+                transform: translateY(-2px);
+            }
 
         /* FOOTER */
 
@@ -365,14 +366,14 @@
                 padding: 10px 0;
             }
 
-            .nav-links.active {
-                display: flex;
-            }
+                .nav-links.active {
+                    display: flex;
+                }
 
-            .nav-links a {
-                padding: 10px 0;
-                border-top: 1px solid var(--border);
-            }
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
 
             .form-row {
                 grid-template-columns: 1fr;
@@ -397,7 +398,7 @@
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -412,7 +413,7 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+                <button class="btn-logout" id="logoutBtn" type="button">Log out</button>
             </div>
 
         </div>
@@ -430,22 +431,22 @@
                     <p>Contribute notes, lab manuals, or slide decks to help fellow students.</p>
                 </div>
 
-                <form id="uploadForm" onsubmit="handleUpload(event)">
+                <form id="uploadForm">
 
                     <!-- FILE DROP ZONE -->
 
-                    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <div class="drop-zone" id="dropZone">
                         <div class="drop-zone-icon">↑</div>
                         <div class="drop-zone-text">
                             <h3>Click or Drag & Drop File Here</h3>
                             <p>Supports PDF, DOC, DOCX, and PPTX up to 25MB</p>
                         </div>
-                        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx" onchange="showSelectedFile(this.files)">
+                        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx">
                     </div>
 
                     <div class="file-selected-info" id="fileSelectedInfo">
                         <span id="fileNameDisplay">Selected: notes.pdf</span>
-                        <span style="cursor: pointer;" onclick="clearSelectedFile(event)">✕ Remove</span>
+                        <span id="removeFileBtn" style="cursor: pointer;">✕ Remove</span>
                     </div>
 
                     <!-- METADATA FORM FIELDS -->
@@ -496,81 +497,114 @@
     <script src="js/main.js"></script>
 
     <script>
-        // Mobile navigation toggle
-        const menuToggle = document.getElementById("menuToggle");
-        const navLinks = document.getElementById("navLinks");
+                (function () {
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
 
-        menuToggle.addEventListener("click", function () {
-            navLinks.classList.toggle("active");
-        });
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
 
-        // File Selection Logic
-        function showSelectedFile(files) {
-            if (files.length > 0) {
-                const file = files[0];
-                document.getElementById('fileNameDisplay').textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-                document.getElementById('fileSelectedInfo').style.display = 'flex';
-            }
-        }
+                    // File Selection Logic
+                    const dropZone = document.getElementById('dropZone');
+                    const fileInput = document.getElementById('fileInput');
+                    const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+                    const fileNameDisplay = document.getElementById('fileNameDisplay');
+                    const removeFileBtn = document.getElementById('removeFileBtn');
 
-        function clearSelectedFile(e) {
-            e.stopPropagation();
-            document.getElementById('fileInput').value = '';
-            document.getElementById('fileSelectedInfo').style.display = 'none';
-        }
+                    function showSelectedFile(files) {
+                        if (files && files.length > 0 && fileNameDisplay && fileSelectedInfo) {
+                            const file = files[0];
+                            fileNameDisplay.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                            fileSelectedInfo.style.display = 'flex';
+                        }
+                    }
 
-        // Drag and Drop Effects
-        const dropZone = document.getElementById('dropZone');
+                    if (dropZone && fileInput) {
+                        dropZone.addEventListener('click', function () {
+                            fileInput.click();
+                        });
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-        });
+                        fileInput.addEventListener('change', function () {
+                            showSelectedFile(fileInput['files']);
+                        });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-            });
-        });
+                        ['dragenter', 'dragover'].forEach(eventName => {
+                            dropZone.addEventListener(eventName, function (e) {
+                                e.preventDefault();
+                                dropZone.classList.add('dragover');
+                            });
+                        });
 
-        dropZone.addEventListener('drop', (e) => {
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                document.getElementById('fileInput').files = files;
-                showSelectedFile(files);
-            }
-        });
+                        ['dragleave', 'drop'].forEach(eventName => {
+                            dropZone.addEventListener(eventName, function (e) {
+                                e.preventDefault();
+                                dropZone.classList.remove('dragover');
+                            });
+                        });
 
-        // Handle Form Submission
-        function handleUpload(event) {
-            event.preventDefault();
-            const title = document.getElementById('titleInput').value;
-            alert(`Success! "${title}" has been submitted to the Campus Bazaar repository.`);
-            window.location.href = 'resources.html';
-        }
+                        dropZone.addEventListener('drop', function (e) {
+                            const dt = e['dataTransfer'];
+                            const files = dt ? dt.files : null;
+                            if (files && files.length > 0) {
+                                fileInput['files'] = files;
+                                showSelectedFile(files);
+                            }
+                        });
+                    }
 
-        // Load user profile
-        function loadUserProfile() {
-            const userData = JSON.parse(localStorage.getItem('registeredStudent')) || JSON.parse(localStorage.getItem('currentUser'));
+                    if (removeFileBtn) {
+                        removeFileBtn.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            if (fileInput) fileInput['value'] = '';
+                            if (fileSelectedInfo) fileSelectedInfo.style.display = 'none';
+                        });
+                    }
 
-            if (userData) {
-                document.getElementById('navName').textContent = userData.name || userData.regNo || 'User';
-                if (userData.avatar) {
-                    document.getElementById('navAvatar').src = userData.avatar;
-                }
-            }
-        }
+                    // Handle Form Submission
+                    const uploadForm = document.getElementById('uploadForm');
+                    if (uploadForm) {
+                        uploadForm.addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const titleInput = document.getElementById('titleInput');
+                            const title = titleInput ? String(titleInput['value'] || '').trim() : 'Resource';
+                            alert(`Success! "${title}" has been submitted to the Campus Bazaar repository.`);
+                            window.location.href = 'resources.html';
+                        });
+                    }
 
-        function logoutUser() {
-            localStorage.removeItem('currentUser');
-            alert('You have logged out.');
-            window.location.href = 'login.html';
-        }
+                    // Load user profile
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-        loadUserProfile();
+                    const navName = document.getElementById('navName');
+                    const navAvatar = document.getElementById('navAvatar');
+
+                    if (userData) {
+                        if (navName) {
+                            navName.textContent = userData.name || userData.regNo || 'User';
+                        }
+                        if (navAvatar && userData.avatar) {
+                            navAvatar.setAttribute('src', userData.avatar);
+                        }
+                    }
+
+                    // Logout button handler
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function () {
+                            localStorage.removeItem('currentUser');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
+                })();
     </script>
 </body>
 </html>
