@@ -1,3 +1,4 @@
+
 # Campus Bazaar
 
 Campus Bazaar is a university-focused marketplace project intended to help students discover and exchange products within their campus community.
@@ -92,3 +93,18 @@ The endpoint returns HTTP 200 when the application is running and the request is
 ## Contributors
 
 See the repository's Git history for individual contributions.
+# Campus Bazaar — Frontend Handoff & Structure
+
+Developed by **Member 1 (Frontend & User Experience)** for the Institute of Data Science, UET Lahore.
+
+## Folder Overview
+- `/assets`: Avatars and visual elements.
+- `/css`: Base styling (`style.css`), navy/yellow theme, and transition animations.
+- `/js`: Client-side logic (`main.js`) and API integration bridge (`api.js`).
+- Pages: `home page.html`, `login.html`, `register.html`, `dashboard.html`, `profile.html`, `resources.html`, `resource-details.html`, `upload.html`, `chat.html`, `ai-assistant.html`.
+
+## Integration Contract
+- Connects to ASP.NET Core backend at `http://localhost:5000/api`.
+- Built to consume `GET /api/resources` and `POST /api/ai/chat`.
+- Supports Loading, Success, Empty, and Error states out-of-the-box.
+

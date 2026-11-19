@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Campus Bazaar</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        /* TOP HEADER */
+
+        .navbar {
+            background: var(--blue);
+            color: var(--white);
+            border-bottom: 4px solid var(--yellow);
+            padding: 16px 0;
+        }
+
+        .nav-content {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 19px;
+            font-weight: 900;
+        }
+
+        .admin-nav-tag {
+            background: rgba(255, 216, 77, 0.16);
+            color: var(--yellow);
+            border: 1px solid var(--yellow);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 11px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CENTERED LOGIN CARD */
+
+        .login-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 5px solid var(--blue);
+            border-radius: 16px;
+            padding: 36px 32px;
+            box-shadow: 0 14px 34px rgba(21, 62, 99, 0.08);
+        }
+
+        .login-card-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .login-card-header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--blue);
+        }
+
+        .form-field {
+            margin-bottom: 18px;
+        }
+
+            .form-field label {
+                display: block;
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--blue);
+                margin-bottom: 7px;
+            }
+
+            .form-field input {
+                width: 100%;
+                height: 46px;
+                padding: 0 14px;
+                border: 1px solid var(--border);
+                border-radius: 9px;
+                font-size: 14px;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+
+                .form-field input:focus {
+                    border-color: var(--blue);
+                }
+
+        .error-banner {
+            display: none;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .btn-admin-login {
+            width: 100%;
+            height: 48px;
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+            .btn-admin-login:hover {
+                background: var(--yellow-hover);
+                transform: translateY(-1px);
+            }
+
+        .footer {
+            background: #202a34;
+            color: #bdc7d0;
+            text-align: center;
+            font-size: 12px;
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </div>
+            <span class="admin-nav-tag">Admin Portal</span>
+        </div>
+    </header>
+
+    <main class="login-main">
+        <div class="login-card">
+            <div class="login-card-header">
+                <span class="admin-badge">Restricted Administrative Access</span>
+                <h1>Admin Portal Sign In</h1>
+            </div>
+
+            <div class="error-banner" id="adminErrorBox"></div>
+
+            <form id="adminLoginForm" autocomplete="off">
+                <div class="form-field">
+                    <label for="adminIdInput">Assigned Admin ID</label>
+                    <input type="text" id="adminIdInput" placeholder="e.g., ADM-IDS-01" required autocomplete="off">
+                </div>
+
+                <div class="form-field">
+                    <label for="adminPassInput">Admin Password</label>
+                    <input type="password" id="adminPassInput" placeholder="Enter your admin password" required autocomplete="new-password">
+                </div>
+
+                <button type="submit" class="btn-admin-login" id="adminSubmitBtn">Access Admin Console</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 Campus Bazaar Administrative Console. Authorized Personnel Only.
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+                (function () {
+                    const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                        ? APP_CONFIG.API_BASE_URL
+                        : 'http://localhost:5195';
+
+                    const form = document.getElementById('adminLoginForm');
+                    const errorBox = document.getElementById('adminErrorBox');
+                    const submitBtn = document.getElementById('adminSubmitBtn');
+
+                    function showError(msg) {
+                        errorBox.textContent = msg;
+                        errorBox.style.display = 'block';
+                    }
+
+                    form.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+                        errorBox.style.display = 'none';
+
+                        const adminIdEl = document.getElementById('adminIdInput');
+                        const adminPassEl = document.getElementById('adminPassInput');
+
+                        const adminId = String((adminIdEl && adminIdEl["value"]) || '').trim().toUpperCase();
+                        const password = String((adminPassEl && adminPassEl["value"]) || '').trim();
+
+                        if (!adminId || !password) {
+                            showError('Please enter both your assigned Admin ID and password.');
+                            return;
+                        }
+
+                        submitBtn["disabled"] = true;
+                        submitBtn.textContent = 'Verifying Admin ID...';
+
+                        try {
+                            const response = await fetch(`${baseUrl}/api/admin/login`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ adminId: adminId, password: password })
+                            });
+
+                            if (response.ok) {
+                                const data = await response.json();
+                                if (data.token) {
+                                    sessionStorage.setItem('campus_bazaar_token', data.token);
+                                }
+                                sessionStorage.setItem('cb_admin_session', JSON.stringify({
+                                    adminId: data.adminId || adminId,
+                                    name: data.name || 'Department Administrator',
+                                    role: 'Admin'
+                                }));
+                                window.location.href = 'admin-dashboard.html';
+                                return;
+                            } else if (response.status === 401 || response.status === 403) {
+                                showError('Invalid Admin ID or password. Access denied.');
+                                submitBtn["disabled"] = false;
+                                submitBtn.textContent = 'Access Admin Console';
+                                return;
+                            }
+                        } catch (err) {
+                            // Backend offline: validate against pre-assigned Admin IDs
+                        }
+
+                        const validOfflineAdmins = {
+                            'ADM-IDS-01': { name: 'IDS System Admin', pass: 'Admin@2026' },
+                            'ADM-2026-01': { name: 'Campus Bazaar Moderator', pass: 'Admin@2026' }
+                        };
+
+                        if (validOfflineAdmins[adminId] && validOfflineAdmins[adminId].pass === password) {
+                            sessionStorage.setItem('cb_admin_session', JSON.stringify({
+                                adminId: adminId,
+                                name: validOfflineAdmins[adminId].name,
+                                role: 'Admin'
+                            }));
+                            window.location.href = 'admin-dashboard.html';
+                        } else {
+                            showError('Unrecognized Admin ID or incorrect password.');
+                            submitBtn["disabled"] = false;
+                            submitBtn.textContent = 'Access Admin Console';
+                        }
+                    });
+                })();
+    </script>
+</body>
+</html>
