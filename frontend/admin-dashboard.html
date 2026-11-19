@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Campus Bazaar</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+        }
+
+        /* ADMIN TOP NAVBAR */
+
+        .navbar {
+            background: var(--blue);
+            color: var(--white);
+            border-bottom: 4px solid var(--yellow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 9px;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 700;
+                color: #d6e0e9;
+                padding: 6px 0;
+                border-bottom: 2px solid transparent;
+                transition: color 0.2s, border-color 0.2s;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--yellow);
+                    border-bottom-color: var(--yellow);
+                }
+
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-id-tag {
+            color: var(--yellow);
+        }
+
+        .btn-logout {
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+            .btn-logout:hover {
+                background: var(--yellow-hover);
+            }
+
+        /* MAIN CONTENT */
+
+        .main-wrap {
+            flex: 1;
+            padding: 36px 0 60px;
+        }
+
+        .welcome-banner {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--yellow);
+            border-radius: 14px;
+            padding: 26px 30px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+            .welcome-banner h1 {
+                font-size: 24px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .welcome-banner p {
+                font-size: 14px;
+                color: var(--muted);
+            }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+            padding: 9px 14px;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #f59e0b;
+        }
+
+            .dot.online {
+                background: #22c55e;
+            }
+
+        /* KPI CARDS */
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--blue);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+            .kpi-card.warn {
+                border-top-color: var(--yellow);
+            }
+
+            .kpi-card span {
+                display: block;
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+
+            .kpi-card strong {
+                display: block;
+                font-size: 32px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .kpi-card small {
+                font-size: 12px;
+                color: var(--muted);
+            }
+
+        /* MODULE NAVIGATION CARDS */
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--blue);
+            margin-bottom: 16px;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .module-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .module-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 26px rgba(21, 62, 99, 0.08);
+            }
+
+        .module-tag {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            width: fit-content;
+        }
+
+        .module-card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--blue);
+            margin-bottom: 8px;
+        }
+
+        .module-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-open-module {
+            display: inline-block;
+            text-align: center;
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: 13px;
+            font-weight: 800;
+            padding: 11px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+            .btn-open-module:hover {
+                background: var(--yellow-hover);
+            }
+
+        .footer {
+            background: #202a34;
+            color: #bdc7d0;
+            text-align: center;
+            font-size: 12px;
+            padding: 18px;
+            margin-top: auto;
+        }
+
+        @media (max-width: 900px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav-content {
+                flex-wrap: wrap;
+                padding: 12px 0;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="admin-dashboard.html" class="logo">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar Admin</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="admin-dashboard.html" class="active-link">Dashboard</a>
+                <a href="admin-reports.html">Flagged Reports</a>
+                <a href="admin-students.html">Student Accounts</a>
+                <a href="admin-announcements.html">Announcements</a>
+            </nav>
+
+            <div class="admin-profile-pill">
+                <span class="admin-id-tag" id="navAdminId">ADM-IDS-01</span>
+                <button type="button" class="btn-logout" id="adminLogoutBtn">Log out</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrap">
+        <div class="container">
+
+            <div class="welcome-banner">
+                <div>
+                    <h1 id="welcomeHeading">Welcome, Administrator</h1>
+                    <p>Monitor verified text-only uploads (&lt; 1 MB), review student reports, and manage DS, SE, BDA, and AC cohorts.</p>
+                </div>
+                <div class="status-chip">
+                    <span class="dot" id="backendDot"></span>
+                    <span id="backendStatusLabel">API: http://localhost:5195</span>
+                </div>
+            </div>
+
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <span>Verified Documents</span>
+                    <strong id="kpiDocs">6</strong>
+                    <small>Text-based .pdf, .docx, .pptx</small>
+                </div>
+
+                <div class="kpi-card warn">
+                    <span>Pending Reports</span>
+                    <strong id="kpiReports">3</strong>
+                    <small>Flagged files awaiting review</small>
+                </div>
+
+                <div class="kpi-card">
+                    <span>Registered Students</span>
+                    <strong id="kpiStudents">5</strong>
+                    <small>Across DS, SE, BDA &amp; AC</small>
+                </div>
+
+                <div class="kpi-card">
+                    <span>Active Notices</span>
+                    <strong id="kpiNotices">3</strong>
+                    <small>Displayed on student dashboards</small>
+                </div>
+            </section>
+
+            <h2 class="section-title">Administration Modules</h2>
+
+            <section class="modules-grid">
+                <div class="module-card">
+                    <div>
+                        <span class="module-tag">Moderation Queue</span>
+                        <h3>Flagged Reports &amp; Files</h3>
+                        <p>Inspect documents flagged by students for scanned images, wrong course codes, or corrupted text, and approve or delete files.</p>
+                    </div>
+                    <a href="admin-reports.html" class="btn-open-module">Open Moderation Queue &rarr;</a>
+                </div>
+
+                <div class="module-card">
+                    <div>
+                        <span class="module-tag">User Governance</span>
+                        <h3>Student Accounts</h3>
+                        <p>Search student profiles by registration number or department (DS, SE, BDA, AC) and suspend or restore repository access.</p>
+                    </div>
+                    <a href="admin-students.html" class="btn-open-module">Manage Students &rarr;</a>
+                </div>
+
+                <div class="module-card">
+                    <div>
+                        <span class="module-tag">Broadcasts</span>
+                        <h3>Department Announcements</h3>
+                        <p>Publish official academic notices, exam repository updates, and upload policy reminders directly to student dashboards.</p>
+                    </div>
+                    <a href="admin-announcements.html" class="btn-open-module">Manage Announcements &rarr;</a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 Campus Bazaar Administrative Console. Built for the Institute of Data Science.
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        (function () {
+            const adminSession = JSON.parse(sessionStorage.getItem('cb_admin_session') || 'null');
+            if (!adminSession) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            document.getElementById('navAdminId').textContent = adminSession.adminId;
+            document.getElementById('welcomeHeading').textContent = `Welcome, ${adminSession.name} (${adminSession.adminId})`;
+
+            const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                ? APP_CONFIG.API_BASE_URL
+                : 'http://localhost:5195';
+
+            const statusLabel = document.getElementById('backendStatusLabel');
+            const dot = document.getElementById('backendDot');
+            statusLabel.textContent = `API: ${baseUrl}`;
+
+            fetch(`${baseUrl}/api/resources`)
+                .then(res => {
+                    if (res.ok) {
+                        dot.classList.add('online');
+                        statusLabel.textContent = `Connected: ${baseUrl}`;
+                    }
+                })
+                .catch(() => {});
+
+            document.getElementById('adminLogoutBtn').addEventListener('click', function () {
+                sessionStorage.removeItem('cb_admin_session');
+                sessionStorage.removeItem('campus_bazaar_token');
+                window.location.href = 'admin-login.html';
+            });
+        })();
+    </script>
+</body>
+</html>

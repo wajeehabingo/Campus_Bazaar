@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flagged Reports &amp; Files | Campus Bazaar Admin</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+        }
+
+        /* ADMIN TOP NAVBAR */
+
+        .navbar {
+            background: var(--blue);
+            color: var(--white);
+            border-bottom: 4px solid var(--yellow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 9px;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 700;
+                color: #d6e0e9;
+                padding: 6px 0;
+                border-bottom: 2px solid transparent;
+                transition: color 0.2s, border-color 0.2s;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--yellow);
+                    border-bottom-color: var(--yellow);
+                }
+
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-id-tag {
+            color: var(--yellow);
+        }
+
+        .btn-logout {
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+            .btn-logout:hover {
+                background: var(--yellow-hover);
+            }
+
+        /* MAIN CONTENT */
+
+        .main-wrap {
+            flex: 1;
+            padding: 36px 0 60px;
+        }
+
+        .page-header {
+            margin-bottom: 26px;
+        }
+
+            .page-header h1 {
+                font-size: 25px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+                color: var(--muted);
+            }
+
+        .section-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 22px rgba(21, 62, 99, 0.04);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .card-top h2 {
+                font-size: 18px;
+                font-weight: 800;
+                color: var(--blue);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .card-top h2::before {
+                    content: "";
+                    display: inline-block;
+                    width: 4px;
+                    height: 18px;
+                    background: var(--yellow);
+                    border-radius: 2px;
+                }
+
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+            .filters-row input,
+            .filters-row select {
+                height: 38px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 0 12px;
+                font-size: 13px;
+                background: var(--white);
+                outline: none;
+            }
+
+                .filters-row input:focus,
+                .filters-row select:focus {
+                    border-color: var(--blue);
+                }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+            .data-table th {
+                text-align: left;
+                padding: 13px 14px;
+                background: var(--grey);
+                color: var(--blue);
+                font-weight: 800;
+                border-bottom: 2px solid var(--border);
+                white-space: nowrap;
+            }
+
+            .data-table td {
+                padding: 14px;
+                border-bottom: 1px solid var(--border);
+                vertical-align: middle;
+            }
+
+            .data-table tr:last-child td {
+                border-bottom: none;
+            }
+
+        .dept-pill {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .ext-pill {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .flag-pill {
+            display: inline-block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 10px;
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .btn-sm {
+            border: none;
+            padding: 7px 12px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+            .btn-sm:hover {
+                opacity: 0.88;
+            }
+
+        .btn-dismiss {
+            background: var(--blue-light);
+            color: var(--blue);
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-remove {
+            background: #dc2626;
+            color: var(--white);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 28px 16px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer {
+            background: #202a34;
+            color: #bdc7d0;
+            text-align: center;
+            font-size: 12px;
+            padding: 18px;
+            margin-top: auto;
+        }
+
+        @media (max-width: 720px) {
+            .nav-content {
+                flex-wrap: wrap;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="admin-dashboard.html" class="logo">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar Admin</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-reports.html" class="active-link">Flagged Reports</a>
+                <a href="admin-students.html">Student Accounts</a>
+                <a href="admin-announcements.html">Announcements</a>
+            </nav>
+
+            <div class="admin-profile-pill">
+                <span class="admin-id-tag" id="navAdminId">ADM-IDS-01</span>
+                <button type="button" class="btn-logout" id="adminLogoutBtn">Log out</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrap">
+        <div class="container">
+
+            <div class="page-header">
+                <h1>Content Moderation &amp; Repository Files</h1>
+                <p>Review student-reported documents, enforce the text-only &lt;1MB rule, and manage verified repository files.</p>
+            </div>
+
+            <!-- SECTION 1: PENDING FLAGGED REPORTS -->
+
+            <section class="section-card">
+                <div class="card-top">
+                    <h2>Pending Flagged Reports</h2>
+                    <div class="filters-row">
+                        <select id="reportDeptFilter" aria-label="Filter reports by department">
+                            <option value="all">All Departments</option>
+                            <option value="DS">DS — Data Science</option>
+                            <option value="SE">SE — Software Engineering</option>
+                            <option value="BDA">BDA — Business Data Analytics</option>
+                            <option value="AC">AC — Applied Computing</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Reported Document</th>
+                                <th>Dept</th>
+                                <th>Uploaded By</th>
+                                <th>Issue Category</th>
+                                <th>Reported By</th>
+                                <th>Decision</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 2: ALL VERIFIED REPOSITORY FILES -->
+
+            <section class="section-card">
+                <div class="card-top">
+                    <h2>Verified Repository Documents</h2>
+                    <div class="filters-row">
+                        <input type="text" id="fileSearchInput" placeholder="Search title or course code...">
+                        <select id="fileDeptFilter" aria-label="Filter files by department">
+                            <option value="all">All Departments</option>
+                            <option value="DS">DS</option>
+                            <option value="SE">SE</option>
+                            <option value="BDA">BDA</option>
+                            <option value="AC">AC</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Document Title</th>
+                                <th>Course</th>
+                                <th>Dept</th>
+                                <th>Format &amp; Size</th>
+                                <th>Student Uploader</th>
+                                <th>Moderation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filesTbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 Campus Bazaar Administrative Console. Built for the Institute of Data Science.
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+                (function () {
+                    const adminSession = JSON.parse(sessionStorage.getItem('cb_admin_session') || 'null');
+                    if (!adminSession) {
+                        window.location.href = 'admin-login.html';
+                        return;
+                    }
+
+                    document.getElementById('navAdminId').textContent = adminSession.adminId;
+
+                    const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                        ? APP_CONFIG.API_BASE_URL
+                        : 'http://localhost:5195';
+
+                    let flaggedReports = [
+                        {
+                            reportId: 101,
+                            resourceId: 14,
+                            title: "Scanned Notebook Pages Chapter 3",
+                            courseCode: "DS-204",
+                            department: "DS",
+                            fileType: "pdf",
+                            sizeKb: 960,
+                            uploader: "Usman Tariq (2025-DS-22)",
+                            reason: "Unreadable / Image-Heavy / Scanned File",
+                            reportedBy: "Ayesha Khan (2025-DS-11)"
+                        },
+                        {
+                            reportId: 102,
+                            resourceId: 19,
+                            title: "Marketing Case Study Slides",
+                            courseCode: "SE-102",
+                            department: "SE",
+                            fileType: "pptx",
+                            sizeKb: 610,
+                            uploader: "Ali Raza (2024-SE-31)",
+                            reason: "Wrong Department or Course Code",
+                            reportedBy: "Hamza Ahmed (2024-SE-19)"
+                        },
+                        {
+                            reportId: 103,
+                            resourceId: 23,
+                            title: "BDA Regression Output Raw Dump",
+                            courseCode: "BDA-210",
+                            department: "BDA",
+                            fileType: "docx",
+                            sizeKb: 480,
+                            uploader: "Sara Malik (2024-BDA-15)",
+                            reason: "Corrupted or Blank Document",
+                            reportedBy: "Zainab Tariq (2024-BDA-08)"
+                        }
+                    ];
+
+                    let verifiedFiles = [
+                        { id: 1, title: "Data Structures & Algorithms Midterm Notes", courseCode: "CS-201", department: "AC", fileType: "pdf", sizeKb: 420, uploader: "Ayesha Khan (2024-AC-12)" },
+                        { id: 2, title: "Database Systems SQL Lab Manual", courseCode: "DS-302", department: "DS", fileType: "docx", sizeKb: 315, uploader: "Wajeeha (2025-DS-04)" },
+                        { id: 3, title: "Software Process Models & Agile Slides", courseCode: "SE-104", department: "SE", fileType: "pptx", sizeKb: 780, uploader: "Hamza Ahmed (2024-SE-19)" },
+                        { id: 4, title: "Business Predictive Analytics Past Paper 2025", courseCode: "BDA-210", department: "BDA", fileType: "pdf", sizeKb: 260, uploader: "Zainab Tariq (2024-BDA-08)" },
+                        { id: 5, title: "Capstone SRS & UML Architecture Project", courseCode: "SE-305", department: "SE", fileType: "docx", sizeKb: 540, uploader: "Bilal Raza (2023-SE-27)" },
+                        { id: 6, title: "Inferential Statistics & Probability Quiz Bank", courseCode: "DS-208", department: "DS", fileType: "pdf", sizeKb: 195, uploader: "Wajeeha (2025-DS-04)" }
+                    ];
+
+                    function getAuthHeaders() {
+                        const token = sessionStorage.getItem('campus_bazaar_token');
+                        const headers = { 'Content-Type': 'application/json' };
+                        if (token) headers['Authorization'] = `Bearer ${token}`;
+                        return headers;
+                    }
+
+                    function escapeHtml(text) {
+                        const div = document.createElement('div');
+                        div.textContent = String(text || '');
+                        return div.innerHTML;
+                    }
+
+                    function renderReports() {
+                        const tbody = document.getElementById('reportsTbody');
+                        const filterEl = document.getElementById('reportDeptFilter');
+                        const dept = filterEl ? String(filterEl["value"] || 'all') : 'all';
+                        if (!tbody) return;
+
+                        const rows = dept === 'all'
+                            ? flaggedReports
+                            : flaggedReports.filter(r => r.department === dept);
+
+                        if (rows.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No pending flagged reports for this filter.</td></tr>`;
+                            return;
+                        }
+
+                        tbody.innerHTML = rows.map(r => `
+                            <tr>
+                                <td>
+                                    <strong>${escapeHtml(r.title)}</strong><br>
+                                    <small style="color: var(--muted);">${escapeHtml(r.courseCode)} &bull; <span class="ext-pill">${escapeHtml(r.fileType)}</span> ${r.sizeKb} KB</small>
+                                </td>
+                                <td><span class="dept-pill">${escapeHtml(r.department)}</span></td>
+                                <td>${escapeHtml(r.uploader)}</td>
+                                <td><span class="flag-pill">${escapeHtml(r.reason)}</span></td>
+                                <td>${escapeHtml(r.reportedBy)}</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn-sm btn-dismiss" data-dismiss="${r.reportId}">Dismiss Flag</button>
+                                        <button type="button" class="btn-sm btn-remove" data-remove-rep="${r.reportId}" data-res-id="${r.resourceId}">Remove File</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('');
+
+                        tbody.querySelectorAll('[data-dismiss]').forEach(btn => {
+                            btn.addEventListener('click', async function () {
+                                const repId = Number(btn.getAttribute('data-dismiss'));
+                                try {
+                                    await fetch(`${baseUrl}/api/admin/reports/${repId}/dismiss`, {
+                                        method: 'POST',
+                                        headers: getAuthHeaders()
+                                    });
+                                } catch (e) {}
+                                flaggedReports = flaggedReports.filter(item => item.reportId !== repId);
+                                renderReports();
+                            });
+                        });
+
+                        tbody.querySelectorAll('[data-remove-rep]').forEach(btn => {
+                            btn.addEventListener('click', async function () {
+                                const repId = Number(btn.getAttribute('data-remove-rep'));
+                                const resId = Number(btn.getAttribute('data-res-id'));
+                                try {
+                                    await fetch(`${baseUrl}/api/admin/resources/${resId}`, {
+                                        method: 'DELETE',
+                                        headers: getAuthHeaders()
+                                    });
+                                } catch (e) {}
+                                flaggedReports = flaggedReports.filter(item => item.reportId !== repId);
+                                verifiedFiles = verifiedFiles.filter(item => item.id !== resId);
+                                renderReports();
+                                renderFiles();
+                            });
+                        });
+                    }
+
+                    function renderFiles() {
+                        const tbody = document.getElementById('filesTbody');
+                        const searchEl = document.getElementById('fileSearchInput');
+                        const deptEl = document.getElementById('fileDeptFilter');
+
+                        const query = String((searchEl && searchEl["value"]) || '').toLowerCase().trim();
+                        const dept = deptEl ? String(deptEl["value"] || 'all') : 'all';
+                        if (!tbody) return;
+
+                        const rows = verifiedFiles.filter(item => {
+                            const matchDept = dept === 'all' || item.department === dept;
+                            const matchText = !query ||
+                                item.title.toLowerCase().includes(query) ||
+                                item.courseCode.toLowerCase().includes(query);
+                            return matchDept && matchText;
+                        });
+
+                        if (rows.length === 0) {
+                            tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No matching documents found.</td></tr>`;
+                            return;
+                        }
+
+                        tbody.innerHTML = rows.map(f => `
+                            <tr>
+                                <td><strong>${escapeHtml(f.title)}</strong></td>
+                                <td>${escapeHtml(f.courseCode)}</td>
+                                <td><span class="dept-pill">${escapeHtml(f.department)}</span></td>
+                                <td><span class="ext-pill">${escapeHtml(f.fileType)}</span> &bull; ${f.sizeKb} KB</td>
+                                <td>${escapeHtml(f.uploader)}</td>
+                                <td>
+                                    <button type="button" class="btn-sm btn-remove" data-del-file="${f.id}">Delete File</button>
+                                </td>
+                            </tr>
+                        `).join('');
+
+                        tbody.querySelectorAll('[data-del-file]').forEach(btn => {
+                            btn.addEventListener('click', async function () {
+                                const fileId = Number(btn.getAttribute('data-del-file'));
+                                try {
+                                    await fetch(`${baseUrl}/api/admin/resources/${fileId}`, {
+                                        method: 'DELETE',
+                                        headers: getAuthHeaders()
+                                    });
+                                } catch (e) {}
+                                verifiedFiles = verifiedFiles.filter(item => item.id !== fileId);
+                                renderFiles();
+                            });
+                        });
+                    }
+
+                    document.getElementById('reportDeptFilter').addEventListener('change', renderReports);
+                    document.getElementById('fileSearchInput').addEventListener('input', renderFiles);
+                    document.getElementById('fileDeptFilter').addEventListener('change', renderFiles);
+
+                    document.getElementById('adminLogoutBtn').addEventListener('click', function () {
+                        sessionStorage.removeItem('cb_admin_session');
+                        sessionStorage.removeItem('campus_bazaar_token');
+                        window.location.href = 'admin-login.html';
+                    });
+
+                    renderReports();
+                    renderFiles();
+                })();
+    </script>
+</body>
+</html>
