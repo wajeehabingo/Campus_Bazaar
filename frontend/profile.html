@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Campus Bazaar</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
+
+        .user-nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+            .btn-logout:hover {
+                color: #d93838;
+            }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* MAIN PROFILE LAYOUT (Isolated classes so style.css cannot override) */
+
+        .cb-profile-layout {
+            padding: 35px 0 60px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .cb-profile-grid {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            width: 100%;
+        }
+
+        .cb-profile-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+        }
+
+        .cb-profile-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cb-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(21, 62, 99, 0.04);
+        }
+
+        /* LEFT SIDEBAR: AVATAR & INFO CARD */
+
+        .cb-profile-card {
+            text-align: center;
+        }
+
+        .avatar-wrap {
+            position: relative;
+            width: 116px;
+            height: 116px;
+            margin: 0 auto 16px;
+        }
+
+        .profile-avatar {
+            width: 116px;
+            height: 116px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: 4px solid var(--yellow);
+            background: var(--white);
+            box-shadow: 0 6px 20px rgba(21, 62, 99, 0.12);
+        }
+
+        .badge-verified {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 28px;
+            height: 28px;
+            background: var(--blue);
+            color: var(--yellow);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: 900;
+            border: 2px solid var(--white);
+        }
+
+        .cb-profile-card h1 {
+            font-size: 22px;
+            color: var(--blue);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .cb-profile-card p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .badge-role {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            margin-bottom: 22px;
+        }
+
+        .info-list {
+            text-align: left;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+
+        .info-row {
+            margin-bottom: 14px;
+        }
+
+            .info-row:last-child {
+                margin-bottom: 0;
+            }
+
+            .info-row span {
+                display: block;
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 3px;
+            }
+
+            .info-row strong {
+                font-size: 14px;
+                color: var(--blue);
+            }
+
+        /* RIGHT SECTION: DETAILS & TABS */
+
+        .cb-box-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+            .cb-box-title h2 {
+                font-size: 18px;
+                color: var(--blue);
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .cb-box-title h2::before {
+                    content: "";
+                    display: inline-block;
+                    width: 4px;
+                    height: 18px;
+                    background: var(--yellow);
+                    border-radius: 2px;
+                    flex-shrink: 0;
+                }
+
+        /* STATS COUNTER */
+
+        .cb-stats-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .cb-stat-item {
+            flex: 1;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 14px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(21, 62, 99, 0.04);
+        }
+
+            .cb-stat-item strong {
+                display: block;
+                font-size: 26px;
+                color: var(--blue);
+                font-weight: 800;
+                margin-bottom: 4px;
+            }
+
+            .cb-stat-item span {
+                display: block;
+                font-size: 12px;
+                color: var(--muted);
+                font-weight: 600;
+            }
+
+        /* TAB ACTIVITY STYLING */
+
+        .cb-tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cb-tab-btn {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+            .cb-tab-btn.active {
+                background: var(--blue);
+                color: var(--white);
+                border-color: var(--blue);
+            }
+
+        /* ITEM LIST */
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .activity-item:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+        .activity-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .resource-tag {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 11px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+        }
+
+        .activity-details h4 {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .activity-details p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .btn-action {
+            flex-shrink: 0;
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--blue-light);
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+            .btn-action:hover {
+                background: var(--blue);
+                color: var(--white);
+            }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+            .cb-profile-grid {
+                flex-direction: column;
+            }
+
+            .cb-profile-sidebar,
+            .cb-profile-main {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+                .nav-links.active {
+                    display: flex;
+                }
+
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
+
+            .cb-stats-row {
+                flex-direction: column;
+            }
+
+            .activity-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="page-loader"></div>
+
+    <!-- NAVIGATION BAR -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="resources.html">Resources</a>
+                <a href="upload.html">Upload</a>
+                <a href="chat.html">Messages</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <div class="user-nav-profile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button class="btn-logout" onclick="[logoutUser()">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN PROFILE SECTION -->
+
+    <main class="cb-profile-layout">
+        <div class="container">
+
+            <div class="cb-profile-grid">
+
+                <!-- LEFT COLUMN: USER AVATAR & METADATA -->
+
+                <aside class="cb-profile-sidebar">
+                    <div class="cb-box cb-profile-card">
+                        <div class="avatar-wrap">
+                            <img id="profileAvatar" src="assets/male.jpg" alt="Official Assigned Avatar" class="profile-avatar">
+                            <div class="badge-verified" title="Official Department Account">&#10003;</div>
+                        </div>
+
+                        <h1 id="profileName">Student Name</h1>
+                        <p id="profileSub">Department of Data Science</p>
+                        <span id="profileRole" class="badge-role">Student</span>
+
+                        <div class="info-list">
+                            <div class="info-row">
+                                <span>ID / Registration No</span>
+                                <strong id="profileRegNo">2023-BS-DS-01</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Department Gender</span>
+                                <strong id="profileGender">Male</strong>
+                            </div>
+
+                            <div class="info-row">
+                                <span>Member Status</span>
+                                <strong style="color: #27ae60;">Active Academic Account</strong>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- RIGHT COLUMN: STATS & USER ACTIVITY -->
+
+                <section class="cb-profile-main">
+
+                    <!-- ACADEMIC STATS -->
+
+                    <div class="cb-stats-row">
+                        <div class="cb-stat-item">
+                            <strong id="statNotes">4</strong>
+                            <span>Uploaded Notes</span>
+                        </div>
+                        <div class="cb-stat-item">
+                            <strong id="statDownloads">28</strong>
+                            <span>Material Downloads</span>
+                        </div>
+                        <div class="cb-stat-item">
+                            <strong id="statGroups">2</strong>
+                            <span>Study Groups</span>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVITY & CONTRIBUTION TABS -->
+
+                    <div class="cb-box">
+                        <div class="cb-box-title">
+                            <h2>My Contributions</h2>
+                        </div>
+
+                        <div class="cb-tab-buttons">
+                            <button class="cb-tab-btn active" onclick="switchProfileTab('uploads', this)">My Uploads</button>
+                            <button class="cb-tab-btn" onclick="switchProfileTab('groups', this)">My Study Groups</button>
+                        </div>
+
+                        <!-- TAB CONTENT: MY UPLOADS -->
+
+                        <div id="tabUploads">
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">PDF</div>
+                                    <div class="activity-details">
+                                        <h4>Data Structures Lecture 04 - Linked Lists</h4>
+                                        <p>Shared on Oct 18, 2026 &bull; 14 downloads</p>
+                                    </div>
+                                </div>
+                                <a href="resource-details.html" class="btn-action">View</a>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">DOC</div>
+                                    <div class="activity-details">
+                                        <h4>Python Pandas &amp; Data Cleaning Cheat Sheet</h4>
+                                        <p>Shared on Oct 10, 2026 &bull; 14 downloads</p>
+                                    </div>
+                                </div>
+                                <a href="resource-details.html" class="btn-action">View</a>
+                            </div>
+                        </div>
+
+                        <!-- TAB CONTENT: MY STUDY GROUPS (HIDDEN BY DEFAULT) -->
+
+                        <div id="tabGroups" style="display: none;">
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">GRP</div>
+                                    <div class="activity-details">
+                                        <h4>Data Science Semester 3 Group</h4>
+                                        <p>12 Members &bull; Active yesterday</p>
+                                    </div>
+                                </div>
+                                <a href="chat.html" class="btn-action">Open Chat</a>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-left">
+                                    <div class="resource-tag">GRP</div>
+                                    <div class="activity-details">
+                                        <h4>Software Engineering Project Group</h4>
+                                        <p>3 Members &bull; Active today</p>
+                                    </div>
+                                </div>
+                                <a href="chat.html" class="btn-action">Open Chat</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+                        (function () {
+                            // Mobile navigation toggle
+                            const menuToggle = document.getElementById("menuToggle");
+                            const navLinks = document.getElementById("navLinks");
+
+                            if (menuToggle && navLinks) {
+                                menuToggle.addEventListener("click", function () {
+                                    navLinks.classList.toggle("active");
+                                });
+                            }
+
+                            // Load logged in user profile details
+                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                            if (userData) {
+                                const navName = document.getElementById('navName');
+                                const navAvatar = document.getElementById('navAvatar');
+                                const profileAvatar = document.getElementById('profileAvatar');
+                                const profileName = document.getElementById('profileName');
+                                const profileRegNo = document.getElementById('profileRegNo');
+                                const profileRole = document.getElementById('profileRole');
+                                const profileGender = document.getElementById('profileGender');
+
+                                if (navName) navName.textContent = userData.name || userData.regNo || 'User';
+                                if (userData.avatar) {
+                                    if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
+                                    if (profileAvatar) profileAvatar.setAttribute('src', userData.avatar);
+                                }
+
+                                if (profileName) profileName.textContent = userData.name || 'Student Name';
+                                if (profileRegNo) profileRegNo.textContent = userData.regNo || '2023-BS-DS-01';
+                                if (profileRole) profileRole.textContent = (userData.role || 'Student').toUpperCase();
+
+                                if (userData.gender && profileGender) {
+                                    const g = userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1);
+                                    profileGender.textContent = g;
+                                }
+                            }
+                        })();
+
+                        // Tab Switching Logic
+                        function switchProfileTab(tabName, element) {
+                            const tabUploads = document.getElementById('tabUploads');
+                            const tabGroups = document.getElementById('tabGroups');
+                            const buttons = document.querySelectorAll('.cb-tab-btn');
+
+                            buttons.forEach(btn => btn.classList.remove('active'));
+                            if (element) element.classList.add('active');
+
+                            if (tabUploads && tabGroups) {
+                                if (tabName === 'uploads') {
+                                    tabUploads.style.display = 'block';
+                                    tabGroups.style.display = 'none';
+                                } else {
+                                    tabUploads.style.display = 'none';
+                                    tabGroups.style.display = 'block';
+                                }
+                            }
+                        }
+    </script>
+</body>
+</html>

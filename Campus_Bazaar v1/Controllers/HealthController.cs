@@ -1,12 +1,11 @@
-﻿
+﻿using Campus_Bazaar_v1.DTOs;
 using Campus_Bazaar_v1.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Campus_Bazaar_v1.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/health")]
     public class HealthController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -17,34 +16,29 @@ namespace Campus_Bazaar_v1.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<ApiResponse<object>> GetHealth()
         {
-            return Ok(new
-            {
-                status = "Healthy",
-                application = "Campus Bazaar"
-            });
+            var data = new { Status = "Healthy", Application = "Campus Bazaar" };
+            return Ok(ApiResponse<object>.SuccessResult(data, "System is running normally."));
         }
 
         [HttpGet("database")]
-        public async Task<IActionResult> CheckDatabase()
+        public async Task<ActionResult<ApiResponse<object>>> GetDatabaseHealth()
         {
-            bool canConnect = await _context.Database.CanConnectAsync();
-
-            if (!canConnect)
+            try
             {
-                return StatusCode(503, new
+                bool canConnect = await _context.Database.CanConnectAsync();
+                if (canConnect)
                 {
-                    status = "Unavailable",
-                    database = "CampusBazaarDb"
-                });
+                    var data = new { Status = "Connected", Database = "CampusBazaarDb" };
+                    return Ok(ApiResponse<object>.SuccessResult(data, "Database connection established successfully."));
+                }
+                return StatusCode(503, ApiResponse<object>.FailureResult("Database connection failed."));
             }
-
-            return Ok(new
+            catch (Exception ex)
             {
-                status = "Connected",
-                database = "CampusBazaarDb"
-            });
+                return StatusCode(503, ApiResponse<object>.FailureResult("Database connectivity error.", new List<string> { ex.Message }));
+            }
         }
     }
 }
