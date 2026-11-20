@@ -7,7 +7,7 @@ IF NOT EXISTS (SELECT 1 FROM dbo.Departments WHERE DepartmentCode = N'DS')
 IF NOT EXISTS (SELECT 1 FROM dbo.Departments WHERE DepartmentCode = N'SE')
     INSERT INTO dbo.Departments (DepartmentCode, DepartmentName) VALUES (N'SE', N'Software Engineering');
 IF NOT EXISTS (SELECT 1 FROM dbo.Departments WHERE DepartmentCode = N'AC')
-    INSERT INTO dbo.Departments (DepartmentCode, DepartmentName) VALUES (N'AC', N'Accounting & Finance');
+    INSERT INTO dbo.Departments (DepartmentCode, DepartmentName) VALUES (N'APC', N'Applied Computing');
 IF NOT EXISTS (SELECT 1 FROM dbo.Departments WHERE DepartmentCode = N'BDA')
     INSERT INTO dbo.Departments (DepartmentCode, DepartmentName) VALUES (N'BDA', N'Business Data Analytics');
 GO
@@ -36,7 +36,7 @@ IF NOT EXISTS (SELECT 1 FROM dbo.Courses WHERE CourseCode = N'DS-301')
 IF NOT EXISTS (SELECT 1 FROM dbo.Courses WHERE CourseCode = N'CSC-200')
     INSERT INTO dbo.Courses (CourseCode, CourseName, DepartmentId) VALUES (N'CSC-200', N'Data Structures and Algorithms', @DsId);
 IF NOT EXISTS (SELECT 1 FROM dbo.Courses WHERE CourseCode = N'SE-301')
-    INSERT INTO dbo.Courses (CourseCode, CourseName, DepartmentId) VALUES (N'SE-301', N'Software Engineering Principles', @SeId);
+    INSERT INTO dbo.Courses (CourseCode, CourseName, DepartmentId) VALUES (N'SE-301', N'Software Engineering ', @SeId);
 GO
 
 -- 4. Published Resources (Valid CourseId & UploadedByUserId FKs, Status = 'Published')
