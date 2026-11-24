@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CampusBazaar.DSA.Models;
 using CampusBazaar.DSA.DataStructures;
 using CampusBazaar.DSA.Algorithms;
+using CampusBazaar.DSA.Services;
 
 namespace CampusBazaar.DSA
 {
@@ -10,10 +11,11 @@ namespace CampusBazaar.DSA
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("--- Campus Bazaar DSA Module: Day 4 & Day 5 Verification ---\n");
+            Console.WriteLine("--- Campus Bazaar DSA Module: Day 4, Day 5 & Day 6 Verification ---\n");
 
             ResourceRepository repo = new ResourceRepository();
             Trie titleTrie = new Trie();
+            ResourceDiscoveryService discovery = new ResourceDiscoveryService(repo, titleTrie);
 
             ResourceItem note1 = new ResourceItem(101, "Data Structures Final Notes", "Comprehensive summary of trees and graphs.", "CS-201", "PDF", "Ali Khan")
             {
@@ -32,64 +34,43 @@ namespace CampusBazaar.DSA
 
             foreach (var item in initialResources)
             {
-                repo.AddResource(item);
-                titleTrie.IndexTitle(item.Title, item.Id);
+                discovery.AddResource(item);
             }
 
-            // --- Day 4: Prefix Search ---
-            string[] testPrefixes = { "dat", "man", "cal", "xyz" };
-
-            foreach (string prefix in testPrefixes)
-            {
-                Console.WriteLine($"\nPrefix search for '{prefix}':");
-                List<int> matchedIds = titleTrie.SearchPrefix(prefix);
-
-                if (matchedIds.Count == 0)
-                {
-                    Console.WriteLine("  No matching resources found.");
-                    continue;
-                }
-
-                foreach (int id in matchedIds)
-                {
-                    ResourceItem item = repo.GetResourceById(id);
-                    if (item != null)
-                    {
-                        Console.WriteLine($"  -> {item}");
-                    }
-                }
-            }
-
-            // --- Day 5: Sorting & Filtering ---
-            Console.WriteLine("\n--- Day 5: Sorted by Downloads (High to Low) ---");
-            var sortedByDownloads = ResourceSorter.SortByDownloadsDescending(initialResources);
-            foreach (var item in sortedByDownloads)
+            // --- Day 4: Prefix Search via Service ---
+            Console.WriteLine("\n--- Day 4: Prefix Search ('dat') ---");
+            foreach (var item in discovery.SearchByTitlePrefix("dat"))
             {
                 Console.WriteLine($"  -> {item}");
             }
 
-            Console.WriteLine("\n--- Day 5: Sorted by Title (A to Z) ---");
-            var sortedByTitle = ResourceSorter.SortByTitleAscending(initialResources);
-            foreach (var item in sortedByTitle)
+            // --- Day 5: Sorting & Filtering ---
+            Console.WriteLine("\n--- Day 5: Sorted by Downloads (High to Low) ---");
+            foreach (var item in ResourceSorter.SortByDownloadsDescending(initialResources))
             {
                 Console.WriteLine($"  -> {item}");
             }
 
             Console.WriteLine("\n--- Day 5: Filtered by FileType 'PDF' ---");
-            var pdfResources = ResourceSorter.FilterByFileType(initialResources, "PDF");
-            foreach (var item in pdfResources)
+            foreach (var item in ResourceSorter.FilterByFileType(initialResources, "PDF"))
             {
                 Console.WriteLine($"  -> {item}");
             }
 
-            Console.WriteLine("\n--- Day 5: Filtered by CourseCode 'CS-302' ---");
-            var cs302Resources = ResourceSorter.FilterByCourseCode(initialResources, "CS-302");
-            foreach (var item in cs302Resources)
+            // --- Day 6: Top-K Trending & Filter+Sort ---
+            Console.WriteLine("\n--- Day 6: Top 2 Most Downloaded Resources ---");
+            foreach (var item in discovery.GetTopDownloaded(initialResources, 2))
             {
                 Console.WriteLine($"  -> {item}");
             }
 
-            Console.WriteLine("\nDay 5 sorting and filtering complete! Press any key to exit.");
+            Console.WriteLine("\n--- Day 6: PDF Resources Sorted by Downloads (High to Low) ---");
+            foreach (var item in discovery.FilterAndSortByDownloads(initialResources, fileType: "PDF"))
+            {
+                Console.WriteLine($"  -> {item}");
+            }
+
+            Console.WriteLine("\nDay 6 verification complete! Press any key to exit.");
             Console.ReadKey();
         }
     }
