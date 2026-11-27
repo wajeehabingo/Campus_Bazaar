@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Announcements | Campus Bazaar Admin</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+        }
+
+        /* ADMIN TOP NAVBAR */
+
+        .navbar {
+            background: var(--blue);
+            color: var(--white);
+            border-bottom: 4px solid var(--yellow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 9px;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 700;
+                color: #d6e0e9;
+                padding: 6px 0;
+                border-bottom: 2px solid transparent;
+                transition: color 0.2s, border-color 0.2s;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--yellow);
+                    border-bottom-color: var(--yellow);
+                }
+
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-id-tag {
+            color: var(--yellow);
+        }
+
+        .btn-logout {
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+            .btn-logout:hover {
+                background: var(--yellow-hover);
+            }
+
+        /* MAIN CONTENT */
+
+        .main-wrap {
+            flex: 1;
+            padding: 36px 0 60px;
+        }
+
+        .page-header {
+            margin-bottom: 26px;
+        }
+
+            .page-header h1 {
+                font-size: 25px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+                color: var(--muted);
+            }
+
+        .announce-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .section-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px 28px;
+            box-shadow: 0 8px 22px rgba(21, 62, 99, 0.04);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .card-top h2 {
+                font-size: 18px;
+                font-weight: 800;
+                color: var(--blue);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .card-top h2::before {
+                    content: "";
+                    display: inline-block;
+                    width: 4px;
+                    height: 18px;
+                    background: var(--yellow);
+                    border-radius: 2px;
+                }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+            .form-group label {
+                display: block;
+                font-size: 13px;
+                font-weight: 700;
+                color: var(--blue);
+                margin-bottom: 7px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                border: 1px solid var(--border);
+                border-radius: 9px;
+                padding: 11px 13px;
+                font-size: 13px;
+                outline: none;
+                background: var(--white);
+                transition: border-color 0.2s;
+            }
+
+                .form-group input:focus,
+                .form-group select:focus,
+                .form-group textarea:focus {
+                    border-color: var(--blue);
+                }
+
+        .btn-publish {
+            width: 100%;
+            height: 46px;
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .btn-publish:hover {
+                background: var(--yellow-hover);
+            }
+
+        .filter-select {
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--white);
+            outline: none;
+        }
+
+        .announce-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .announce-item {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--blue);
+            border-radius: 10px;
+            padding: 16px 18px;
+        }
+
+        .announce-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+            .announce-item-top h3 {
+                font-size: 15px;
+                font-weight: 800;
+                color: var(--blue);
+            }
+
+        .dept-pill {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .announce-item p {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .announce-item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .btn-delete-notice {
+            background: transparent;
+            border: none;
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+            .btn-delete-notice:hover {
+                text-decoration: underline;
+            }
+
+        .empty-state {
+            text-align: center;
+            padding: 28px 16px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer {
+            background: #202a34;
+            color: #bdc7d0;
+            text-align: center;
+            font-size: 12px;
+            padding: 18px;
+            margin-top: auto;
+        }
+
+        @media (max-width: 880px) {
+            .announce-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .nav-content {
+                flex-wrap: wrap;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="admin-dashboard.html" class="logo">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar Admin</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-reports.html">Flagged Reports</a>
+                <a href="admin-students.html">Student Accounts</a>
+                <a href="admin-announcements.html" class="active-link">Announcements</a>
+            </nav>
+
+            <div class="admin-profile-pill">
+                <span class="admin-id-tag" id="navAdminId">ADM-IDS-01</span>
+                <button type="button" class="btn-logout" id="adminLogoutBtn">Log out</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrap">
+        <div class="container">
+
+            <div class="page-header">
+                <h1>Department Announcements</h1>
+                <p>Publish official academic notices, midterm repository updates, and policy reminders across DS, SE, BDA, and AC.</p>
+            </div>
+
+            <div class="announce-grid">
+
+                <!-- LEFT CARD: CREATE ANNOUNCEMENT FORM -->
+
+                <section class="section-card">
+                    <div class="card-top">
+                        <h2>Publish New Notice</h2>
+                    </div>
+
+                    <form id="announceForm">
+                        <div class="form-group">
+                            <label for="announceTitle">Announcement Title</label>
+                            <input type="text" id="announceTitle" placeholder="e.g., Midterm Past Papers Repository Updated" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="announceDept">Target Department</label>
+                            <select id="announceDept">
+                                <option value="ALL">All Departments (DS, SE, BDA, AC)</option>
+                                <option value="DS">DS — Data Science</option>
+                                <option value="SE">SE — Software Engineering</option>
+                                <option value="BDA">BDA — Business Data Analytics</option>
+                                <option value="AC">AC — Applied Computing</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="announceBody">Announcement Message</label>
+                            <textarea id="announceBody" rows="5" placeholder="Write the message to display on student dashboards..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-publish">Publish Announcement</button>
+                    </form>
+                </section>
+
+                <!-- RIGHT CARD: ACTIVE ANNOUNCEMENTS FEED -->
+
+                <section class="section-card">
+                    <div class="card-top">
+                        <h2>Published Notices</h2>
+                        <select id="noticeDeptFilter" class="filter-select" aria-label="Filter notices by department">
+                            <option value="all">All Cohorts</option>
+                            <option value="ALL">General (ALL)</option>
+                            <option value="DS">DS</option>
+                            <option value="SE">SE</option>
+                            <option value="BDA">BDA</option>
+                            <option value="AC">AC</option>
+                        </select>
+                    </div>
+
+                    <div class="announce-list" id="announcementsList"></div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 Campus Bazaar Administrative Console. Built for the Institute of Data Science.
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        (function () {
+            const adminSession = JSON.parse(sessionStorage.getItem('cb_admin_session') || 'null');
+            if (!adminSession) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            document.getElementById('navAdminId').textContent = adminSession.adminId;
+
+            const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                ? APP_CONFIG.API_BASE_URL
+                : 'http://localhost:5195';
+
+            const defaultAnnouncements = [
+                {
+                    id: 1,
+                    title: "Text-Only Upload Policy Reminder (< 1 MB)",
+                    department: "ALL",
+                    body: "Upload only verified text-based .pdf, .docx, or .pptx files strictly under 1 MB. Image-heavy or scanned photo PDFs will be removed by moderators.",
+                    date: "Nov 18, 2026"
+                },
+                {
+                    id: 2,
+                    title: "DS-302 & DS-208 Midterm Quiz Banks Added",
+                    department: "DS",
+                    body: "New solved practice quiz banks for Inferential Statistics and SQL Normalization are now available in the Resources tab.",
+                    date: "Nov 16, 2026"
+                },
+                {
+                    id: 3,
+                    title: "SE Capstone SRS & UML Templates Available",
+                    department: "SE",
+                    body: "Software Engineering cohorts can download the standardized SRS and UML template from the Projects category.",
+                    date: "Nov 14, 2026"
+                }
+            ];
+
+            let announcements = JSON.parse(localStorage.getItem('cb_admin_announcements') || 'null') || defaultAnnouncements;
+
+            function getAuthHeaders() {
+                const token = sessionStorage.getItem('campus_bazaar_token');
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                return headers;
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = String(text || '');
+                return div.innerHTML;
+            }
+
+            function renderAnnouncements() {
+                const list = document.getElementById('announcementsList');
+                const filterEl = document.getElementById('noticeDeptFilter');
+                const dept = filterEl ? String(filterEl["value"] || 'all') : 'all';
+                if (!list) return;
+
+                const filtered = dept === 'all'
+                    ? announcements
+                    : announcements.filter(a => a.department === dept);
+
+                if (filtered.length === 0) {
+                    list.innerHTML = `<div class="empty-state">No announcements found for this filter.</div>`;
+                    return;
+                }
+
+                list.innerHTML = filtered.map(a => `
+                    <div class="announce-item">
+                        <div class="announce-item-top">
+                            <h3>${escapeHtml(a.title)}</h3>
+                            <span class="dept-pill">${escapeHtml(a.department)}</span>
+                        </div>
+                        <p>${escapeHtml(a.body)}</p>
+                        <div class="announce-item-footer">
+                            <span>Published on ${escapeHtml(a.date)}</span>
+                            <button type="button" class="btn-delete-notice" data-del-notice="${a.id}">Delete Notice</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                list.querySelectorAll('[data-del-notice]').forEach(btn => {
+                    btn.addEventListener('click', async function () {
+                        const noticeId = Number(btn.getAttribute('data-del-notice'));
+                        try {
+                            await fetch(`${baseUrl}/api/admin/announcements/${noticeId}`, {
+                                method: 'DELETE',
+                                headers: getAuthHeaders()
+                            });
+                        } catch (e) {}
+
+                        announcements = announcements.filter(item => item.id !== noticeId);
+                        localStorage.setItem('cb_admin_announcements', JSON.stringify(announcements));
+                        renderAnnouncements();
+                    });
+                });
+            }
+
+            const announceForm = document.getElementById('announceForm');
+            if (announceForm) {
+                announceForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const titleEl = document.getElementById('announceTitle');
+                    const deptEl = document.getElementById('announceDept');
+                    const bodyEl = document.getElementById('announceBody');
+
+                    const title = String((titleEl && titleEl["value"]) || '').trim();
+                    const department = deptEl ? String(deptEl["value"] || 'ALL') : 'ALL';
+                    const body = String((bodyEl && bodyEl["value"]) || '').trim();
+                    if (!title || !body) return;
+
+                    const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    const newNotice = {
+                        id: Date.now(),
+                        title: title,
+                        department: department,
+                        body: body,
+                        date: today
+                    };
+
+                    try {
+                        await fetch(`${baseUrl}/api/admin/announcements`, {
+                            method: 'POST',
+                            headers: getAuthHeaders(),
+                            body: JSON.stringify(newNotice)
+                        });
+                    } catch (err) {}
+
+                    announcements.unshift(newNotice);
+                    localStorage.setItem('cb_admin_announcements', JSON.stringify(announcements));
+
+                    if (titleEl) titleEl["value"] = '';
+                    if (bodyEl) bodyEl["value"] = '';
+                    renderAnnouncements();
+                    alert('Announcement published successfully.');
+                });
+            }
+
+            document.getElementById('noticeDeptFilter').addEventListener('change', renderAnnouncements);
+
+            document.getElementById('adminLogoutBtn').addEventListener('click', function () {
+                sessionStorage.removeItem('cb_admin_session');
+                sessionStorage.removeItem('campus_bazaar_token');
+                window.location.href = 'admin-login.html';
+            });
+
+            renderAnnouncements();
+        })();
+    </script>
+</body>
+</html>

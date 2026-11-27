@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resource Details | Campus Bazaar</title>
 
-    <link rel="stylesheet" href="css/style.css">
-
     <style>
         :root {
             --blue: #153e63;
@@ -27,7 +25,12 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             font-family: Arial, Helvetica, sans-serif;
             color: var(--text);
             background: var(--grey);
@@ -41,13 +44,14 @@
             color: inherit;
         }
 
-        button, input, textarea {
+        button, input, textarea, select {
             font: inherit;
         }
 
         .container {
             width: min(1150px, 92%);
-            margin: auto;
+            max-width: 1150px;
+            margin: 0 auto;
         }
 
         /* NAVIGATION BAR */
@@ -58,6 +62,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            width: 100%;
         }
 
         .nav-content {
@@ -162,6 +167,7 @@
         .details-layout {
             padding: 35px 0 60px;
             flex: 1;
+            width: 100%;
         }
 
         .back-link {
@@ -209,7 +215,7 @@
             background: var(--yellow);
             color: var(--blue);
             font-weight: 900;
-            font-size: 15px;
+            font-size: 14px;
             border-radius: 12px;
             display: grid;
             place-items: center;
@@ -223,7 +229,7 @@
             color: var(--blue);
             font-weight: 800;
             line-height: 1.3;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .meta-tags {
@@ -241,25 +247,31 @@
             border-radius: 6px;
         }
 
+        .tag-yellow {
+            background: #fff9db;
+            color: #78350f;
+            border: 1px solid var(--yellow);
+        }
+
         /* PREVIEW BOX */
 
         .preview-box {
             background: var(--grey);
             border: 1px solid var(--border);
             border-radius: 10px;
-            height: 300px;
+            min-height: 240px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
+            padding: 24px;
             margin-bottom: 25px;
         }
 
         .preview-icon {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: var(--white);
             border: 2px solid var(--blue);
             border-radius: 10px;
@@ -267,19 +279,21 @@
             place-items: center;
             color: var(--blue);
             font-weight: 800;
+            font-size: 13px;
             margin-bottom: 12px;
         }
 
         .preview-box h3 {
             font-size: 15px;
             color: var(--blue);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .preview-box p {
             font-size: 13px;
             color: var(--muted);
-            max-width: 360px;
+            max-width: 440px;
+            line-height: 1.5;
         }
 
         /* DESCRIPTION & DETAILS */
@@ -295,10 +309,54 @@
             font-size: 14px;
             line-height: 1.7;
             color: var(--text);
-            margin-bottom: 25px;
+            margin-bottom: 10px;
         }
 
-        /* COMMENTS SECTION */
+        /* STAR RATING & COMMENTS SECTION */
+
+        .rating-bar-wrap {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .star-picker {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .star-btn {
+            background: var(--white);
+            border: 1px solid var(--border);
+            color: #94a3b8;
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+            .star-btn.active {
+                background: var(--yellow);
+                border-color: var(--yellow);
+                color: var(--blue);
+                font-weight: 800;
+            }
+
+        .rating-summary-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
 
         .comments-list {
             margin-bottom: 20px;
@@ -316,8 +374,8 @@
             }
 
         .comment-avatar {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--blue);
@@ -338,10 +396,23 @@
             margin-left: 6px;
         }
 
+        .comment-stars {
+            display: inline-block;
+            background: #fff9db;
+            color: #92400e;
+            border: 1px solid var(--yellow);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
         .comment-body p {
             font-size: 13px;
             color: var(--text);
             margin-top: 4px;
+            line-height: 1.45;
         }
 
         .comment-form {
@@ -392,7 +463,7 @@
             font-size: 15px;
             cursor: pointer;
             transition: background 0.2s, transform 0.2s;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -402,6 +473,24 @@
             .btn-download-main:hover {
                 background: var(--yellow-hover);
                 transform: translateY(-2px);
+            }
+
+        .btn-report-issue {
+            width: 100%;
+            height: 38px;
+            background: #fff5f5;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+
+            .btn-report-issue:hover {
+                background: #fee2e2;
             }
 
         .info-list {
@@ -456,6 +545,97 @@
             color: var(--muted);
         }
 
+        /* REPORT ISSUE MODAL */
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(14, 46, 76, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9995;
+        }
+
+            .modal-backdrop.open {
+                display: flex;
+            }
+
+        .modal-card {
+            background: var(--white);
+            border-top: 4px solid var(--yellow);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 440px;
+            padding: 24px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+        }
+
+            .modal-card h3 {
+                font-size: 18px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .modal-card p {
+                font-size: 13px;
+                color: var(--muted);
+                margin-bottom: 16px;
+            }
+
+        .modal-field {
+            margin-bottom: 14px;
+        }
+
+            .modal-field label {
+                display: block;
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .modal-field select,
+            .modal-field textarea {
+                width: 100%;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 10px 12px;
+                font-size: 13px;
+                outline: none;
+            }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-cancel-modal {
+            background: var(--grey);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-submit-report {
+            background: #b91c1c;
+            color: var(--white);
+            border: none;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
         /* FOOTER */
 
         .footer {
@@ -463,6 +643,7 @@
             color: var(--white);
             padding: 20px 0;
             margin-top: auto;
+            width: 100%;
         }
 
         .footer-bottom {
@@ -531,6 +712,8 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="resources.html" class="active-link">Resources</a>
                 <a href="upload.html">Upload</a>
+                <a href="mentorship.html">Mentorship</a>
+                <a href="profile.html">My Profile</a>
                 <a href="chat.html">Messages</a>
                 <a href="ai-assistant.html">AI Assistant</a>
             </nav>
@@ -538,7 +721,7 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="logoutUser()">Log out</button>
+                <button type="button" class="btn-logout" id="logoutBtn">Log out</button>
             </div>
 
         </div>
@@ -560,13 +743,13 @@
                     <div class="card">
 
                         <div class="resource-header">
-                            <div class="resource-type-tag">PDF</div>
+                            <div class="resource-type-tag" id="resTypeTag">PDF</div>
                             <div class="resource-title-area">
-                                <h1>Data Structures & Algorithms Lecture Notes</h1>
+                                <h1 id="resTitle">Data Structures &amp; Algorithms Midterm Notes</h1>
                                 <div class="meta-tags">
-                                    <span class="tag">Course: CS-201</span>
-                                    <span class="tag">Computer Science</span>
-                                    <span class="tag">Midterm Syllabus</span>
+                                    <span class="tag" id="resCourseTag">Course: CS-201</span>
+                                    <span class="tag" id="resDeptTag">AC — Applied Computing</span>
+                                    <span class="tag tag-yellow" id="resCatTag">PDFs</span>
                                 </div>
                             </div>
                         </div>
@@ -574,51 +757,62 @@
                         <!-- DOCUMENT PREVIEW AREA -->
 
                         <div class="preview-box">
-                            <div class="preview-icon">PDF</div>
-                            <h3>Document Preview</h3>
-                            <p>This PDF covers Linked Lists, Stacks, Queues, Recursion, and Binary Search Trees with code snippets.</p>
+                            <div class="preview-icon" id="previewIcon">PDF</div>
+                            <h3>Verified Text-Based Document (&lt; 1 MB)</h3>
+                            <p id="previewSummary">This text-based document covers Linked Lists, Stacks, Queues, Recursion, and Binary Search Trees with clean code examples.</p>
                         </div>
 
                         <h2 class="section-heading">Resource Overview</h2>
-                        <p class="description-text">
-                            These comprehensive study notes were compiled for the CS-201 midterm examination.
-                            The material includes step-by-step pointers diagrams for single and double linked lists,
+                        <p class="description-text" id="resDescription">
+                            These transcribed study notes were compiled for the CS-201 midterm examination.
+                            The material includes step-by-step pointer diagrams for singly and doubly linked lists,
                             stack implementation using arrays, queue overflow conditions, and practice problems
-                            with time complexity analyses ($O(1)$, $O(n)$, $O(\log n)$).
+                            with time complexity analyses (O(1), O(n), O(log n)).
                         </p>
 
                     </div>
 
-                    <!-- COMMENTS / DISCUSSION SECTION -->
+                    <!-- RATING & COMMENTS / DISCUSSION SECTION -->
 
                     <div class="card">
-                        <h2 class="section-heading">Student Discussion & Feedback</h2>
+                        <h2 class="section-heading">Student Rating &amp; Feedback</h2>
+
+                        <div class="rating-bar-wrap">
+                            <div class="star-picker" id="starPicker" aria-label="Rate this resource from 1 to 5 stars">
+                                <button type="button" class="star-btn active" data-star="1">&#9733;</button>
+                                <button type="button" class="star-btn active" data-star="2">&#9733;</button>
+                                <button type="button" class="star-btn active" data-star="3">&#9733;</button>
+                                <button type="button" class="star-btn active" data-star="4">&#9733;</button>
+                                <button type="button" class="star-btn active" data-star="5">&#9733;</button>
+                            </div>
+                            <span class="rating-summary-text" id="ratingSummary">4.8 / 5.0 (24 ratings)</span>
+                        </div>
 
                         <div class="comments-list" id="commentsList">
 
                             <div class="comment-item">
                                 <img src="assets/female.jpg" alt="Student" class="comment-avatar">
                                 <div class="comment-body">
-                                    <h4>Ayesha Khan <span>• 1 day ago</span></h4>
-                                    <p>The recursion diagrams on page 12 were super helpful for understanding the call stack during midterm prep!</p>
+                                    <h4>Ayesha Khan <span class="comment-stars">&#9733; 5/5</span><span>&bull; 1 day ago</span></h4>
+                                    <p>The recursion trace diagrams were super helpful for understanding the call stack during midterm prep!</p>
                                 </div>
                             </div>
 
                             <div class="comment-item">
                                 <img src="assets/male.jpg" alt="Student" class="comment-avatar">
                                 <div class="comment-body">
-                                    <h4>Hamza Ahmed <span>• 2 days ago</span></h4>
-                                    <p>Thanks for sharing! Does this cover AVL tree rotation code as well?</p>
+                                    <h4>Hamza Ahmed <span class="comment-stars">&#9733; 5/5</span><span>&bull; 2 days ago</span></h4>
+                                    <p>Clean text formatting and under 1 MB so it downloaded immediately on mobile data.</p>
                                 </div>
                             </div>
 
                         </div>
 
-                        <!-- ADD COMMENT FORM -->
+                        <!-- ADD COMMENT & RATING FORM -->
 
-                        <form class="comment-form" onsubmit="addComment(event)">
-                            <input type="text" id="commentInput" class="comment-input" placeholder="Ask a question or leave feedback..." required>
-                            <button type="submit" class="btn-comment">Post</button>
+                        <form class="comment-form" id="feedbackForm">
+                            <input type="text" id="commentInput" class="comment-input" placeholder="Share feedback or ask a question about this resource..." required>
+                            <button type="submit" class="btn-comment">Post Review</button>
                         </form>
                     </div>
 
@@ -630,37 +824,41 @@
 
                     <div class="card action-card">
 
-                        <button class="btn-download-main" onclick="downloadFile()">
-                            ↓ Download Resource
+                        <button type="button" class="btn-download-main" id="downloadMainBtn">
+                            &darr; Download Document
+                        </button>
+
+                        <button type="button" class="btn-report-issue" id="openReportModalBtn">
+                            Report Issue / Flag Content
                         </button>
 
                         <div class="info-list">
                             <div class="info-row">
                                 <span>File Format</span>
-                                <strong>PDF Document</strong>
+                                <strong id="metaFormat">Text-Based PDF (.pdf)</strong>
                             </div>
 
                             <div class="info-row">
                                 <span>File Size</span>
-                                <strong>4.2 MB</strong>
+                                <strong id="metaSize">420 KB (&lt; 1 MB)</strong>
                             </div>
 
                             <div class="info-row">
                                 <span>Total Downloads</span>
-                                <strong>148 times</strong>
+                                <strong id="metaDownloads">148 times</strong>
                             </div>
 
                             <div class="info-row">
                                 <span>Uploaded On</span>
-                                <strong>October 20, 2026</strong>
+                                <strong id="metaDate">November 16, 2026</strong>
                             </div>
                         </div>
 
                         <div class="uploader-box">
-                            <img src="assets/male m.jpg" alt="Uploader" class="uploader-avatar-large">
+                            <img src="assets/female.jpg" alt="Student Uploader" class="uploader-avatar-large" id="uploaderAvatar">
                             <div class="uploader-text">
-                                <h4>Dr. Alex Vance</h4>
-                                <p>Faculty • CS Dept</p>
+                                <h4 id="uploaderName">Ayesha Khan</h4>
+                                <p id="uploaderDept">Student &bull; AC Dept (2024-AC-12)</p>
                             </div>
                         </div>
 
@@ -673,6 +871,37 @@
         </div>
     </main>
 
+    <!-- REPORT ISSUE / CONTENT FLAG MODAL -->
+
+    <div class="modal-backdrop" id="reportModal">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+            <h3 id="reportModalTitle">Report Issue or Policy Violation</h3>
+            <p>Help keep Campus Bazaar clean and strictly text-based.</p>
+
+            <form id="reportForm">
+                <div class="modal-field">
+                    <label for="reportReason">Issue Category</label>
+                    <select id="reportReason" required>
+                        <option value="scanned_image">Unreadable / Image-Heavy / Scanned File</option>
+                        <option value="corrupted_file">Corrupted or Blank Document</option>
+                        <option value="wrong_department">Wrong Department or Course Code</option>
+                        <option value="inappropriate">Inappropriate or Plagiarized Content</option>
+                    </select>
+                </div>
+
+                <div class="modal-field">
+                    <label for="reportNotes">Additional Details</label>
+                    <textarea id="reportNotes" rows="3" placeholder="Briefly describe the issue..." required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel-modal" id="cancelReportBtn">Cancel</button>
+                    <button type="submit" class="btn-submit-report">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- FOOTER -->
 
     <footer class="footer">
@@ -680,33 +909,254 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
+
     <script src="js/config.js"></script>
-    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                        (function () {
-                            // Mobile navigation toggle
-                            const menuToggle = document.getElementById("menuToggle");
-                            const navLinks = document.getElementById("navLinks");
+                (function () {
+                    const deptLabels = {
+                        DS: 'DS — Data Science',
+                        SE: 'SE — Software Engineering',
+                        BDA: 'BDA — Business Data Analytics',
+                        AC: 'AC — Applied Computing'
+                    };
 
-                            if (menuToggle && navLinks) {
-                                menuToggle.addEventListener("click", function () {
-                                    navLinks.classList.toggle("active");
-                                    const isOpen = navLinks.classList.contains("active");
-                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
-                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
-                                });
-                            }
-                        })();
-
-                        // Handle Download Action
-                        function downloadFile() {
-                            alert("Starting download for Data Structures & Algorithms Lecture Notes (PDF)...");
+                    const fallbackCatalog = {
+                        "1": {
+                            id: 1,
+                            title: "Data Structures & Algorithms Midterm Notes",
+                            courseCode: "CS-201",
+                            department: "AC",
+                            category: "PDFs",
+                            fileType: "pdf",
+                            sizeKb: 420,
+                            downloads: 148,
+                            uploadedDate: "November 16, 2026",
+                            uploaderName: "Ayesha Khan",
+                            uploaderRole: "Student • AC Dept (2024-AC-12)",
+                            uploaderAvatar: "assets/female.jpg",
+                            description: "Transcribed mid-term preparation notes covering Linked Lists, Stacks, Queues, Recursion, and Binary Search Trees with complexity analyses."
+                        },
+                        "2": {
+                            id: 2,
+                            title: "Database Systems SQL Lab Manual",
+                            courseCode: "DS-302",
+                            department: "DS",
+                            category: "Manuals",
+                            fileType: "docx",
+                            sizeKb: 315,
+                            downloads: 96,
+                            uploadedDate: "November 14, 2026",
+                            uploaderName: "Wajeeha",
+                            uploaderRole: "Student • DS Dept (2025-DS-04)",
+                            uploaderAvatar: "assets/female.jpg",
+                            description: "Hands-on SQL query manual featuring relational joins, aggregate functions, and 3NF normalization exercises."
+                        },
+                        "3": {
+                            id: 3,
+                            title: "Software Process Models & Agile Slides",
+                            courseCode: "SE-104",
+                            department: "SE",
+                            category: "Books",
+                            fileType: "pptx",
+                            sizeKb: 780,
+                            downloads: 112,
+                            uploadedDate: "November 11, 2026",
+                            uploaderName: "Hamza Ahmed",
+                            uploaderRole: "Student • SE Dept (2024-SE-19)",
+                            uploaderAvatar: "assets/male.jpg",
+                            description: "Lecture slide deck explaining Waterfall, V-Model, Spiral, Scrum, and Agile software development life cycles."
+                        },
+                        "4": {
+                            id: 4,
+                            title: "Business Predictive Analytics Past Paper 2025",
+                            courseCode: "BDA-210",
+                            department: "BDA",
+                            category: "Past Papers",
+                            fileType: "pdf",
+                            sizeKb: 260,
+                            downloads: 84,
+                            uploadedDate: "November 9, 2026",
+                            uploaderName: "Zainab Tariq",
+                            uploaderRole: "Student • BDA Dept (2024-BDA-08)",
+                            uploaderAvatar: "assets/female.jpg",
+                            description: "Solved past paper covering time-series forecasting, regression diagnostics, and business KPI modeling."
+                        },
+                        "5": {
+                            id: 5,
+                            title: "Capstone SRS & UML Architecture Project",
+                            courseCode: "SE-305",
+                            department: "SE",
+                            category: "Projects",
+                            fileType: "docx",
+                            sizeKb: 540,
+                            downloads: 67,
+                            uploadedDate: "November 5, 2026",
+                            uploaderName: "Bilal Raza",
+                            uploaderRole: "Student • SE Dept (2023-SE-27)",
+                            uploaderAvatar: "assets/male.jpg",
+                            description: "Complete Software Requirements Specification template with functional specs and UML system workflows."
+                        },
+                        "6": {
+                            id: 6,
+                            title: "Inferential Statistics & Probability Quiz Bank",
+                            courseCode: "DS-208",
+                            department: "DS",
+                            category: "Quizzes",
+                            fileType: "pdf",
+                            sizeKb: 195,
+                            downloads: 131,
+                            uploadedDate: "November 2, 2026",
+                            uploaderName: "Wajeeha",
+                            uploaderRole: "Student • DS Dept (2025-DS-04)",
+                            uploaderAvatar: "assets/female.jpg",
+                            description: "Solved MCQ and calculation practice quiz bank on confidence intervals, variance, and hypothesis testing."
                         }
+                    };
 
-                        // Add New Comment
-                        function addComment(event) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const resourceId = urlParams.get('id') || '1';
+                    let activeResource = fallbackCatalog[resourceId] || fallbackCatalog["1"];
+                    let selectedStars = 5;
+
+                    const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                        ? APP_CONFIG.API_BASE_URL
+                        : 'http://localhost:5195';
+
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
+
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
+
+                    // Load active user profile
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                    if (userData) {
+                        const navName = document.getElementById('navName');
+                        const navAvatar = document.getElementById('navAvatar');
+                        if (navName) navName.textContent = userData.name || userData.regNo || 'Student';
+                        if (navAvatar && userData.avatar) navAvatar.setAttribute('src', userData.avatar);
+                    }
+
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function () {
+                            localStorage.removeItem('currentUser');
+                            sessionStorage.removeItem('campus_bazaar_token');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
+
+                    function renderResourceDetails(res) {
+                        const ext = String(res.fileType || 'pdf').toUpperCase();
+                        const deptText = deptLabels[res.department] || res.department || 'DS — Data Science';
+
+                        document.getElementById('resTypeTag').textContent = ext;
+                        document.getElementById('previewIcon').textContent = ext;
+                        document.getElementById('resTitle').textContent = res.title;
+                        document.getElementById('resCourseTag').textContent = `Course: ${res.courseCode}`;
+                        document.getElementById('resDeptTag').textContent = deptText;
+                        document.getElementById('resCatTag').textContent = res.category || 'PDFs';
+                        document.getElementById('previewSummary').textContent = res.description;
+                        document.getElementById('resDescription').textContent = res.description;
+                        document.getElementById('metaFormat').textContent = `Text-Based ${ext} (.${ext.toLowerCase()})`;
+                        document.getElementById('metaSize').textContent = `${res.sizeKb || 420} KB (< 1 MB)`;
+                        document.getElementById('metaDownloads').textContent = `${res.downloads || 148} times`;
+                        document.getElementById('metaDate').textContent = res.uploadedDate || 'November 16, 2026';
+                        document.getElementById('uploaderName').textContent = res.uploaderName || 'Student Uploader';
+                        document.getElementById('uploaderDept').textContent = res.uploaderRole || `Student • ${res.department} Dept`;
+
+                        const uploaderAvatarEl = document.getElementById('uploaderAvatar');
+                        if (uploaderAvatarEl) {
+                            uploaderAvatarEl.setAttribute('src', res.uploaderAvatar || 'assets/female.jpg');
+                        }
+                    }
+
+                    async function fetchResourceById() {
+                        try {
+                            const response = await fetch(`${baseUrl}/api/resources/${encodeURIComponent(resourceId)}`);
+                            if (!response.ok) throw new Error('Resource API offline');
+                            const data = await response.json();
+                            activeResource = Object.assign({}, activeResource, data);
+                        } catch (e) {
+                            // Use fallback record when backend is offline
+                        }
+                        renderResourceDetails(activeResource);
+                    }
+
+                    // Real file download handler (GET /api/resources/{id}/download)
+                    const downloadMainBtn = document.getElementById('downloadMainBtn');
+                    if (downloadMainBtn) {
+                        downloadMainBtn.addEventListener('click', async function () {
+                            const ext = String(activeResource.fileType || 'pdf').toLowerCase();
+                            const safeFilename = `${activeResource.courseCode || 'CB'}_${activeResource.title.replace(/[^a-z0-9]/gi, '_')}.${ext}`;
+
+                            try {
+                                const token = sessionStorage.getItem('campus_bazaar_token');
+                                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                                const response = await fetch(`${baseUrl}/api/resources/${encodeURIComponent(resourceId)}/download`, { headers });
+
+                                if (!response.ok) throw new Error('Download stream unavailable');
+
+                                const blob = await response.blob();
+                                const blobUrl = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = blobUrl;
+                                link.download = safeFilename;
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                                URL.revokeObjectURL(blobUrl);
+                            } catch (err) {
+                                // Fallback text summary download when backend server is offline
+                                const content = `CAMPUS BAZAAR VERIFIED STUDY DOCUMENT\nTitle: ${activeResource.title}\nCourse: ${activeResource.courseCode}\nDepartment: ${activeResource.department}\nUploaded By: ${activeResource.uploaderName}\n\nSummary:\n${activeResource.description}`;
+                                const fallbackBlob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                                const fallbackUrl = URL.createObjectURL(fallbackBlob);
+                                const link = document.createElement('a');
+                                link.href = fallbackUrl;
+                                link.download = `${activeResource.courseCode || 'Study_Notes'}_Summary.txt`;
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                                URL.revokeObjectURL(fallbackUrl);
+                            }
+
+                            activeResource.downloads = (Number(activeResource.downloads) || 0) + 1;
+                            document.getElementById('metaDownloads').textContent = `${activeResource.downloads} times`;
+                        });
+                    }
+
+                    // Interactive 1-5 Star Rating Picker
+                    const starButtons = document.querySelectorAll('.star-btn');
+                    starButtons.forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            selectedStars = Number(btn.getAttribute('data-star')) || 5;
+                            starButtons.forEach(b => {
+                                const val = Number(b.getAttribute('data-star'));
+                                if (val <= selectedStars) {
+                                    b.classList.add('active');
+                                } else {
+                                    b.classList.remove('active');
+                                }
+                            });
+                        });
+                    });
+
+                    // Submit Star Rating & Comment (POST /api/resources/{id}/rate)
+                    const feedbackForm = document.getElementById('feedbackForm');
+                    if (feedbackForm) {
+                        feedbackForm.addEventListener('submit', async function (event) {
                             event.preventDefault();
                             const input = document.getElementById('commentInput');
                             const commentsList = document.getElementById('commentsList');
@@ -715,49 +1165,107 @@
                             const commentText = String(input['value'] || '').trim();
                             if (!commentText) return;
 
-                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                             JSON.parse(localStorage.getItem('currentUser') || 'null') ||
-                                             { name: 'You', avatar: 'assets/male.jpg' };
+                            const reviewerName = (userData && (userData.name || userData.regNo)) ? (userData.name || userData.regNo) : 'Student';
+                            const reviewerAvatar = (userData && userData.avatar) ? userData.avatar : 'assets/male.jpg';
+
+                            try {
+                                const token = sessionStorage.getItem('campus_bazaar_token');
+                                const headers = { 'Content-Type': 'application/json' };
+                                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                                await fetch(`${baseUrl}/api/resources/${encodeURIComponent(resourceId)}/rate`, {
+                                    method: 'POST',
+                                    headers: headers,
+                                    body: JSON.stringify({ rating: selectedStars, comment: commentText })
+                                });
+                            } catch (e) {
+                                // Render locally even if backend is offline
+                            }
 
                             const newComment = document.createElement('div');
                             newComment.className = 'comment-item';
-                            newComment.innerHTML = `
-                                <img src="${userData.avatar || 'assets/male.jpg'}" alt="User" class="comment-avatar">
-                                <div class="comment-body">
-                                    <h4>${userData.name || 'You'} <span>• Just now</span></h4>
-                                    <p>${commentText}</p>
-                                </div>
-                            `;
+
+                            const img = document.createElement('img');
+                            img.src = reviewerAvatar;
+                            img.alt = 'User';
+                            img.className = 'comment-avatar';
+
+                            const body = document.createElement('div');
+                            body.className = 'comment-body';
+
+                            const h4 = document.createElement('h4');
+                            h4.textContent = reviewerName + ' ';
+
+                            const starBadge = document.createElement('span');
+                            starBadge.className = 'comment-stars';
+                            starBadge.textContent = `★ ${selectedStars}/5`;
+
+                            const timeSpan = document.createElement('span');
+                            timeSpan.textContent = '• Just now';
+
+                            const p = document.createElement('p');
+                            p.textContent = commentText;
+
+                            h4.appendChild(starBadge);
+                            h4.appendChild(timeSpan);
+                            body.appendChild(h4);
+                            body.appendChild(p);
+                            newComment.appendChild(img);
+                            newComment.appendChild(body);
 
                             commentsList.appendChild(newComment);
                             input['value'] = '';
-                        }
+                        });
+                    }
 
-                        // Load active user profile state from localStorage
-                        function loadUserProfile() {
-                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
+                    // Report Issue Modal Logic (POST /api/resources/{id}/report)
+                    const reportModal = document.getElementById('reportModal');
+                    const openReportModalBtn = document.getElementById('openReportModalBtn');
+                    const cancelReportBtn = document.getElementById('cancelReportBtn');
+                    const reportForm = document.getElementById('reportForm');
 
-                            const navName = document.getElementById('navName');
-                            const navAvatar = document.getElementById('navAvatar');
+                    if (openReportModalBtn && reportModal) {
+                        openReportModalBtn.addEventListener('click', function () {
+                            reportModal.classList.add('open');
+                        });
+                    }
 
-                            if (userData) {
-                                if (navName) {
-                                    navName.textContent = userData.name || userData.regNo || 'User';
-                                }
-                                if (navAvatar && userData.avatar) {
-                                    navAvatar.setAttribute('src', userData.avatar);
-                                }
+                    if (cancelReportBtn && reportModal) {
+                        cancelReportBtn.addEventListener('click', function () {
+                            reportModal.classList.remove('open');
+                        });
+                    }
+
+                    if (reportForm && reportModal) {
+                        reportForm.addEventListener('submit', async function (e) {
+                            e.preventDefault();
+                            const reasonEl = document.getElementById('reportReason');
+                            const notesEl = document.getElementById('reportNotes');
+                            const reason = reasonEl ? String(reasonEl['value'] || '') : 'other';
+                            const details = notesEl ? String(notesEl['value'] || '').trim() : '';
+
+                            try {
+                                const token = sessionStorage.getItem('campus_bazaar_token');
+                                const headers = { 'Content-Type': 'application/json' };
+                                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                                await fetch(`${baseUrl}/api/resources/${encodeURIComponent(resourceId)}/report`, {
+                                    method: 'POST',
+                                    headers: headers,
+                                    body: JSON.stringify({ reason: reason, details: details })
+                                });
+                            } catch (err) {
+                                // Acknowledge report locally if backend is offline
                             }
-                        }
 
-                        function logoutUser() {
-                            localStorage.removeItem('currentUser');
-                            alert('You have logged out.');
-                            window.location.href = 'login.html';
-                        }
+                            if (notesEl) notesEl['value'] = '';
+                            reportModal.classList.remove('open');
+                            alert('Thank you. Your report has been submitted to the Campus Bazaar moderation team.');
+                        });
+                    }
 
-                        loadUserProfile();
+                    fetchResourceById();
+                })();
     </script>
 </body>
 </html>

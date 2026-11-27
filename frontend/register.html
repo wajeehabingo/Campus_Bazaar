@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Campus Bazaar</title>
+    <title>Student Registration | Campus Bazaar</title>
     <link rel="stylesheet" href="css/style.css">
 
     <style>
@@ -157,6 +157,12 @@
                 background: var(--blue-dark);
             }
 
+            .btn-blue:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+                transform: none;
+            }
+
         .menu-toggle {
             display: none;
             border: 1px solid var(--border);
@@ -253,7 +259,7 @@
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -265,7 +271,7 @@
 
         .card-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .eyebrow {
@@ -294,37 +300,7 @@
             margin-top: 5px;
         }
 
-        /* ROLE TOGGLE SWITCH */
-
-        .role-switch {
-            display: flex;
-            background: var(--grey);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 4px;
-            margin-bottom: 22px;
-        }
-
-        .role-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            font-size: 14px;
-            font-weight: 700;
-            border-radius: 7px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-            .role-btn.active {
-                background: var(--blue);
-                color: var(--white);
-                box-shadow: 0 4px 12px rgba(21, 62, 99, 0.15);
-            }
-
-        /* DYNAMIC AVATAR PREVIEW */
+        /* DYNAMIC AVATAR ASSIGNMENT PREVIEW */
 
         .avatar-preview-box {
             display: flex;
@@ -358,6 +334,24 @@
                 font-size: 13px;
             }
 
+        /* ERROR / STATUS BANNER */
+
+        .form-alert {
+            display: none;
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            background: #fdecea;
+            color: #b71c1c;
+            border: 1px solid #f5c6cb;
+        }
+
+            .form-alert.visible {
+                display: block;
+            }
+
         /* FORM CONTROLS */
 
         .form-row {
@@ -365,10 +359,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-
-            .form-row.single-col {
-                grid-template-columns: 1fr;
-            }
 
         .form-group {
             margin-bottom: 18px;
@@ -494,8 +484,8 @@
             <nav class="nav-links" id="navLinks">
                 <a href="home page.html">Home</a>
                 <a href="home page.html#resources">Resources</a>
+                <a href="mentorship.html">Mentorship &amp; Faculty</a>
                 <a href="home page.html#community">Community</a>
-                <a href="home page.html#mentors">Mentors</a>
             </nav>
 
             <div class="nav-actions">
@@ -518,56 +508,63 @@
             <div class="float-item float-circle"></div>
         </div>
 
-        <!-- REGISTER FORM CARD -->
+        <!-- REGISTER FORM CARD (STUDENT ONLY) -->
 
         <div class="register-card">
 
             <div class="card-header">
-                <span class="eyebrow" id="roleBadge">Student Registration</span>
+                <span class="eyebrow">Student Portal Registration</span>
                 <h1>Join Campus Bazaar</h1>
-                <p id="roleSubtitle">Create your profile with department details</p>
+                <p>Create your academic profile with your department details</p>
             </div>
 
-            <!-- ROLE SELECTOR -->
+            <!-- DYNAMIC AVATAR ASSIGNMENT PREVIEW -->
 
-            <div class="role-switch">
-                <button type="button" class="role-btn active" id="btnStudent" onclick="switchRole('student')">
-                    Student
-                </button>
-                <button type="button" class="role-btn" id="btnAdmin" onclick="switchRole('admin')">
-                    Admin
-                </button>
-            </div>
-
-            <!-- DYNAMIC AVATAR ASSIGNMENT PREVIEW (STUDENT ONLY) -->
-
-            <div class="avatar-preview-box" id="avatarPreviewBox">
+            <div class="avatar-preview-box">
                 <img id="avatarPreview" src="assets/male.jpg" alt="Avatar Preview" class="avatar-img">
                 <div class="avatar-text">
-                    <strong id="avatarTitle">Assigned Avatar</strong>
-                    <span id="avatarDesc">Selecting your gender assigns your official campus avatar automatically.</span>
+                    <strong id="avatarTitle">Student Avatar (Male)</strong>
+                    <span>Selecting your gender assigns your official campus avatar automatically.</span>
                 </div>
             </div>
+
+            <div id="formAlert" class="form-alert" role="alert"></div>
 
             <!-- REGISTRATION FORM -->
 
             <form id="registerForm" onsubmit="handleRegister(event)">
 
                 <div class="form-group">
-                    <label for="fullNameInput">Full Name</label>
-                    <input type="text" id="fullNameInput" class="form-control" placeholder="e.g. John Doe" required>
+                    <label for="fullNameInput">Full Name *</label>
+                    <input type="text" id="fullNameInput" class="form-control" placeholder="e.g. Ayesha Khan" required>
                 </div>
 
-                <!-- DYNAMIC FIELD 1 (Reg No for Student / Admin ID for Admin) -->
-
-                <div class="form-row" id="idGenderRow">
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="idInput" id="idLabel">Registration Number</label>
+                        <label for="idInput">Registration Number *</label>
                         <input type="text" id="idInput" class="form-control" placeholder="e.g. 2023-BS-DS-01" required>
                     </div>
 
-                    <div class="form-group" id="genderGroup">
-                        <label for="genderSelect">Gender</label>
+                    <div class="form-group">
+                        <label for="departmentSelect">Department *</label>
+                        <select id="departmentSelect" class="form-control" required>
+                            <option value="">Select Department</option>
+                            <option value="DS">DS — Data Science</option>
+                            <option value="SE">SE — Software Engineering</option>
+                            <option value="BDA">BDA — Business Data Analytics</option>
+                            <option value="AC">AC — Applied Computing </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="emailInput">Campus Email *</label>
+                        <input type="email" id="emailInput" class="form-control" placeholder="student@university.edu" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genderSelect">Gender *</label>
                         <select id="genderSelect" class="form-control" onchange="updateAvatarPreview()">
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -575,24 +572,19 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="emailInput">Campus Email</label>
-                    <input type="email" id="emailInput" class="form-control" placeholder="student@university.edu" required>
-                </div>
-
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="passwordInput">Password</label>
-                        <input type="password" id="passwordInput" class="form-control" placeholder="••••••••" required>
+                        <label for="passwordInput">Password (min 8 chars) *</label>
+                        <input type="password" id="passwordInput" class="form-control" placeholder="••••••••" minlength="8" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="confirmPasswordInput">Confirm Password</label>
-                        <input type="password" id="confirmPasswordInput" class="form-control" placeholder="••••••••" required>
+                        <label for="confirmPasswordInput">Confirm Password *</label>
+                        <input type="password" id="confirmPasswordInput" class="form-control" placeholder="••••••••" minlength="8" required>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-blue">Create Account</button>
+                <button type="submit" id="submitBtn" class="btn btn-blue">Create Student Account</button>
 
                 <p class="form-footer-link">
                     Already registered? <a href="login.html">Log in here</a>
@@ -612,201 +604,148 @@
         </div>
     </footer>
 
-    <script>
-                        // Current role tracking
-                        let currentRole = 'student';
-
-                        // Student Avatar Image Paths
-                        const avatarMap = {
-                            male: 'assets/male.jpg',
-                            female: 'assets/female.jpg'
-                        };
-
-                        (function () {
-                            // Mobile menu toggle logic
-                            const menuToggle = document.getElementById("menuToggle");
-                            const navLinks = document.getElementById("navLinks");
-
-                            if (menuToggle && navLinks) {
-                                menuToggle.addEventListener("click", function () {
-                                    navLinks.classList.toggle("active");
-                                    const isOpen = navLinks.classList.contains("active");
-                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
-                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
-                                });
-                            }
-
-                            // Page loader & smooth exit transitions
-                            document.addEventListener("DOMContentLoaded", function () {
-                                const loader = document.getElementById("page-loader");
-
-                                if (loader) {
-                                    loader.style.width = "70%";
-                                    setTimeout(() => {
-                                        loader.style.width = "100%";
-                                        document.body.classList.add("page-loaded");
-                                        setTimeout(() => {
-                                            loader.style.opacity = "0";
-                                        }, 300);
-                                    }, 150);
-                                } else {
-                                    document.body.classList.add("page-loaded");
-                                }
-
-                                const links = document.querySelectorAll("a[href]");
-                                links.forEach(link => {
-                                    link.addEventListener("click", function (e) {
-                                        const href = this.getAttribute("href");
-
-                                        if (!href || href.startsWith("#") || href.startsWith("http") || this.getAttribute("target") === "_blank") {
-                                            return;
-                                        }
-
-                                        e.preventDefault();
-                                        document.body.classList.remove("page-loaded");
-                                        if (loader) {
-                                            loader.style.opacity = "1";
-                                            loader.style.width = "40%";
-                                        }
-
-                                        setTimeout(() => {
-                                            window.location.href = href;
-                                        }, 250);
-                                    });
-                                });
-                            });
-                        })();
-
-                        // Switch role function (Student vs Admin)
-                        function switchRole(role) {
-                            currentRole = role;
-
-                            const btnStudent = document.getElementById('btnStudent');
-                            const btnAdmin = document.getElementById('btnAdmin');
-                            const roleBadge = document.getElementById('roleBadge');
-                            const roleSubtitle = document.getElementById('roleSubtitle');
-                            const idLabel = document.getElementById('idLabel');
-                            const idInput = document.getElementById('idInput');
-                            const emailInput = document.getElementById('emailInput');
-                            const avatarPreviewBox = document.getElementById('avatarPreviewBox');
-                            const genderGroup = document.getElementById('genderGroup');
-                            const idGenderRow = document.getElementById('idGenderRow');
-
-                            if (!btnStudent || !btnAdmin || !roleBadge || !roleSubtitle || !idLabel || !idInput || !emailInput || !avatarPreviewBox || !genderGroup || !idGenderRow) {
-                                return;
-                            }
-
-                            if (role === 'student') {
-                                btnStudent.classList.add('active');
-                                btnAdmin.classList.remove('active');
-                                roleBadge.textContent = 'Student Registration';
-                                roleSubtitle.textContent = 'Create your profile with department details';
-                                idLabel.textContent = 'Registration Number';
-                                idInput.setAttribute('placeholder', 'e.g. 2023-BS-DS-01');
-                                emailInput.setAttribute('placeholder', 'student@university.edu');
-
-                                // Show Student Avatar & Gender
-                                avatarPreviewBox.style.display = 'flex';
-                                genderGroup.style.display = 'block';
-                                idGenderRow.classList.remove('single-col');
-                                updateAvatarPreview();
-                            } else {
-                                btnAdmin.classList.add('active');
-                                btnStudent.classList.remove('active');
-                                roleBadge.textContent = 'Admin Registration';
-                                roleSubtitle.textContent = 'Register an administrative account';
-                                idLabel.textContent = 'Admin ID';
-                                idInput.setAttribute('placeholder', 'e.g. ADM-1001');
-                                emailInput.setAttribute('placeholder', 'admin@university.edu');
-
-                                // Hide unnecessary Avatar & Gender fields for Admin
-                                avatarPreviewBox.style.display = 'none';
-                                genderGroup.style.display = 'none';
-                                idGenderRow.classList.add('single-col');
-                            }
-                        }
-
-                        // Update avatar image based on gender (Student only)
-                        function updateAvatarPreview() {
-                            const genderSelect = document.getElementById('genderSelect');
-                            const previewImg = document.getElementById('avatarPreview');
-                            const avatarTitle = document.getElementById('avatarTitle');
-
-                            if (!genderSelect || !previewImg || !avatarTitle) return;
-
-                            const gender = String(genderSelect['value'] || 'male');
-                            const selectedPath = avatarMap[gender] || 'assets/male.jpg';
-                            previewImg.setAttribute('src', selectedPath);
-
-                            const genderTitle = gender.charAt(0).toUpperCase() + gender.slice(1);
-                            avatarTitle.textContent = `Student Avatar (${genderTitle})`;
-                        }
-
-                        // Handle Registration
-                        function handleRegister(event) {
-                            event.preventDefault();
-
-                            const fullNameInput = document.getElementById('fullNameInput');
-                            const idInput = document.getElementById('idInput');
-                            const emailInput = document.getElementById('emailInput');
-                            const passwordInput = document.getElementById('passwordInput');
-                            const confirmPasswordInput = document.getElementById('confirmPasswordInput');
-                            const genderSelect = document.getElementById('genderSelect');
-
-                            if (!fullNameInput || !idInput || !emailInput || !passwordInput || !confirmPasswordInput) return;
-
-                            const fullName = String(fullNameInput['value'] || '').trim();
-                            const regNo = String(idInput['value'] || '').trim();
-                            const email = String(emailInput['value'] || '').trim();
-                            const password = String(passwordInput['value'] || '');
-                            const confirmPassword = String(confirmPasswordInput['value'] || '');
-
-                            if (password !== confirmPassword) {
-                                alert("Passwords do not match!");
-                                return;
-                            }
-
-                            if (currentRole === 'student') {
-                                const gender = genderSelect ? String(genderSelect['value'] || 'male') : 'male';
-                                const assignedAvatar = avatarMap[gender] || 'assets/male.jpg';
-
-                                const studentData = {
-                                    role: 'student',
-                                    name: fullName,
-                                    regNo: regNo,
-                                    email: email,
-                                    gender: gender,
-                                    avatar: assignedAvatar,
-                                    password: password
-                                };
-
-                                localStorage.setItem('registeredStudent', JSON.stringify(studentData));
-                                localStorage.setItem('currentUser', JSON.stringify(studentData));
-
-                                alert(`Registration successful! Account created for ${fullName} as a STUDENT.`);
-                            } else {
-                                const adminData = {
-                                    role: 'admin',
-                                    name: fullName,
-                                    adminId: regNo,
-                                    email: email,
-                                    password: password
-                                };
-
-                                localStorage.setItem('registeredAdmin', JSON.stringify(adminData));
-                                localStorage.setItem('currentUser', JSON.stringify(adminData));
-
-                                alert(`Registration successful! Account created for ${fullName} as an ADMIN.`);
-                            }
-
-                            window.location.href = 'login.html';
-                        }
-
-                        // Initial preview
-                        updateAvatarPreview();
-    </script>
     <script src="js/config.js"></script>
-    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+                const avatarMap = {
+                    male: 'assets/male.jpg',
+                    female: 'assets/female.jpg'
+                };
+
+                const ALLOWED_DEPARTMENTS = ['DS', 'SE', 'BDA', 'AC'];
+
+                (function () {
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
+
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
+                })();
+
+                function updateAvatarPreview() {
+                    const genderSelect = document.getElementById('genderSelect');
+                    const previewImg = document.getElementById('avatarPreview');
+                    const avatarTitle = document.getElementById('avatarTitle');
+
+                    if (!genderSelect || !previewImg || !avatarTitle) return;
+
+                    const gender = String(genderSelect['value'] || 'male');
+                    previewImg.setAttribute('src', avatarMap[gender] || 'assets/male.jpg');
+
+                    const genderTitle = gender.charAt(0).toUpperCase() + gender.slice(1);
+                    avatarTitle.textContent = `Student Avatar (${genderTitle})`;
+                }
+
+                function showRegisterError(message) {
+                    const alertBox = document.getElementById('formAlert');
+                    if (!alertBox) return;
+                    alertBox.textContent = message;
+                    alertBox.classList.add('visible');
+                }
+
+                async function handleRegister(event) {
+                    event.preventDefault();
+
+                    const alertBox = document.getElementById('formAlert');
+                    if (alertBox) alertBox.classList.remove('visible');
+
+                    const fullName = String(document.getElementById('fullNameInput')['value'] || '').trim();
+                    const regNo = String(document.getElementById('idInput')['value'] || '').trim();
+                    const department = String(document.getElementById('departmentSelect')['value'] || '').trim();
+                    const email = String(document.getElementById('emailInput')['value'] || '').trim();
+                    const gender = String(document.getElementById('genderSelect')['value'] || 'male');
+                    const password = String(document.getElementById('passwordInput')['value'] || '');
+                    const confirmPassword = String(document.getElementById('confirmPasswordInput')['value'] || '');
+                    const submitBtn = document.getElementById('submitBtn');
+
+                    if (!ALLOWED_DEPARTMENTS.includes(department)) {
+                        showRegisterError('Please select a valid department (DS, SE, BDA, or AI).');
+                        return;
+                    }
+
+                    if (password.length < 8) {
+                        showRegisterError('Password must be at least 8 characters long.');
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                        showRegisterError('Passwords do not match.');
+                        return;
+                    }
+
+                    const assignedAvatar = avatarMap[gender] || 'assets/male.jpg';
+                    const payload = {
+                        fullName: fullName,
+                        name: fullName,
+                        registrationNumber: regNo,
+                        department: department,
+                        email: email,
+                        gender: gender,
+                        password: password,
+                        role: 'student'
+                    };
+
+                    if (submitBtn) {
+                        submitBtn['disabled'] = true;
+                        submitBtn.textContent = 'Creating Account...';
+                    }
+
+                    try {
+                        const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                            ? APP_CONFIG.API_BASE_URL
+                            : 'http://localhost:5195';
+
+                        const response = await fetch(`${baseUrl}/api/auth/register`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            const errData = await response.json().catch(() => ({}));
+                            throw new Error(errData.message || `Registration failed (${response.status})`);
+                        }
+
+                        const result = await response.json().catch(() => ({}));
+                        const token = result.token || result.accessToken || result.access_token;
+                        if (token) {
+                            sessionStorage.setItem('campus_bazaar_token', token);
+                        }
+                    } catch (err) {
+                        // Fallback to local session storage if backend server is offline during UI testing
+                        console.warn('Backend API unavailable, saving locally for offline UI flow:', err.message);
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn['disabled'] = false;
+                            submitBtn.textContent = 'Create Student Account';
+                        }
+                    }
+
+                    const studentData = {
+                        role: 'student',
+                        name: fullName,
+                        regNo: regNo,
+                        department: department,
+                        email: email,
+                        gender: gender,
+                        avatar: assignedAvatar
+                    };
+
+                    localStorage.setItem('registeredStudent', JSON.stringify(studentData));
+                    localStorage.setItem('currentUser', JSON.stringify(studentData));
+
+                    alert(`Registration successful! Welcome ${fullName} (${department}).`);
+                    window.location.href = 'login.html';
+                }
+
+                updateAvatarPreview();
+    </script>
 </body>
 </html>

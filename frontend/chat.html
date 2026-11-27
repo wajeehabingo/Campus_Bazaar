@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Messages | Campus Bazaar</title>
 
-    <link rel="stylesheet" href="css/style.css">
-
     <style>
         :root {
             --blue: #153e63;
@@ -27,14 +25,18 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             font-family: Arial, Helvetica, sans-serif;
             color: var(--text);
             background: var(--grey);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         a {
@@ -42,13 +44,14 @@
             color: inherit;
         }
 
-        button, input {
+        button, input, select {
             font: inherit;
         }
 
         .container {
             width: min(1150px, 92%);
-            margin: auto;
+            max-width: 1150px;
+            margin: 0 auto;
         }
 
         /* NAVIGATION BAR */
@@ -59,7 +62,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            flex-shrink: 0;
+            width: 100%;
         }
 
         .nav-content {
@@ -163,21 +166,20 @@
 
         .chat-container {
             flex: 1;
-            padding: 20px 0;
-            display: flex;
-            overflow: hidden;
+            padding: 26px 0 48px;
+            width: 100%;
         }
 
         .chat-card {
             width: 100%;
-            height: 100%;
+            height: 580px;
             background: var(--white);
             border: 1px solid var(--border);
             border-radius: 16px;
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 310px 1fr;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.05);
+            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.06);
         }
 
         /* SIDEBAR / CHANNELS LIST */
@@ -192,12 +194,19 @@
         .sidebar-header {
             padding: 18px 20px;
             border-bottom: 1px solid var(--border);
+            background: var(--white);
         }
 
             .sidebar-header h2 {
                 font-size: 17px;
                 color: var(--blue);
                 font-weight: 800;
+            }
+
+            .sidebar-header span {
+                font-size: 11px;
+                color: var(--muted);
+                font-weight: 600;
             }
 
         .chat-list {
@@ -207,7 +216,7 @@
         }
 
         .chat-item {
-            padding: 14px 20px;
+            padding: 15px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -216,21 +225,25 @@
             transition: background 0.2s;
         }
 
-            .chat-item:hover, .chat-item.active {
+            .chat-item:hover,
+            .chat-item.active {
                 background: var(--blue-light);
             }
 
+            .chat-item.active {
+                border-left: 4px solid var(--blue);
+            }
+
         .group-tag-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             background: var(--yellow);
             color: var(--blue);
-            font-weight: 800;
-            font-size: 13px;
+            font-weight: 900;
+            font-size: 12px;
             border-radius: 10px;
             display: grid;
             place-items: center;
-            border: 1px solid var(--yellow);
             flex-shrink: 0;
         }
 
@@ -247,7 +260,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 190px;
+            max-width: 195px;
         }
 
         /* MAIN CHAT WINDOW */
@@ -256,14 +269,18 @@
             display: flex;
             flex-direction: column;
             background: var(--white);
+            min-width: 0;
+            height: 100%;
         }
 
         .chat-main-header {
-            padding: 16px 25px;
+            padding: 16px 24px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
+            background: var(--white);
         }
 
         .header-title-area h3 {
@@ -277,11 +294,23 @@
             color: var(--muted);
         }
 
+        .mobile-channel-select {
+            display: none;
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--grey);
+        }
+
         /* MESSAGES AREA */
 
         .messages-area {
             flex: 1;
-            padding: 25px;
+            padding: 24px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -292,7 +321,7 @@
         .msg-row {
             display: flex;
             gap: 12px;
-            max-width: 75%;
+            max-width: 76%;
         }
 
             .msg-row.outbound {
@@ -301,8 +330,8 @@
             }
 
         .msg-avatar {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--blue);
@@ -327,7 +356,7 @@
 
         .msg-sender {
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--blue);
             margin-bottom: 4px;
         }
@@ -340,12 +369,13 @@
         .msg-text {
             font-size: 13px;
             line-height: 1.5;
+            word-break: break-word;
         }
 
         .msg-time {
             font-size: 10px;
             color: var(--muted);
-            margin-top: 4px;
+            margin-top: 5px;
             display: block;
         }
 
@@ -357,7 +387,7 @@
         /* CHAT INPUT AREA */
 
         .chat-input-area {
-            padding: 16px 25px;
+            padding: 16px 24px;
             border-top: 1px solid var(--border);
             background: var(--white);
         }
@@ -402,8 +432,9 @@
         .footer {
             background: #202a34;
             color: var(--white);
-            padding: 15px 0;
-            flex-shrink: 0;
+            padding: 16px 0;
+            margin-top: auto;
+            width: 100%;
         }
 
         .footer-bottom {
@@ -413,6 +444,20 @@
         }
 
         /* RESPONSIVE DESIGN */
+
+        @media (max-width: 820px) {
+            .chat-card {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-sidebar {
+                display: none;
+            }
+
+            .mobile-channel-select {
+                display: block;
+            }
+        }
 
         @media (max-width: 760px) {
             .nav-content {
@@ -443,14 +488,6 @@
                     padding: 10px 0;
                     border-top: 1px solid var(--border);
                 }
-
-            .chat-card {
-                grid-template-columns: 1fr;
-            }
-
-            .chat-sidebar {
-                display: none;
-            }
         }
     </style>
 </head>
@@ -466,7 +503,7 @@
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -474,6 +511,8 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="resources.html">Resources</a>
                 <a href="upload.html">Upload</a>
+                <a href="mentorship.html">Mentorship</a>
+                <a href="profile.html">My Profile</a>
                 <a href="chat.html" class="active-link">Messages</a>
                 <a href="ai-assistant.html">AI Assistant</a>
             </nav>
@@ -490,101 +529,85 @@
     <!-- MAIN CHAT INTERFACE -->
 
     <main class="chat-container">
-        <div class="container" style="height: 100%;">
+        <div class="container">
 
             <div class="chat-card">
 
-                <!-- LEFT SIDEBAR: STUDY GROUPS & CHANNELS -->
+                <!-- LEFT SIDEBAR: STUDENT STUDY GROUPS -->
 
-                <div class="chat-sidebar">
+                <aside class="chat-sidebar">
                     <div class="sidebar-header">
-                        <h2>Study Groups</h2>
+                        <h2>Student Study Groups</h2>
+                        <span>Peer-to-peer department rooms</span>
                     </div>
 
-                    <ul class="chat-list">
-                        <li class="chat-item active" onclick="switchChannel('Data Science Sem 3', '12 Members &bull; Active now', this)">
+                    <ul class="chat-list" id="channelList">
+                        <li class="chat-item active" data-channel="ds-sem3">
                             <div class="group-tag-icon">DS</div>
                             <div class="chat-item-text">
                                 <h4>Data Science Sem 3</h4>
-                                <p>Has anyone completed the Pandas lab?</p>
+                                <p>Normalization &amp; SQL lab notes shared</p>
                             </div>
                         </li>
 
-                        <li class="chat-item" onclick="switchChannel('Software Engineering Project', '3 Members &bull; Active today', this)">
+                        <li class="chat-item" data-channel="se-team">
                             <div class="group-tag-icon">SE</div>
                             <div class="chat-item-text">
-                                <h4>SE Project Team</h4>
-                                <p>Repo updated with new frontend code.</p>
+                                <h4>SE Project Squad</h4>
+                                <p>SRS &amp; UML diagrams uploaded to repo</p>
                             </div>
                         </li>
 
-                        <li class="chat-item" onclick="switchChannel('CS-201 DSA Discussion', '28 Members &bull; Active 1h ago', this)">
-                            <div class="group-tag-icon">DSA</div>
+                        <li class="chat-item" data-channel="bda-group">
+                            <div class="group-tag-icon">BDA</div>
                             <div class="chat-item-text">
-                                <h4>CS-201 DSA Discussion</h4>
-                                <p>Check the midterm study notes!</p>
+                                <h4>BDA Analytics Cohort</h4>
+                                <p>Time-series forecasting past paper</p>
+                            </div>
+                        </li>
+
+                        <li class="chat-item" data-channel="ac-dsa">
+                            <div class="group-tag-icon">AC</div>
+                            <div class="chat-item-text">
+                                <h4>AC — CS-201 DSA Room</h4>
+                                <p>Linked list &amp; tree traversal dry runs</p>
                             </div>
                         </li>
                     </ul>
-                </div>
+                </aside>
 
                 <!-- RIGHT MAIN CHAT AREA -->
 
-                <div class="chat-main">
+                <section class="chat-main">
 
                     <div class="chat-main-header">
                         <div class="header-title-area">
                             <h3 id="channelTitle">Data Science Sem 3</h3>
-                            <p id="channelSubtitle">12 Members &bull; Active now</p>
+                            <p id="channelSubtitle">DS Department &bull; 18 Students Online</p>
                         </div>
+
+                        <select id="mobileChannelSelect" class="mobile-channel-select" aria-label="Select study group">
+                            <option value="ds-sem3">DS — Data Science Sem 3</option>
+                            <option value="se-team">SE — SE Project Squad</option>
+                            <option value="bda-group">BDA — Analytics Cohort</option>
+                            <option value="ac-dsa">AC — CS-201 DSA Room</option>
+                        </select>
                     </div>
 
                     <!-- MESSAGES CONTAINER -->
 
-                    <div class="messages-area" id="messagesArea">
-
-                        <!-- INBOUND MESSAGE -->
-                        <div class="msg-row">
-                            <img src="assets/female.jpg" alt="Ayesha" class="msg-avatar">
-                            <div class="msg-bubble">
-                                <div class="msg-sender">Ayesha Khan</div>
-                                <div class="msg-text">Has anyone solved Question 4 in the Data Science assignment?</div>
-                                <span class="msg-time">2:14 PM</span>
-                            </div>
-                        </div>
-
-                        <!-- INBOUND MESSAGE -->
-                        <div class="msg-row">
-                            <img src="assets/male m.jpg" alt="Mentor Vance" class="msg-avatar">
-                            <div class="msg-bubble">
-                                <div class="msg-sender">Dr. Alex Vance</div>
-                                <div class="msg-text">Make sure to normalize your DataFrame columns before running the linear regression model.</div>
-                                <span class="msg-time">2:18 PM</span>
-                            </div>
-                        </div>
-
-                        <!-- OUTBOUND MESSAGE -->
-                        <div class="msg-row outbound">
-                            <img id="myChatAvatar" src="assets/male.jpg" alt="You" class="msg-avatar">
-                            <div class="msg-bubble">
-                                <div class="msg-sender">You</div>
-                                <div class="msg-text">Thanks Dr. Vance! I just uploaded the reference cheat sheet to the Resources tab.</div>
-                                <span class="msg-time">2:20 PM</span>
-                            </div>
-                        </div>
-
-                    </div>
+                    <div class="messages-area" id="messagesArea"></div>
 
                     <!-- CHAT INPUT FORM -->
 
                     <div class="chat-input-area">
-                        <form class="chat-input-form" onsubmit="handleChatSubmit(event)">
-                            <input type="text" id="chatInput" class="chat-input-field" placeholder="Type your message..." required autocomplete="off">
+                        <form class="chat-input-form" id="chatInputForm">
+                            <input type="text" id="chatInput" class="chat-input-field" placeholder="Message your classmates..." required autocomplete="off">
                             <button type="submit" class="btn-send">Send</button>
                         </form>
                     </div>
 
-                </div>
+                </section>
 
             </div>
 
@@ -604,6 +627,53 @@
 
     <script>
                 (function () {
+                    const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                        ? APP_CONFIG.API_BASE_URL
+                        : 'http://localhost:5195';
+
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                    const myName = (userData && (userData.name || userData.regNo)) ? (userData.name || userData.regNo) : 'You';
+                    const myAvatar = (userData && userData.avatar) ? userData.avatar : 'assets/male.jpg';
+
+                    const defaultChannels = {
+                        'ds-sem3': {
+                            title: 'Data Science Sem 3',
+                            subtitle: 'DS Department • 18 Students Online',
+                            messages: [
+                                { sender: 'Ayesha Khan (2025-DS-11)', avatar: 'assets/female.jpg', text: 'Has anyone solved Question 4 in the DS-302 SQL normalization lab?', time: '2:14 PM', outbound: false },
+                                { sender: 'Bilal Raza (2025-DS-19)', avatar: 'assets/male.jpg', text: 'Yes! Split the composite key first for 2NF, then remove transitive dependencies for 3NF.', time: '2:18 PM', outbound: false },
+                                { sender: 'You', avatar: myAvatar, text: 'I just uploaded the verified SQL Joins & Normalization Manual (<1MB) in the Resources tab!', time: '2:20 PM', outbound: true }
+                            ]
+                        },
+                        'se-team': {
+                            title: 'SE Project Squad',
+                            subtitle: 'SE Department • 9 Students Online',
+                            messages: [
+                                { sender: 'Hamza Ahmed (2024-SE-19)', avatar: 'assets/male.jpg', text: 'Updated the SRS functional requirements and UML use-case diagram for Sprint 2.', time: '11:05 AM', outbound: false },
+                                { sender: 'You', avatar: myAvatar, text: 'Awesome, reviewing the class diagram now before our standup.', time: '11:12 AM', outbound: true }
+                            ]
+                        },
+                        'bda-group': {
+                            title: 'BDA Analytics Cohort',
+                            subtitle: 'BDA Department • 14 Students Online',
+                            messages: [
+                                { sender: 'Zainab Tariq (2024-BDA-08)', avatar: 'assets/female.jpg', text: 'Uploaded the solved BDA-210 Predictive Analytics past paper PDF for everyone revising tonight.', time: '4:40 PM', outbound: false }
+                            ]
+                        },
+                        'ac-dsa': {
+                            title: 'AC — CS-201 DSA Room',
+                            subtitle: 'AC Department • 24 Students Online',
+                            messages: [
+                                { sender: 'Ayesha Khan (2024-AC-12)', avatar: 'assets/female.jpg', text: 'Check the CS-201 Midterm Notes in Resources—it has full pointer traces for doubly linked lists.', time: '6:15 PM', outbound: false }
+                            ]
+                        }
+                    };
+
+                    let activeChannelKey = 'ds-sem3';
+                    const savedThreads = JSON.parse(localStorage.getItem('cb_chat_threads') || 'null') || defaultChannels;
+
                     // Mobile navigation toggle
                     const menuToggle = document.getElementById("menuToggle");
                     const navLinks = document.getElementById("navLinks");
@@ -611,6 +681,9 @@
                     if (menuToggle && navLinks) {
                         menuToggle.addEventListener("click", function () {
                             navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
                         });
                     }
 
@@ -619,81 +692,146 @@
                     if (logoutBtn) {
                         logoutBtn.addEventListener("click", function () {
                             localStorage.removeItem('currentUser');
+                            sessionStorage.removeItem('campus_bazaar_token');
                             alert('You have logged out.');
                             window.location.href = 'login.html';
                         });
                     }
 
-                    // Load active user profile state
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                        JSON.parse(localStorage.getItem('currentUser') || 'null');
-
+                    // Populate navbar identity
                     if (userData) {
                         const navName = document.getElementById('navName');
                         const navAvatar = document.getElementById('navAvatar');
-                        const myChatAvatar = document.getElementById('myChatAvatar');
-
-                        if (navName) navName.textContent = userData.name || userData.regNo || 'User';
-                        if (userData.avatar) {
-                            if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
-                            if (myChatAvatar) myChatAvatar.setAttribute('src', userData.avatar);
-                        }
+                        if (navName) navName.textContent = myName;
+                        if (navAvatar && userData.avatar) navAvatar.setAttribute('src', userData.avatar);
                     }
+
+                    function escapeChatHtml(text) {
+                        const div = document.createElement('div');
+                        div.textContent = String(text || '');
+                        return div.innerHTML;
+                    }
+
+                    function renderChannelMessages(channelKey) {
+                        const thread = savedThreads[channelKey] || defaultChannels['ds-sem3'];
+                        const channelTitle = document.getElementById('channelTitle');
+                        const channelSubtitle = document.getElementById('channelSubtitle');
+                        const messagesArea = document.getElementById('messagesArea');
+
+                        if (channelTitle) channelTitle.textContent = thread.title;
+                        if (channelSubtitle) channelSubtitle.textContent = thread.subtitle;
+                        if (!messagesArea) return;
+
+                        messagesArea.innerHTML = thread.messages.map(m => `
+                            <div class="msg-row ${m.outbound ? 'outbound' : ''}">
+                                <img src="${escapeChatHtml(m.outbound ? myAvatar : (m.avatar || 'assets/female.jpg'))}" alt="${escapeChatHtml(m.sender)}" class="msg-avatar">
+                                <div class="msg-bubble">
+                                    <div class="msg-sender">${escapeChatHtml(m.outbound ? 'You' : m.sender)}</div>
+                                    <div class="msg-text">${escapeChatHtml(m.text)}</div>
+                                    <span class="msg-time">${escapeChatHtml(m.time)}</span>
+                                </div>
+                            </div>
+                        `).join('');
+
+                        messagesArea.scrollTop = messagesArea.scrollHeight;
+                    }
+
+                    async function selectChannel(channelKey) {
+                        activeChannelKey = channelKey;
+
+                        document.querySelectorAll('.chat-item').forEach(item => {
+                            if (item.getAttribute('data-channel') === channelKey) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+
+                        const mobileSelect = document.getElementById('mobileChannelSelect');
+                        if (mobileSelect) mobileSelect['value'] = channelKey;
+
+                        try {
+                            const token = sessionStorage.getItem('campus_bazaar_token');
+                            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                            const res = await fetch(`${baseUrl}/api/chat/messages?channel=${encodeURIComponent(channelKey)}`, { headers });
+                            if (res.ok) {
+                                const data = await res.json();
+                                if (Array.isArray(data.messages) && data.messages.length > 0 && savedThreads[channelKey]) {
+                                    savedThreads[channelKey].messages = data.messages;
+                                }
+                            }
+                        } catch (e) {
+                            // Use local thread cache when backend is offline
+                        }
+
+                        renderChannelMessages(channelKey);
+                    }
+
+                    // Sidebar channel clicks
+                    document.querySelectorAll('.chat-item').forEach(item => {
+                        item.addEventListener('click', function () {
+                            const key = item.getAttribute('data-channel');
+                            if (key) selectChannel(key);
+                        });
+                    });
+
+                    // Mobile dropdown channel switch
+                    const mobileChannelSelect = document.getElementById('mobileChannelSelect');
+                    if (mobileChannelSelect) {
+                        mobileChannelSelect.addEventListener('change', function () {
+                            selectChannel(String(mobileChannelSelect['value'] || 'ds-sem3'));
+                        });
+                    }
+
+                    // Send Message Logic (POST /api/chat/messages)
+                    const chatInputForm = document.getElementById('chatInputForm');
+                    if (chatInputForm) {
+                        chatInputForm.addEventListener('submit', async function (event) {
+                            event.preventDefault();
+                            const input = document.getElementById('chatInput');
+                            if (!input) return;
+
+                            const messageText = String(input['value'] || '').trim();
+                            if (!messageText) return;
+
+                            const now = new Date();
+                            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                            const newMsg = {
+                                sender: myName,
+                                avatar: myAvatar,
+                                text: messageText,
+                                time: timeString,
+                                outbound: true
+                            };
+
+                            if (!savedThreads[activeChannelKey]) {
+                                savedThreads[activeChannelKey] = defaultChannels[activeChannelKey];
+                            }
+                            savedThreads[activeChannelKey].messages.push(newMsg);
+                            localStorage.setItem('cb_chat_threads', JSON.stringify(savedThreads));
+
+                            input['value'] = '';
+                            renderChannelMessages(activeChannelKey);
+
+                            try {
+                                const token = sessionStorage.getItem('campus_bazaar_token');
+                                const headers = { 'Content-Type': 'application/json' };
+                                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                                await fetch(`${baseUrl}/api/chat/messages`, {
+                                    method: 'POST',
+                                    headers: headers,
+                                    body: JSON.stringify({ channel: activeChannelKey, text: messageText })
+                                });
+                            } catch (err) {
+                                // Message already persisted locally
+                            }
+                        });
+                    }
+
+                    selectChannel('ds-sem3');
                 })();
-
-                function escapeChatHtml(text) {
-                    const div = document.createElement('div');
-                    div.textContent = text;
-                    return div.innerHTML;
-                }
-
-                // Switch Active Study Channel
-                function switchChannel(title, subtitle, element) {
-                    const channelTitle = document.getElementById('channelTitle');
-                    const channelSubtitle = document.getElementById('channelSubtitle');
-
-                    if (channelTitle) channelTitle.textContent = title;
-                    if (channelSubtitle) channelSubtitle.textContent = subtitle;
-
-                    const items = document.querySelectorAll('.chat-item');
-                    items.forEach(item => item.classList.remove('active'));
-                    if (element) element.classList.add('active');
-                }
-
-                // Send Message Logic
-                function handleChatSubmit(event) {
-                    event.preventDefault();
-                    const input = document.getElementById('chatInput');
-                    if (!input) return;
-
-                    const messageText = String(input['value'] || '').trim();
-                    if (!messageText) return;
-
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                        JSON.parse(localStorage.getItem('currentUser') || 'null') ||
-                                        { name: 'You', avatar: 'assets/male.jpg' };
-
-                    const messagesArea = document.getElementById('messagesArea');
-                    if (!messagesArea) return;
-
-                    const now = new Date();
-                    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                    const msgRow = document.createElement('div');
-                    msgRow.className = 'msg-row outbound';
-                    msgRow.innerHTML = `
-                        <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar">
-                        <div class="msg-bubble">
-                            <div class="msg-sender">You</div>
-                            <div class="msg-text">${escapeChatHtml(messageText)}</div>
-                            <span class="msg-time">${timeString}</span>
-                        </div>
-                    `;
-
-                    messagesArea.appendChild(msgRow);
-                    input['value'] = '';
-                    messagesArea.scrollTop = messagesArea.scrollHeight;
-                }
     </script>
 </body>
 </html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty & Mentors | Campus Bazaar</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: auto;
+        }
+
+        /* NAVIGATION BAR */
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #485563;
+                transition: color 0.2s;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--blue);
+                }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .login-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-nav-cta {
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+            .btn-nav-cta:hover {
+                background: var(--yellow-hover);
+            }
+
+        .user-nav-profile {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            background: var(--grey);
+            border: 1px solid var(--border);
+        }
+
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yellow);
+            background: var(--white);
+        }
+
+        .nav-user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            padding-left: 4px;
+        }
+
+            .btn-logout:hover {
+                color: #d93838;
+            }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--blue);
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* PAGE HEADER */
+
+        .page-header {
+            background: var(--blue);
+            color: var(--white);
+            padding: 38px 0 42px;
+            border-bottom: 5px solid var(--yellow);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .header-text h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .header-text p {
+            color: #d6e0e9;
+            font-size: 14px;
+        }
+
+        .dept-filter-tabs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .dept-tab {
+            background: rgba(255, 255, 255, 0.14);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .dept-tab:hover {
+                background: rgba(255, 255, 255, 0.25);
+            }
+
+            .dept-tab.active {
+                background: var(--yellow);
+                color: var(--blue);
+                border-color: var(--yellow);
+            }
+
+        /* MENTORS GRID */
+
+        .mentors-layout {
+            padding: 40px 0 60px;
+            flex: 1;
+        }
+
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .mentor-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--yellow);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .mentor-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 28px rgba(21, 62, 99, 0.08);
+            }
+
+        .mentor-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mentor-avatar {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--blue);
+            background: var(--grey);
+            flex-shrink: 0;
+        }
+
+        .mentor-identity h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--blue);
+            margin-bottom: 3px;
+        }
+
+        .mentor-role {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .mentor-dept-badge {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 5px;
+        }
+
+        .mentor-bio {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .mentor-focus {
+            background: var(--grey);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: var(--blue);
+            line-height: 1.45;
+            margin-top: auto;
+        }
+
+            .mentor-focus strong {
+                display: block;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+                color: var(--muted);
+                margin-bottom: 3px;
+            }
+
+        /* FOOTER */
+
+        .footer {
+            background: #202a34;
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            color: #bdc7d0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+            .mentors-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-content {
+                min-height: 70px;
+                flex-wrap: wrap;
+                padding: 14px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+                .nav-links.active {
+                    display: flex;
+                }
+
+                .nav-links a {
+                    padding: 10px 0;
+                    border-top: 1px solid var(--border);
+                }
+
+            .mentors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR (ADAPTS FOR GUEST VS LOGGED-IN STUDENT) -->
+
+    <header class="navbar">
+        <div class="container nav-content">
+
+            <a href="home page.html" id="brandHomeLink" class="logo" aria-label="Campus Bazaar homepage">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
+                Menu
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="home page.html" id="navHomeOrDash">Home</a>
+                <a href="resources.html">Resources</a>
+                <a href="mentorship.html" class="active-link">Mentors</a>
+                <a href="ai-assistant.html">AI Assistant</a>
+            </nav>
+
+            <!-- GUEST ACTIONS -->
+            <div class="nav-actions" id="guestNavActions">
+                <a href="login.html" class="login-link">Log in</a>
+                <a href="register.html" class="btn-nav-cta">Join Campus Bazaar</a>
+            </div>
+
+            <!-- LOGGED-IN USER PROFILE -->
+            <div class="user-nav-profile" id="loggedInNavProfile">
+                <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
+                <span id="navName" class="nav-user-name">Student</span>
+                <button type="button" class="btn-logout" id="logoutBtn">Log out</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+        <div class="container header-content">
+            <div class="header-text">
+                <h1>Department Mentors &amp; Faculty</h1>
+                <p>Explore academic mentors, their departmental specializations, and teaching areas.</p>
+            </div>
+
+            <div class="dept-filter-tabs" id="deptTabs">
+                <button type="button" class="dept-tab active" data-dept="all">All Departments</button>
+                <button type="button" class="dept-tab" data-dept="DS">DS</button>
+                <button type="button" class="dept-tab" data-dept="SE">SE</button>
+                <button type="button" class="dept-tab" data-dept="BDA">BDA</button>
+                <button type="button" class="dept-tab" data-dept="AC">AC</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENTORS DIRECTORY GRID -->
+
+    <main class="mentors-layout">
+        <div class="container">
+            <div class="mentors-grid" id="mentorsGrid"></div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container footer-bottom">
+            &copy; 2026 Campus Bazaar. Built for students, by students.
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        (function () {
+            const fallbackMentors = [
+                {
+                    name: "Dr. Tariq Mahmood",
+                    designation: "Associate Professor",
+                    department: "DS",
+                    deptFull: "Data Science",
+                    avatar: "assets/male m.jpg",
+                    bio: "Specializes in statistical learning, exploratory data analysis, and database warehousing for undergraduate Data Science cohorts.",
+                    specialization: "Data Mining, SQL Systems & Applied Statistics"
+                },
+                {
+                    name: "Prof. Nadia Siddiqui",
+                    designation: "Assistant Professor",
+                    department: "SE",
+                    deptFull: "Software Engineering",
+                    avatar: "assets/female m.jpg",
+                    bio: "Guides final-year capstone teams in software requirements engineering, UML system modeling, and agile sprint delivery.",
+                    specialization: "Software Architecture, SRS & Agile Engineering"
+                },
+                {
+                    name: "Dr. Kamran Malik",
+                    designation: "Senior Lecturer",
+                    department: "BDA",
+                    deptFull: "Business Data Analytics",
+                    avatar: "assets/male m.jpg",
+                    bio: "Focuses on predictive business modeling, KPI dashboarding, and quantitative decision analytics for enterprise datasets.",
+                    specialization: "Predictive Analytics, Time-Series & BI Modeling"
+                },
+                {
+                    name: "Prof. Sara Qureshi",
+                    designation: "Assistant Professor",
+                    department: "AC",
+                    deptFull: "Applied Computing",
+                    avatar: "assets/female m.jpg",
+                    bio: "Teaches core data structures, algorithm complexity analysis, and object-oriented software implementation in C# and Python.",
+                    specialization: "Data Structures, Algorithms & Computing Systems"
+                },
+                {
+                    name: "Dr. Bilal Ahmed",
+                    designation: "Associate Professor",
+                    department: "DS",
+                    deptFull: "Data Science",
+                    avatar: "assets/male m.jpg",
+                    bio: "Mentors students on natural language processing, document retrieval pipelines, and machine learning model evaluation.",
+                    specialization: "Machine Learning, NLP & Information Retrieval"
+                },
+                {
+                    name: "Prof. Hina Farooq",
+                    designation: "Lecturer",
+                    department: "AC",
+                    deptFull: "Applied Computing",
+                    avatar: "assets/female m.jpg",
+                    bio: "Supervises applied computing labs covering computer networking protocols, web engineering, and clean system design.",
+                    specialization: "Computer Networks & Web Application Design"
+                }
+            ];
+
+            let mentorsList = [...fallbackMentors];
+            let activeDept = 'all';
+
+            // Mobile menu toggle
+            const menuToggle = document.getElementById("menuToggle");
+            const navLinks = document.getElementById("navLinks");
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener("click", function () {
+                    navLinks.classList.toggle("active");
+                    const isOpen = navLinks.classList.contains("active");
+                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                    menuToggle.textContent = isOpen ? "Close" : "Menu";
+                });
+            }
+
+            function escapeMentorHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = String(text || '');
+                return div.innerHTML;
+            }
+
+            function renderMentors() {
+                const grid = document.getElementById('mentorsGrid');
+                if (!grid) return;
+
+                const filtered = activeDept === 'all'
+                    ? mentorsList
+                    : mentorsList.filter(m => String(m.department).toUpperCase() === activeDept.toUpperCase());
+
+                grid.innerHTML = filtered.map(m => `
+                    <article class="mentor-card">
+                        <div class="mentor-top">
+                            <img src="${escapeMentorHtml(m.avatar || 'assets/male m.jpg')}" alt="${escapeMentorHtml(m.name)}" class="mentor-avatar">
+                            <div class="mentor-identity">
+                                <h3>${escapeMentorHtml(m.name)}</h3>
+                                <div class="mentor-role">${escapeMentorHtml(m.designation)}</div>
+                                <span class="mentor-dept-badge">${escapeMentorHtml(m.department)} — ${escapeMentorHtml(m.deptFull || m.department)}</span>
+                            </div>
+                        </div>
+                        <p class="mentor-bio">${escapeMentorHtml(m.bio)}</p>
+                        <div class="mentor-focus">
+                            <strong>Academic Focus Areas</strong>
+                            ${escapeMentorHtml(m.specialization)}
+                        </div>
+                    </article>
+                `).join('');
+            }
+
+            async function loadMentors() {
+                const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                    ? APP_CONFIG.API_BASE_URL
+                    : 'http://localhost:5195';
+
+                try {
+                    const res = await fetch(`${baseUrl}/api/faculty`);
+                    if (!res.ok) throw new Error('Faculty endpoint offline');
+                    const data = await res.json();
+                    const items = Array.isArray(data) ? data : (data.faculty || data.mentors || []);
+                    if (items.length > 0) {
+                        mentorsList = items;
+                    }
+                } catch (e) {
+                    // Use fallback mentor profiles when backend is offline
+                }
+                renderMentors();
+            }
+
+            // Department filter tabs
+            const deptTabs = document.querySelectorAll('.dept-tab');
+            deptTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    deptTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    activeDept = tab.getAttribute('data-dept') || 'all';
+                    renderMentors();
+                });
+            });
+
+            // Adapt navbar for logged-in student vs guest visitor
+            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                             JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+            const guestNavActions = document.getElementById('guestNavActions');
+            const loggedInNavProfile = document.getElementById('loggedInNavProfile');
+            const navHomeOrDash = document.getElementById('navHomeOrDash');
+            const brandHomeLink = document.getElementById('brandHomeLink');
+
+            if (userData) {
+                if (guestNavActions) guestNavActions.style.display = 'none';
+                if (loggedInNavProfile) loggedInNavProfile.style.display = 'flex';
+                if (navHomeOrDash) {
+                    navHomeOrDash.textContent = 'Dashboard';
+                    navHomeOrDash.setAttribute('href', 'dashboard.html');
+                }
+                if (brandHomeLink) brandHomeLink.setAttribute('href', 'dashboard.html');
+
+                const navName = document.getElementById('navName');
+                const navAvatar = document.getElementById('navAvatar');
+                if (navName) navName.textContent = userData.name || userData.regNo || 'Student';
+                if (navAvatar && userData.avatar) navAvatar.setAttribute('src', userData.avatar);
+            }
+
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.removeItem('currentUser');
+                    sessionStorage.removeItem('campus_bazaar_token');
+                    alert('You have logged out.');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            loadMentors();
+        })();
+    </script>
+</body>
+</html>

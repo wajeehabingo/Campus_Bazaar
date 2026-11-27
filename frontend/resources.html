@@ -162,14 +162,22 @@
         .page-header {
             background: var(--blue);
             color: var(--white);
-            padding: 40px 0 45px;
+            padding: 36px 0 42px;
             border-bottom: 5px solid var(--yellow);
         }
 
         .header-content {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
+        }
+
+        .header-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
         }
 
         .header-text h1 {
@@ -183,9 +191,24 @@
             font-size: 14px;
         }
 
+        .btn-upload-cta {
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 13px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+            .btn-upload-cta:hover {
+                background: var(--yellow-hover);
+                transform: translateY(-2px);
+            }
+
         .search-filter-bar {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             background: var(--white);
             padding: 10px;
@@ -195,13 +218,13 @@
 
         .search-input-wrap {
             flex: 2;
-            min-width: 240px;
+            min-width: 220px;
         }
 
             .search-input-wrap input {
                 width: 100%;
                 height: 44px;
-                padding: 0 16px;
+                padding: 0 14px;
                 border: 1px solid var(--border);
                 border-radius: 8px;
                 outline: none;
@@ -215,9 +238,9 @@
 
         .filter-select {
             flex: 1;
-            min-width: 150px;
+            min-width: 135px;
             height: 44px;
-            padding: 0 12px;
+            padding: 0 10px;
             border: 1px solid var(--border);
             border-radius: 8px;
             background: var(--white);
@@ -231,7 +254,7 @@
             background: var(--yellow);
             color: var(--blue);
             font-weight: 800;
-            padding: 0 24px;
+            padding: 0 22px;
             height: 44px;
             border: none;
             border-radius: 8px;
@@ -243,10 +266,86 @@
                 background: var(--yellow-hover);
             }
 
-        /* MAIN RESOURCES GRID LAYOUT */
+        /* CATEGORY CHIPS & VIEW CONTROLS TOOLBAR */
+
+        .repo-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .category-tabs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .cat-chip {
+            background: var(--white);
+            border: 1px solid var(--border);
+            color: var(--blue);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .cat-chip:hover {
+                border-color: var(--blue);
+            }
+
+            .cat-chip.active {
+                background: var(--blue);
+                color: var(--white);
+                border-color: var(--blue);
+            }
+
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result-counter {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .view-toggle-group {
+            display: inline-flex;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 8px 13px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+            .view-btn.active {
+                background: var(--yellow);
+                color: var(--blue);
+            }
+
+        /* MAIN RESOURCES GRID & LIST LAYOUT */
 
         .resources-layout {
-            padding: 40px 0 60px;
+            padding: 32px 0 60px;
             flex: 1;
         }
 
@@ -255,6 +354,11 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 22px;
         }
+
+            .resources-grid.list-view {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
 
         .resource-card {
             background: var(--white);
@@ -268,30 +372,77 @@
         }
 
             .resource-card:hover {
-                transform: translateY(-4px);
+                transform: translateY(-3px);
                 box-shadow: 0 12px 28px rgba(21, 62, 99, 0.08);
                 border-color: var(--blue-light);
             }
+
+        .resources-grid.list-view .resource-card {
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 22px;
+        }
+
+        .resources-grid.list-view .card-body-wrap {
+            flex: 1;
+        }
+
+        .resources-grid.list-view .card-desc {
+            margin-bottom: 0;
+        }
+
+        .resources-grid.list-view .card-bottom {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 0;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            min-width: 150px;
+        }
 
         .card-top {
             display: flex;
             align-items: flex-start;
             gap: 14px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .resource-type-tag {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             background: var(--yellow);
             color: var(--blue);
             font-weight: 800;
-            font-size: 12px;
+            font-size: 11px;
             border-radius: 10px;
             display: grid;
             place-items: center;
             text-transform: uppercase;
             flex-shrink: 0;
+            border: 1px solid var(--yellow);
+        }
+
+        .card-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .badge-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 5px;
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .badge-cat {
+            background: #fff9db;
+            color: #78350f;
             border: 1px solid var(--yellow);
         }
 
@@ -312,7 +463,7 @@
             font-size: 13px;
             color: var(--text);
             line-height: 1.5;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .card-bottom {
@@ -348,12 +499,24 @@
             padding: 7px 14px;
             border-radius: 6px;
             transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
         }
 
             .btn-download:hover {
                 background: var(--blue);
                 color: var(--white);
             }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            background: var(--white);
+            border: 1px dashed var(--border);
+            border-radius: 14px;
+            padding: 45px 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
 
         /* FOOTER */
 
@@ -412,6 +575,18 @@
                 grid-template-columns: 1fr;
             }
 
+                .resources-grid.list-view .resource-card {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .resources-grid.list-view .card-bottom {
+                    flex-direction: row;
+                    align-items: center;
+                    border-top: 1px solid var(--border);
+                    padding-top: 12px;
+                }
+
             .search-filter-bar {
                 flex-direction: column;
             }
@@ -442,6 +617,7 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="resources.html" class="active-link">Resources</a>
                 <a href="upload.html">Upload</a>
+                <a href="mentorship.html">Mentorship</a>
                 <a href="chat.html">Messages</a>
                 <a href="ai-assistant.html">AI Assistant</a>
             </nav>
@@ -459,28 +635,38 @@
 
     <section class="page-header">
         <div class="container header-content">
-            <div class="header-text">
-                <h1>Academic Resources Repository</h1>
-                <p>Browse, filter, and download verified notes, lab manuals, and slide decks.</p>
+            <div class="header-top-row">
+                <div class="header-text">
+                    <h1>Academic Resources Repository</h1>
+                    <p>Browse, filter, and download verified text-based notes, manuals, past papers, and quizzes (&lt; 1 MB).</p>
+                </div>
+                <a href="upload.html" class="btn-upload-cta">+ Upload Resource</a>
             </div>
 
             <div class="search-filter-bar">
                 <div class="search-input-wrap">
-                    <input type="text" id="searchInput" placeholder="Search by course title, topic, or keyword...">
+                    <input type="text" id="searchInput" placeholder="Search by keyword, title, or course code (e.g. CS-201)...">
                 </div>
 
-                <select id="deptFilter" class="filter-select">
+                <select id="deptFilter" class="filter-select" aria-label="Filter by Department">
                     <option value="all">All Departments</option>
-                    <option value="Data Science">Data Science</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="DS">DS — Data Science</option>
+                    <option value="SE">SE — Software Engineering</option>
+                    <option value="BDA">BDA — Business Data Analytics</option>
+                    <option value="AC">AC — Applied Computing</option>
                 </select>
 
-                <select id="typeFilter" class="filter-select">
-                    <option value="all">All Formats</option>
-                    <option value="pdf">PDF Notes</option>
-                    <option value="doc">Word Docs</option>
-                    <option value="ppt">Slide Decks (PPT)</option>
+                <select id="typeFilter" class="filter-select" aria-label="Filter by File Type">
+                    <option value="all">All File Types</option>
+                    <option value="pdf">PDF (.pdf)</option>
+                    <option value="docx">Word (.docx)</option>
+                    <option value="pptx">Slides (.pptx)</option>
+                </select>
+
+                <select id="sortFilter" class="filter-select" aria-label="Sort Resources">
+                    <option value="newest">Sort: Newest First</option>
+                    <option value="oldest">Sort: Oldest First</option>
+                    <option value="title">Sort: Title (A–Z)</option>
                 </select>
 
                 <button class="btn-search" id="searchBtn" type="button">Search</button>
@@ -488,140 +674,34 @@
         </div>
     </section>
 
-    <!-- MAIN RESOURCES GRID -->
+    <!-- MAIN RESOURCES REPOSITORY -->
 
     <main class="resources-layout">
         <div class="container">
 
-            <div class="resources-grid" id="resourcesGrid">
+            <!-- CATEGORY FILTER TABS & GRID/LIST TOGGLE -->
+            <div class="repo-toolbar">
+                <div class="category-tabs" id="categoryTabs">
+                    <button type="button" class="cat-chip active" data-category="all">All Categories</button>
+                    <button type="button" class="cat-chip" data-category="Past Papers">Past Papers</button>
+                    <button type="button" class="cat-chip" data-category="Books">Books</button>
+                    <button type="button" class="cat-chip" data-category="PDFs">PDFs</button>
+                    <button type="button" class="cat-chip" data-category="Manuals">Manuals</button>
+                    <button type="button" class="cat-chip" data-category="Projects">Projects</button>
+                    <button type="button" class="cat-chip" data-category="Quizzes">Quizzes</button>
+                </div>
 
-                <!-- CARD 1 -->
-                <article class="resource-card" data-dept="Computer Science" data-type="pdf">
-                    <div>
-                        <div class="card-top">
-                            <div class="resource-type-tag">PDF</div>
-                            <div class="card-meta">
-                                <h3>Data Structures & Algorithms</h3>
-                                <p>Course Code: CS-201 • CS Department</p>
-                            </div>
-                        </div>
-                        <p class="card-desc">Complete mid-term preparation notes covering Linked Lists, Stacks, Queues, and Binary Search Trees.</p>
+                <div class="view-controls">
+                    <span class="result-counter" id="resultCount">6 Resources</span>
+                    <div class="view-toggle-group" role="group" aria-label="View layout toggle">
+                        <button type="button" class="view-btn active" id="gridViewBtn">Grid</button>
+                        <button type="button" class="view-btn" id="listViewBtn">List</button>
                     </div>
-                    <div class="card-bottom">
-                        <div class="uploader-info">
-                            <img src="assets/male.jpg" alt="Uploader" class="uploader-avatar">
-                            <span>Uploaded 2d ago</span>
-                        </div>
-                        <a href="resource-details.html" class="btn-download">View Resource</a>
-                    </div>
-                </article>
-
-                <!-- CARD 2 -->
-                <article class="resource-card" data-dept="Data Science" data-type="doc">
-                    <div>
-                        <div class="card-top">
-                            <div class="resource-type-tag">DOC</div>
-                            <div class="card-meta">
-                                <h3>Database Systems Lab Manual</h3>
-                                <p>Course Code: DS-302 • Data Science Dept</p>
-                            </div>
-                        </div>
-                        <p class="card-desc">Hands-on SQL query manual featuring relational joins, aggregate functions, and normalization exercises.</p>
-                    </div>
-                    <div class="card-bottom">
-                        <div class="uploader-info">
-                            <img src="assets/female.jpg" alt="Uploader" class="uploader-avatar">
-                            <span>Uploaded 4d ago</span>
-                        </div>
-                        <a href="resource-details.html" class="btn-download">View Resource</a>
-                    </div>
-                </article>
-
-                <!-- CARD 3 -->
-                <article class="resource-card" data-dept="Software Engineering" data-type="ppt">
-                    <div>
-                        <div class="card-top">
-                            <div class="resource-type-tag">PPT</div>
-                            <div class="card-meta">
-                                <h3>Software Process Models</h3>
-                                <p>Course Code: SE-104 • SE Department</p>
-                            </div>
-                        </div>
-                        <p class="card-desc">Slide presentation explaining Waterfall, V-Model, Spiral, Scrum, and Agile software life cycles.</p>
-                    </div>
-                    <div class="card-bottom">
-                        <div class="uploader-info">
-                            <img src="assets/male m.jpg" alt="Uploader" class="uploader-avatar">
-                            <span>Uploaded 1w ago</span>
-                        </div>
-                        <a href="resource-details.html" class="btn-download">View Resource</a>
-                    </div>
-                </article>
-
-                <!-- CARD 4 -->
-                <article class="resource-card" data-dept="Data Science" data-type="pdf">
-                    <div>
-                        <div class="card-top">
-                            <div class="resource-type-tag">PDF</div>
-                            <div class="card-meta">
-                                <h3>Python Pandas & NumPy Guide</h3>
-                                <p>Course Code: DS-205 • Data Science Dept</p>
-                            </div>
-                        </div>
-                        <p class="card-desc">Cheat sheet for data manipulation, DataFrame filtering, handling missing values, and Matplotlib plotting.</p>
-                    </div>
-                    <div class="card-bottom">
-                        <div class="uploader-info">
-                            <img src="assets/female m.jpg" alt="Uploader" class="uploader-avatar">
-                            <span>Uploaded 1w ago</span>
-                        </div>
-                        <a href="resource-details.html" class="btn-download">View Resource</a>
-                    </div>
-                </article>
-
-                <!-- CARD 5 -->
-                <article class="resource-card" data-dept="Computer Science" data-type="pdf">
-                    <div>
-                        <div class="card-top">
-                            <div class="resource-type-tag">PDF</div>
-                            <div class="card-meta">
-                                <h3>Computer Networks Architecture</h3>
-                                <p>Course Code: CS-310 • CS Department</p>
-                            </div>
-                        </div>
-                        <p class="card-desc">OSI 7-layer model summary notes with packet tracer network topology diagram examples.</p>
-                    </div>
-                    <div class="card-bottom">
-                        <div class="uploader-info">
-                            <img src="assets/male.jpg" alt="Uploader" class="uploader-avatar">
-                            <span>Uploaded 2w ago</span>
-                        </div>
-                        <a href="resource-details.html" class="btn-download">View Resource</a>
-                    </div>
-                </article>
-
-                <!-- CARD 6 -->
-                <article class="resource-card" data-dept="Software Engineering" data-type="doc">
-                    <div>
-                        <div class="card-top">
-                            <div class="resource-type-tag">DOC</div>
-                            <div class="card-meta">
-                                <h3>Requirements Engineering SRS</h3>
-                                <p>Course Code: SE-202 • SE Department</p>
-                            </div>
-                        </div>
-                        <p class="card-desc">Sample Software Requirements Specification document template with functional and non-functional specs.</p>
-                    </div>
-                    <div class="card-bottom">
-                        <div class="uploader-info">
-                            <img src="assets/female.jpg" alt="Uploader" class="uploader-avatar">
-                            <span>Uploaded 2w ago</span>
-                        </div>
-                        <a href="resource-details.html" class="btn-download">View Resource</a>
-                    </div>
-                </article>
-
+                </div>
             </div>
+
+            <!-- DYNAMIC RESOURCE CARDS CONTAINER -->
+            <div class="resources-grid" id="resourcesGrid"></div>
 
         </div>
     </main>
@@ -633,81 +713,316 @@
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
+
     <script src="js/config.js"></script>
-    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                        (function () {
-                            // Mobile navigation toggle
-                            const menuToggle = document.getElementById("menuToggle");
-                            const navLinks = document.getElementById("navLinks");
+                (function () {
+                    const fallbackResources = [
+                        {
+                            id: 1,
+                            title: "Data Structures & Algorithms Midterm Notes",
+                            courseCode: "CS-201",
+                            department: "AC",
+                            category: "PDFs",
+                            fileType: "pdf",
+                            sizeKb: 420,
+                            keywords: "linked lists, stacks, queues, binary search trees",
+                            description: "Transcribed mid-term preparation notes covering Linked Lists, Stacks, Queues, and Binary Search Trees.",
+                            uploadedAt: "2026-11-16T10:00:00Z",
+                            uploadedLabel: "2d ago",
+                            avatar: "assets/male.jpg"
+                        },
+                        {
+                            id: 2,
+                            title: "Database Systems SQL Lab Manual",
+                            courseCode: "DS-302",
+                            department: "DS",
+                            category: "Manuals",
+                            fileType: "docx",
+                            sizeKb: 315,
+                            keywords: "sql, relational joins, normalization, queries",
+                            description: "Hands-on SQL query manual featuring relational joins, aggregate functions, and 3NF normalization exercises.",
+                            uploadedAt: "2026-11-14T14:00:00Z",
+                            uploadedLabel: "4d ago",
+                            avatar: "assets/female.jpg"
+                        },
+                        {
+                            id: 3,
+                            title: "Software Process Models & Agile Slides",
+                            courseCode: "SE-104",
+                            department: "SE",
+                            category: "Books",
+                            fileType: "pptx",
+                            sizeKb: 780,
+                            keywords: "waterfall, scrum, agile, sdlc",
+                            description: "Lecture slide deck explaining Waterfall, V-Model, Spiral, Scrum, and Agile software development life cycles.",
+                            uploadedAt: "2026-11-11T09:30:00Z",
+                            uploadedLabel: "1w ago",
+                            avatar: "assets/male m.jpg"
+                        },
+                        {
+                            id: 4,
+                            title: "Business Predictive Analytics Past Paper 2025",
+                            courseCode: "BDA-210",
+                            department: "BDA",
+                            category: "Past Papers",
+                            fileType: "pdf",
+                            sizeKb: 260,
+                            keywords: "regression, forecasting, past paper, kpi",
+                            description: "Solved past paper covering time-series forecasting, regression diagnostics, and business KPI modeling.",
+                            uploadedAt: "2026-11-09T12:00:00Z",
+                            uploadedLabel: "9d ago",
+                            avatar: "assets/female m.jpg"
+                        },
+                        {
+                            id: 5,
+                            title: "Capstone SRS & UML Architecture Project",
+                            courseCode: "SE-305",
+                            department: "SE",
+                            category: "Projects",
+                            fileType: "docx",
+                            sizeKb: 540,
+                            keywords: "srs, uml, class diagram, sequence diagram",
+                            description: "Complete Software Requirements Specification template with functional specs and UML system workflows.",
+                            uploadedAt: "2026-11-05T16:20:00Z",
+                            uploadedLabel: "2w ago",
+                            avatar: "assets/male.jpg"
+                        },
+                        {
+                            id: 6,
+                            title: "Inferential Statistics & Probability Quiz Bank",
+                            courseCode: "DS-208",
+                            department: "DS",
+                            category: "Quizzes",
+                            fileType: "pdf",
+                            sizeKb: 195,
+                            keywords: "hypothesis testing, variance, probability, quiz",
+                            description: "Solved MCQ and calculation practice quiz bank on confidence intervals, variance, and hypothesis testing.",
+                            uploadedAt: "2026-11-02T08:15:00Z",
+                            uploadedLabel: "2w ago",
+                            avatar: "assets/female.jpg"
+                        }
+                    ];
 
-                            if (menuToggle && navLinks) {
-                                menuToggle.addEventListener("click", function () {
-                                    navLinks.classList.toggle("active");
-                                    const isOpen = navLinks.classList.contains("active");
-                                    menuToggle.setAttribute("aria-expanded", String(isOpen));
-                                    menuToggle.textContent = isOpen ? "Close" : "Menu";
-                                });
+                    let allResources = [...fallbackResources];
+                    let selectedCategory = 'all';
+                    let debounceTimer = null;
+
+                    // Mobile navigation toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
+
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
+
+                    const searchInput = document.getElementById('searchInput');
+                    const deptFilter = document.getElementById('deptFilter');
+                    const typeFilter = document.getElementById('typeFilter');
+                    const sortFilter = document.getElementById('sortFilter');
+                    const searchBtn = document.getElementById('searchBtn');
+                    const resourcesGrid = document.getElementById('resourcesGrid');
+                    const resultCount = document.getElementById('resultCount');
+
+                    function escapeResHtml(text) {
+                        const div = document.createElement('div');
+                        div.textContent = String(text || '');
+                        return div.innerHTML;
+                    }
+
+                    function renderResourceCards(items) {
+                        if (!resourcesGrid) return;
+
+                        if (resultCount) {
+                            resultCount.textContent = `${items.length} Resource${items.length === 1 ? '' : 's'}`;
+                        }
+
+                        if (!items || items.length === 0) {
+                            resourcesGrid.innerHTML = `
+                                <div class="empty-state">
+                                    No matching resources found. Try clearing filters or searching another keyword.
+                                </div>
+                            `;
+                            return;
+                        }
+
+                        resourcesGrid.innerHTML = items.map(item => {
+                            const ext = String(item.fileType || 'pdf').toUpperCase();
+                            const sizeText = item.sizeKb ? `${item.sizeKb} KB` : '< 1 MB';
+                            const dateLabel = item.uploadedLabel || 'Recently';
+                            const avatarSrc = item.avatar || 'assets/male.jpg';
+
+                            return `
+                                <article class="resource-card">
+                                    <div class="card-body-wrap">
+                                        <div class="card-top">
+                                            <div class="resource-type-tag">${escapeResHtml(ext)}</div>
+                                            <div class="card-meta">
+                                                <div class="card-badges">
+                                                    <span class="badge-pill">${escapeResHtml(item.department)}</span>
+                                                    <span class="badge-pill">${escapeResHtml(item.courseCode)}</span>
+                                                    <span class="badge-pill badge-cat">${escapeResHtml(item.category)}</span>
+                                                </div>
+                                                <h3>${escapeResHtml(item.title)}</h3>
+                                                <p>Text-Based ${escapeResHtml(ext)} &bull; ${escapeResHtml(sizeText)}</p>
+                                            </div>
+                                        </div>
+                                        <p class="card-desc">${escapeResHtml(item.description)}</p>
+                                    </div>
+                                    <div class="card-bottom">
+                                        <div class="uploader-info">
+                                            <img src="${escapeResHtml(avatarSrc)}" alt="Uploader" class="uploader-avatar">
+                                            <span>Uploaded ${escapeResHtml(dateLabel)}</span>
+                                        </div>
+                                        <a href="resource-details.html?id=${encodeURIComponent(item.id)}" class="btn-download">View Resource</a>
+                                    </div>
+                                </article>
+                            `;
+                        }).join('');
+                    }
+
+                    function applyLocalFilterAndSort(sourceList) {
+                        const query = searchInput ? String(searchInput['value'] || '').trim().toLowerCase() : '';
+                        const dept = deptFilter ? String(deptFilter['value'] || 'all') : 'all';
+                        const type = typeFilter ? String(typeFilter['value'] || 'all').toLowerCase() : 'all';
+                        const sortBy = sortFilter ? String(sortFilter['value'] || 'newest') : 'newest';
+
+                        const filtered = sourceList.filter(item => {
+                            const haystack = `${item.title} ${item.courseCode} ${item.keywords || ''} ${item.description}`.toLowerCase();
+                            const matchesQuery = !query || haystack.includes(query);
+                            const matchesDept = dept === 'all' || String(item.department).toUpperCase() === dept.toUpperCase();
+                            const matchesType = type === 'all' || String(item.fileType).toLowerCase() === type;
+                            const matchesCategory = selectedCategory === 'all' || String(item.category).toLowerCase() === selectedCategory.toLowerCase();
+
+                            return matchesQuery && matchesDept && matchesType && matchesCategory;
+                        });
+
+                        filtered.sort((a, b) => {
+                            if (sortBy === 'title') {
+                                return String(a.title).localeCompare(String(b.title));
                             }
+                            const timeA = new Date(a.uploadedAt || 0).getTime();
+                            const timeB = new Date(b.uploadedAt || 0).getTime();
+                            return sortBy === 'oldest' ? timeA - timeB : timeB - timeA;
+                        });
 
-                            // Search & Filter Logic
-                            const searchInput = document.getElementById('searchInput');
-                            const deptFilter = document.getElementById('deptFilter');
-                            const typeFilter = document.getElementById('typeFilter');
-                            const searchBtn = document.getElementById('searchBtn');
+                        renderResourceCards(filtered);
+                    }
 
-                            function filterPageResources() {
-                                const query = searchInput ? String(searchInput['value'] || '').toLowerCase() : '';
-                                const dept = deptFilter ? String(deptFilter['value'] || 'all') : 'all';
-                                const type = typeFilter ? String(typeFilter['value'] || 'all') : 'all';
-                                const cards = document.querySelectorAll('.resource-card');
+                    async function executeSearch() {
+                        const query = searchInput ? String(searchInput['value'] || '').trim() : '';
+                        const dept = deptFilter ? String(deptFilter['value'] || 'all') : 'all';
+                        const type = typeFilter ? String(typeFilter['value'] || 'all') : 'all';
+                        const sortBy = sortFilter ? String(sortFilter['value'] || 'newest') : 'newest';
 
-                                cards.forEach(card => {
-                                    const text = (card.textContent || '').toLowerCase();
-                                    const cardDept = card.getAttribute('data-dept');
-                                    const cardType = card.getAttribute('data-type');
+                        const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                            ? APP_CONFIG.API_BASE_URL
+                            : 'http://localhost:5195';
 
-                                    const matchesQuery = text.includes(query);
-                                    const matchesDept = (dept === 'all' || cardDept === dept);
-                                    const matchesType = (type === 'all' || cardType === type);
+                        const params = new URLSearchParams();
+                        if (query) params.set('keyword', query);
+                        if (dept !== 'all') params.set('department', dept);
+                        if (type !== 'all') params.set('fileType', type);
+                        if (selectedCategory !== 'all') params.set('category', selectedCategory);
+                        params.set('sortBy', sortBy);
 
-                                    card['style'].display = (matchesQuery && matchesDept && matchesType) ? 'flex' : 'none';
-                                });
-                            }
+                        try {
+                            const endpoint = params.toString()
+                                ? `${baseUrl}/api/resources/search?${params.toString()}`
+                                : `${baseUrl}/api/resources`;
 
-                            if (searchInput) searchInput.addEventListener('keyup', filterPageResources);
-                            if (deptFilter) deptFilter.addEventListener('change', filterPageResources);
-                            if (typeFilter) typeFilter.addEventListener('change', filterPageResources);
-                            if (searchBtn) searchBtn.addEventListener('click', filterPageResources);
+                            const response = await fetch(endpoint);
+                            if (!response.ok) throw new Error(`Server returned ${response.status}`);
 
-                            // Load active user profile state from localStorage
-                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
+                            const data = await response.json();
+                            const items = Array.isArray(data) ? data : (data.resources || data.items || data.data || []);
+                            allResources = items;
+                            applyLocalFilterAndSort(allResources);
+                        } catch (err) {
+                            // Use local dataset smoothly when backend is offline
+                            applyLocalFilterAndSort(allResources);
+                        }
+                    }
 
-                            const navName = document.getElementById('navName');
-                            const navAvatar = document.getElementById('navAvatar');
+                    // Debounced search input
+                    if (searchInput) {
+                        searchInput.addEventListener('input', function () {
+                            clearTimeout(debounceTimer);
+                            debounceTimer = setTimeout(executeSearch, 250);
+                        });
+                    }
 
-                            if (userData) {
-                                if (navName) {
-                                    navName.textContent = userData.name || userData.regNo || 'User';
-                                }
-                                if (navAvatar && userData.avatar) {
-                                    navAvatar.setAttribute('src', userData.avatar);
-                                }
-                            }
+                    if (deptFilter) deptFilter.addEventListener('change', executeSearch);
+                    if (typeFilter) typeFilter.addEventListener('change', executeSearch);
+                    if (sortFilter) sortFilter.addEventListener('change', executeSearch);
+                    if (searchBtn) searchBtn.addEventListener('click', executeSearch);
 
-                            // Logout button handler
-                            const logoutBtn = document.getElementById('logoutBtn');
-                            if (logoutBtn) {
-                                logoutBtn.addEventListener('click', function () {
-                                    localStorage.removeItem('currentUser');
-                                    alert('You have logged out.');
-                                    window.location.href = 'login.html';
-                                });
-                            }
-                        })();
+                    // Category chip tabs
+                    const catChips = document.querySelectorAll('.cat-chip');
+                    catChips.forEach(chip => {
+                        chip.addEventListener('click', function () {
+                            catChips.forEach(c => c.classList.remove('active'));
+                            chip.classList.add('active');
+                            selectedCategory = chip.getAttribute('data-category') || 'all';
+                            executeSearch();
+                        });
+                    });
+
+                    // Grid vs List view toggle
+                    const gridViewBtn = document.getElementById('gridViewBtn');
+                    const listViewBtn = document.getElementById('listViewBtn');
+
+                    if (gridViewBtn && listViewBtn && resourcesGrid) {
+                        gridViewBtn.addEventListener('click', function () {
+                            resourcesGrid.classList.remove('list-view');
+                            gridViewBtn.classList.add('active');
+                            listViewBtn.classList.remove('active');
+                        });
+
+                        listViewBtn.addEventListener('click', function () {
+                            resourcesGrid.classList.add('list-view');
+                            listViewBtn.classList.add('active');
+                            gridViewBtn.classList.remove('active');
+                        });
+                    }
+
+                    // Load active user profile state
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+                    const navName = document.getElementById('navName');
+                    const navAvatar = document.getElementById('navAvatar');
+
+                    if (userData) {
+                        if (navName) {
+                            navName.textContent = userData.name || userData.regNo || 'User';
+                        }
+                        if (navAvatar && userData.avatar) {
+                            navAvatar.setAttribute('src', userData.avatar);
+                        }
+                    }
+
+                    // Logout button handler
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function () {
+                            localStorage.removeItem('currentUser');
+                            sessionStorage.removeItem('campus_bazaar_token');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
+
+                    // Initial load
+                    executeSearch();
+                })();
     </script>
 </body>
 </html>

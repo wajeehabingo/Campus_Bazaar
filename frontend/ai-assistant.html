@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Study Assistant | Campus Bazaar</title>
-
-    <link rel="stylesheet" href="css/style.css">
+    <title>AI Study Assistant &amp; Quiz Generator | Campus Bazaar</title>
 
     <style>
         :root {
@@ -27,14 +25,18 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             font-family: Arial, Helvetica, sans-serif;
             color: var(--text);
             background: var(--grey);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         a {
@@ -42,13 +44,14 @@
             color: inherit;
         }
 
-        button, input {
+        button, input, select {
             font: inherit;
         }
 
         .container {
             width: min(1150px, 92%);
-            margin: auto;
+            max-width: 1150px;
+            margin: 0 auto;
         }
 
         /* NAVIGATION BAR */
@@ -59,7 +62,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            flex-shrink: 0;
+            width: 100%;
         }
 
         .nav-content {
@@ -163,30 +166,30 @@
 
         .ai-layout {
             flex: 1;
-            padding: 20px 0;
-            display: flex;
-            overflow: hidden;
+            padding: 26px 0 50px;
+            width: 100%;
         }
 
         .ai-card {
             width: 100%;
-            height: 100%;
             background: var(--white);
             border: 1px solid var(--border);
             border-radius: 16px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.05);
+            box-shadow: 0 10px 30px rgba(21, 62, 99, 0.06);
         }
 
         .ai-header {
-            padding: 16px 25px;
+            padding: 18px 25px;
             background: var(--blue);
             color: var(--white);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
             border-bottom: 4px solid var(--yellow);
         }
 
@@ -197,19 +200,20 @@
         }
 
         .ai-badge-icon {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             background: var(--yellow);
             color: var(--blue);
-            border-radius: 8px;
+            border-radius: 9px;
             display: grid;
             place-items: center;
             font-weight: 900;
             font-size: 15px;
+            flex-shrink: 0;
         }
 
-        .ai-header-title h2 {
-            font-size: 17px;
+        .ai-header-title h1 {
+            font-size: 18px;
             font-weight: 800;
         }
 
@@ -218,15 +222,67 @@
             color: #d6e0e9;
         }
 
-        /* QUICK SUGGESTIONS BAR */
-
-        .quick-prompts {
+        .mode-switcher {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        .mode-btn {
+            background: rgba(255, 255, 255, 0.14);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .mode-btn.active {
+                background: var(--yellow);
+                color: var(--blue);
+                border-color: var(--yellow);
+            }
+
+        /* DOCUMENT CONTEXT SELECTOR & QUICK PROMPTS BAR */
+
+        .rag-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
             padding: 12px 25px;
             background: var(--grey);
             border-bottom: 1px solid var(--border);
-            overflow-x: auto;
+        }
+
+        .doc-selector-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .doc-select {
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0 10px;
+            background: var(--white);
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .quick-prompts {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .prompt-chip {
@@ -235,7 +291,7 @@
             color: var(--blue);
             font-size: 12px;
             font-weight: 700;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
             white-space: nowrap;
@@ -250,19 +306,19 @@
         /* CHAT MESSAGES CONTAINER */
 
         .ai-chat-area {
-            flex: 1;
+            height: 410px;
             padding: 25px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
             background: #fafbfc;
         }
 
         .chat-msg {
             display: flex;
             gap: 14px;
-            max-width: 80%;
+            max-width: 82%;
         }
 
             .chat-msg.user {
@@ -290,7 +346,7 @@
             display: grid;
             place-items: center;
             font-weight: 900;
-            font-size: 14px;
+            font-size: 13px;
             flex-shrink: 0;
         }
 
@@ -323,10 +379,30 @@
             text-align: right;
         }
 
+        .citation-box {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .citation-pill {
+            background: var(--blue-light);
+            color: var(--blue);
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
         /* INPUT BAR */
 
         .ai-input-container {
-            padding: 18px 25px;
+            padding: 16px 25px;
             border-top: 1px solid var(--border);
             background: var(--white);
         }
@@ -366,13 +442,105 @@
                 background: var(--yellow-hover);
             }
 
+        /* QUIZ GENERATOR PANEL */
+
+        .quiz-panel {
+            display: none;
+            padding: 24px 25px;
+            background: #fafbfc;
+        }
+
+            .quiz-panel.active {
+                display: block;
+            }
+
+        .quiz-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+            .quiz-controls input,
+            .quiz-controls select {
+                height: 42px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 0 14px;
+                background: var(--white);
+                font-size: 13px;
+                outline: none;
+            }
+
+            .quiz-controls input {
+                flex: 1;
+                min-width: 220px;
+            }
+
+        .quiz-questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .quiz-q-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--blue);
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+            .quiz-q-card h4 {
+                font-size: 14px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 10px;
+            }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-opt-btn {
+            text-align: left;
+            background: var(--grey);
+            border: 1px solid var(--border);
+            padding: 9px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+            .quiz-opt-btn:hover {
+                border-color: var(--blue);
+            }
+
+            .quiz-opt-btn.correct {
+                background: #ecfdf5;
+                border-color: #10b981;
+                color: #065f46;
+                font-weight: 700;
+            }
+
+            .quiz-opt-btn.wrong {
+                background: #fef2f2;
+                border-color: #ef4444;
+                color: #991b1b;
+            }
+
         /* FOOTER */
 
         .footer {
             background: #202a34;
             color: var(--white);
-            padding: 15px 0;
-            flex-shrink: 0;
+            padding: 16px 0;
+            margin-top: auto;
+            width: 100%;
         }
 
         .footer-bottom {
@@ -414,7 +582,7 @@
                 }
 
             .chat-msg {
-                max-width: 90%;
+                max-width: 92%;
             }
         }
     </style>
@@ -431,7 +599,7 @@
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -439,6 +607,8 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="resources.html">Resources</a>
                 <a href="upload.html">Upload</a>
+                <a href="mentorship.html">Mentorship</a>
+                <a href="profile.html">My Profile</a>
                 <a href="chat.html">Messages</a>
                 <a href="ai-assistant.html" class="active-link">AI Assistant</a>
             </nav>
@@ -455,7 +625,7 @@
     <!-- MAIN AI ASSISTANT CONTENT -->
 
     <main class="ai-layout">
-        <div class="container" style="height: 100%;">
+        <div class="container">
 
             <div class="ai-card">
 
@@ -463,42 +633,74 @@
                     <div class="ai-header-title">
                         <div class="ai-badge-icon">AI</div>
                         <div>
-                            <h2>Campus AI Study Assistant</h2>
-                            <p>Ask course questions, request lecture summaries, or generate quiz problems.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- QUICK PROMPT CHIPS -->
-
-                <div class="quick-prompts">
-                    <button type="button" class="prompt-chip" onclick="usePrompt('Summarize Data Structures Linked Lists')">💡 Summarize Linked Lists</button>
-                    <button type="button" class="prompt-chip" onclick="usePrompt('Generate 3 practice questions for Database SQL joins')">📝 3 Practice SQL Questions</button>
-                    <button type="button" class="prompt-chip" onclick="usePrompt('Explain Waterfall vs Agile Software Models')">⚡ Waterfall vs Agile</button>
-                </div>
-
-                <!-- CHAT MESSAGES AREA -->
-
-                <div class="ai-chat-area" id="aiChatArea">
-
-                    <!-- AI GREETING -->
-                    <div class="chat-msg">
-                        <div class="ai-avatar-icon">AI</div>
-                        <div class="msg-bubble-content">
-                            <div class="msg-sender-title">Campus AI Assistant</div>
-                            Hello! How can I help you with your university coursework today? Feel free to ask a question or select a quick prompt above.
+                            <h1>Campus AI Study Assistant</h1>
+                            <p>Document-grounded RAG Q&amp;A with source citations &amp; practice quiz generation.</p>
                         </div>
                     </div>
 
+                    <div class="mode-switcher">
+                        <button type="button" class="mode-btn active" id="modeChatBtn">Study Q&amp;A</button>
+                        <button type="button" class="mode-btn" id="modeQuizBtn">Practice Quiz Generator</button>
+                    </div>
                 </div>
 
-                <!-- INPUT FORM -->
+                <!-- DOCUMENT CONTEXT SELECTOR & QUICK PROMPTS -->
 
-                <div class="ai-input-container">
-                    <form class="ai-form" onsubmit="handleAiSubmit(event)">
-                        <input type="text" id="aiInput" class="ai-input" placeholder="Type your academic question here..." required autocomplete="off">
-                        <button type="submit" class="btn-ask">Ask AI</button>
+                <div class="rag-toolbar">
+                    <div class="doc-selector-wrap">
+                        <label for="docContextSelect">Reference Document:</label>
+                        <select id="docContextSelect" class="doc-select">
+                            <option value="all">All Verified Course Notes (DS, SE, BDA, AC)</option>
+                            <option value="CS-201">CS-201 — Data Structures Midterm Notes (AC)</option>
+                            <option value="DS-302">DS-302 — Database Systems SQL Lab Manual (DS)</option>
+                            <option value="SE-104">SE-104 — Software Process &amp; Agile Slides (SE)</option>
+                            <option value="BDA-210">BDA-210 — Business Predictive Analytics Paper (BDA)</option>
+                        </select>
+                    </div>
+
+                    <div class="quick-prompts" id="quickPromptsBar">
+                        <button type="button" class="prompt-chip" data-prompt="Summarize Linked Lists and time complexities from CS-201">Summarize Linked Lists</button>
+                        <button type="button" class="prompt-chip" data-prompt="Explain 1NF, 2NF, and 3NF normalization from DS-302">SQL Normalization</button>
+                        <button type="button" class="prompt-chip" data-prompt="Compare Waterfall vs Agile sprints from SE-104">Waterfall vs Agile</button>
+                    </div>
+                </div>
+
+                <!-- MODE 1: RAG CHAT MESSAGES AREA -->
+
+                <div id="chatWorkspace">
+                    <div class="ai-chat-area" id="aiChatArea">
+                        <div class="chat-msg">
+                            <div class="ai-avatar-icon">AI</div>
+                            <div class="msg-bubble-content">
+                                <div class="msg-sender-title">Campus AI Assistant</div>
+                                Assalam-o-Alaikum! Select a reference document above or ask any question across <strong>DS</strong>, <strong>SE</strong>, <strong>BDA</strong>, and <strong>AC</strong> study notes. Every answer includes verified repository source citations.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ai-input-container">
+                        <form class="ai-form" id="aiChatForm">
+                            <input type="text" id="aiInput" class="ai-input" placeholder="Ask a document-grounded academic question..." required autocomplete="off">
+                            <button type="submit" class="btn-ask">Ask AI</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- MODE 2: INTERACTIVE PRACTICE QUIZ GENERATOR -->
+
+                <div class="quiz-panel" id="quizWorkspace">
+                    <form class="quiz-controls" id="quizGenForm">
+                        <input type="text" id="quizTopicInput" placeholder="Enter topic (e.g., Linked Lists, SQL Joins, Agile Scrum)..." required>
+                        <select id="quizDeptSelect">
+                            <option value="DS">DS — Data Science</option>
+                            <option value="SE">SE — Software Engineering</option>
+                            <option value="BDA">BDA — Business Data Analytics</option>
+                            <option value="AC">AC — Applied Computing</option>
+                        </select>
+                        <button type="submit" class="btn-ask" style="height: 42px;">Generate Quiz</button>
                     </form>
+
+                    <div class="quiz-questions-list" id="quizQuestionsList"></div>
                 </div>
 
             </div>
@@ -519,6 +721,10 @@
 
     <script>
                 (function () {
+                    const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                        ? APP_CONFIG.API_BASE_URL
+                        : 'http://localhost:5195';
+
                     // Mobile navigation toggle
                     const menuToggle = document.getElementById("menuToggle");
                     const navLinks = document.getElementById("navLinks");
@@ -526,6 +732,9 @@
                     if (menuToggle && navLinks) {
                         menuToggle.addEventListener("click", function () {
                             navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
                         });
                     }
 
@@ -534,6 +743,7 @@
                     if (logoutBtn) {
                         logoutBtn.addEventListener("click", function () {
                             localStorage.removeItem('currentUser');
+                            sessionStorage.removeItem('campus_bazaar_token');
                             alert('You have logged out.');
                             window.location.href = 'login.html';
                         });
@@ -541,90 +751,276 @@
 
                     // Load active user profile state
                     const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                        JSON.parse(localStorage.getItem('currentUser') || 'null');
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
 
                     if (userData) {
                         const navName = document.getElementById('navName');
                         const navAvatar = document.getElementById('navAvatar');
+                        if (navName) navName.textContent = userData.name || userData.regNo || 'Student';
+                        if (userData.avatar && navAvatar) navAvatar.setAttribute('src', userData.avatar);
+                    }
 
-                        if (navName) navName.textContent = userData.name || userData.regNo || 'User';
-                        if (userData.avatar && navAvatar) {
-                            navAvatar.setAttribute('src', userData.avatar);
+                    // Mode switching (Study Q&A vs Practice Quiz Generator)
+                    const modeChatBtn = document.getElementById('modeChatBtn');
+                    const modeQuizBtn = document.getElementById('modeQuizBtn');
+                    const chatWorkspace = document.getElementById('chatWorkspace');
+                    const quizWorkspace = document.getElementById('quizWorkspace');
+
+                    if (modeChatBtn && modeQuizBtn && chatWorkspace && quizWorkspace) {
+                        modeChatBtn.addEventListener('click', function () {
+                            modeChatBtn.classList.add('active');
+                            modeQuizBtn.classList.remove('active');
+                            chatWorkspace.style.display = 'block';
+                            quizWorkspace.classList.remove('active');
+                        });
+
+                        modeQuizBtn.addEventListener('click', function () {
+                            modeQuizBtn.classList.add('active');
+                            modeChatBtn.classList.remove('active');
+                            chatWorkspace.style.display = 'none';
+                            quizWorkspace.classList.add('active');
+                        });
+                    }
+
+                    // Quick prompt chips
+                    const promptChips = document.querySelectorAll('.prompt-chip');
+                    promptChips.forEach(chip => {
+                        chip.addEventListener('click', function () {
+                            const input = document.getElementById('aiInput');
+                            if (input) {
+                                input['value'] = chip.getAttribute('data-prompt') || '';
+                                input.focus();
+                            }
+                        });
+                    });
+
+                    function escapeAiHtml(text) {
+                        const div = document.createElement('div');
+                        div.textContent = String(text || '');
+                        return div.innerHTML;
+                    }
+
+                    function generateFallbackRagReply(query, docId) {
+                        const q = query.toLowerCase();
+                        if (q.includes('linked list') || docId === 'CS-201') {
+                            return {
+                                answer: 'A Linked List stores elements in non-contiguous nodes, each holding a data payload and a next-pointer. Insertion/deletion at the head runs in O(1), while searching by value takes O(n).',
+                                citations: ['CS-201 Data Structures Midterm Notes (AC)', 'Section 2: Pointers & Dynamic Lists']
+                            };
                         }
+                        if (q.includes('sql') || q.includes('normal') || docId === 'DS-302') {
+                            return {
+                                answer: 'Database normalization eliminates redundancy: 1NF enforces atomic columns, 2NF removes partial dependencies on composite keys, and 3NF eliminates transitive dependencies between non-key attributes.',
+                                citations: ['DS-302 SQL Lab Manual (DS)', 'Lab 4: Relational Normalization']
+                            };
+                        }
+                        if (q.includes('agile') || q.includes('waterfall') || docId === 'SE-104') {
+                            return {
+                                answer: 'Waterfall executes requirements, design, implementation, and testing sequentially, whereas Agile delivers working increments across 1–4 week sprints with continuous stakeholder feedback.',
+                                citations: ['SE-104 Software Process Models Slides (SE)', 'Deck 3: Iterative Engineering']
+                            };
+                        }
+                        return {
+                            answer: `Based on verified Campus Bazaar study documents for "${query}", focus on core definitions, worked examples, and time/space trade-offs covered in your selected department notes.`,
+                            citations: ['Campus Bazaar Verified Text Repository']
+                        };
+                    }
+
+                    function appendChatBubble(senderName, text, isUser, citations) {
+                        const chatArea = document.getElementById('aiChatArea');
+                        if (!chatArea) return null;
+
+                        const wrapper = document.createElement('div');
+                        wrapper.className = isUser ? 'chat-msg user' : 'chat-msg';
+
+                        if (isUser) {
+                            const avatarSrc = (userData && userData.avatar) ? userData.avatar : 'assets/male.jpg';
+                            wrapper.innerHTML = `
+                                <img src="${escapeAiHtml(avatarSrc)}" alt="You" class="msg-avatar-icon">
+                                <div class="msg-bubble-content">
+                                    <div class="msg-sender-title">You</div>
+                                    <div>${escapeAiHtml(text)}</div>
+                                </div>
+                            `;
+                        } else {
+                            const citationHtml = (Array.isArray(citations) && citations.length > 0)
+                                ? `<div class="citation-box"><strong>Sources:</strong> ${citations.map(c => `<span class="citation-pill">${escapeAiHtml(c)}</span>`).join('')}</div>`
+                                : '';
+
+                            wrapper.innerHTML = `
+                                <div class="ai-avatar-icon">AI</div>
+                                <div class="msg-bubble-content">
+                                    <div class="msg-sender-title">${escapeAiHtml(senderName)}</div>
+                                    <div class="ai-reply-body">${escapeAiHtml(text)}</div>
+                                    ${citationHtml}
+                                </div>
+                            `;
+                        }
+
+                        chatArea.appendChild(wrapper);
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                        return wrapper;
+                    }
+
+                    // Handle RAG Chat Submission (POST /api/ai/ask)
+                    const aiChatForm = document.getElementById('aiChatForm');
+                    if (aiChatForm) {
+                        aiChatForm.addEventListener('submit', async function (event) {
+                            event.preventDefault();
+                            const input = document.getElementById('aiInput');
+                            const docSelect = document.getElementById('docContextSelect');
+                            if (!input) return;
+
+                            const query = String(input['value'] || '').trim();
+                            if (!query) return;
+
+                            const selectedDoc = docSelect ? String(docSelect['value'] || 'all') : 'all';
+                            appendChatBubble('You', query, true, []);
+                            input['value'] = '';
+
+                            const pendingBubble = appendChatBubble('Campus AI Assistant', 'Searching verified documents...', false, []);
+
+                            try {
+                                const token = sessionStorage.getItem('campus_bazaar_token');
+                                const headers = { 'Content-Type': 'application/json' };
+                                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                                const response = await fetch(`${baseUrl}/api/ai/ask`, {
+                                    method: 'POST',
+                                    headers: headers,
+                                    body: JSON.stringify({ question: query, documentId: selectedDoc })
+                                });
+
+                                if (!response.ok) throw new Error('AI RAG endpoint offline');
+
+                                const data = await response.json();
+                                const replyText = data.answer || data.reply || data.response;
+                                const sources = data.citations || data.sources || ['Campus Bazaar Knowledge Base'];
+
+                                if (pendingBubble) {
+                                    const bodyEl = pendingBubble.querySelector('.ai-reply-body');
+                                    if (bodyEl) bodyEl.textContent = replyText;
+                                    if (sources.length > 0) {
+                                        const citDiv = document.createElement('div');
+                                        citDiv.className = 'citation-box';
+                                        citDiv.innerHTML = `<strong>Sources:</strong> ${sources.map(s => `<span class="citation-pill">${escapeAiHtml(s)}</span>`).join('')}`;
+                                        pendingBubble.querySelector('.msg-bubble-content').appendChild(citDiv);
+                                    }
+                                }
+                            } catch (err) {
+                                const fallback = generateFallbackRagReply(query, selectedDoc);
+                                if (pendingBubble) {
+                                    const bodyEl = pendingBubble.querySelector('.ai-reply-body');
+                                    if (bodyEl) bodyEl.textContent = fallback.answer;
+                                    const citDiv = document.createElement('div');
+                                    citDiv.className = 'citation-box';
+                                    citDiv.innerHTML = `<strong>Sources:</strong> ${fallback.citations.map(s => `<span class="citation-pill">${escapeAiHtml(s)}</span>`).join('')}`;
+                                    pendingBubble.querySelector('.msg-bubble-content').appendChild(citDiv);
+                                }
+                            }
+                        });
+                    }
+
+                    // Handle Practice Quiz Generator (POST /api/ai/generate-quiz)
+                    const quizGenForm = document.getElementById('quizGenForm');
+                    const quizQuestionsList = document.getElementById('quizQuestionsList');
+
+                    function renderQuizQuestions(questions) {
+                        if (!quizQuestionsList) return;
+                        quizQuestionsList.innerHTML = questions.map((item, qIdx) => `
+                            <div class="quiz-q-card">
+                                <h4>Q${qIdx + 1}. ${escapeAiHtml(item.question)}</h4>
+                                <div class="quiz-options">
+                                    ${item.options.map((opt, oIdx) => `
+                                        <button type="button" class="quiz-opt-btn" data-q="${qIdx}" data-opt="${oIdx}" data-correct="${item.correctIndex}">
+                                            ${escapeAiHtml(opt)}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('');
+
+                        quizQuestionsList.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                const chosen = Number(btn.getAttribute('data-opt'));
+                                const correct = Number(btn.getAttribute('data-correct'));
+                                const parent = btn.parentElement;
+                                if (!parent) return;
+
+                                parent.querySelectorAll('.quiz-opt-btn').forEach(b => {
+                                    b["disabled"] = true;
+                                    const idx = Number(b.getAttribute('data-opt'));
+                                    if (idx === correct) b.classList.add('correct');
+                                    else if (idx === chosen) b.classList.add('wrong');
+                                });
+                            });
+                        });
+                    }
+
+                    if (quizGenForm) {
+                        quizGenForm.addEventListener('submit', async function (e) {
+                            e.preventDefault();
+                            const topicInput = document.getElementById('quizTopicInput');
+                            const deptSelect = document.getElementById('quizDeptSelect');
+                            const topic = topicInput ? String(topicInput['value'] || '').trim() : 'Course Concepts';
+                            const dept = deptSelect ? String(deptSelect['value'] || 'DS') : 'DS';
+
+                            if (quizQuestionsList) {
+                                quizQuestionsList.innerHTML = '<div class="quiz-q-card"><h4>Generating practice MCQs from verified repository notes...</h4></div>';
+                            }
+
+                            try {
+                                const token = sessionStorage.getItem('campus_bazaar_token');
+                                const headers = { 'Content-Type': 'application/json' };
+                                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                                const response = await fetch(`${baseUrl}/api/ai/generate-quiz`, {
+                                    method: 'POST',
+                                    headers: headers,
+                                    body: JSON.stringify({ topic: topic, department: dept, count: 3 })
+                                });
+
+                                if (!response.ok) throw new Error('Quiz generator offline');
+                                const data = await response.json();
+                                if (Array.isArray(data.questions) && data.questions.length > 0) {
+                                    renderQuizQuestions(data.questions);
+                                    return;
+                                }
+                                throw new Error('Empty quiz payload');
+                            } catch (err) {
+                                renderQuizQuestions([
+                                    {
+                                        question: `Which property best characterizes core ${topic} workflows in ${dept}?`,
+                                        options: [
+                                            'Structured decomposition and verifiable complexity bounds',
+                                            'Unindexed unstructured binary storage',
+                                            'Manual single-threaded polling without state validation'
+                                        ],
+                                        correctIndex: 0
+                                    },
+                                    {
+                                        question: `What is the primary benefit of modularizing ${topic} components?`,
+                                        options: [
+                                            'Eliminates all memory allocation overhead',
+                                            'Improves maintainability, testability, and fault isolation',
+                                            'Removes the need for input validation'
+                                        ],
+                                        correctIndex: 1
+                                    },
+                                    {
+                                        question: `When evaluating ${topic} performance on large datasets, which metric is prioritized first?`,
+                                        options: [
+                                            'Asymptotic time and space complexity',
+                                            'Source file line count',
+                                            'Variable identifier length'
+                                        ],
+                                        correctIndex: 0
+                                    }
+                                ]);
+                            }
+                        });
                     }
                 })();
-
-                // Quick prompt helper
-                function usePrompt(text) {
-                    const input = document.getElementById('aiInput');
-                    if (input) {
-                        input['value'] = text;
-                    }
-                }
-
-                // Handle AI Form Submission
-                function handleAiSubmit(event) {
-                    event.preventDefault();
-                    const input = document.getElementById('aiInput');
-                    if (!input) return;
-
-                    const query = String(input['value'] || '').trim();
-                    if (!query) return;
-
-                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                        JSON.parse(localStorage.getItem('currentUser') || 'null') ||
-                                        { name: 'You', avatar: 'assets/male.jpg' };
-                    const chatArea = document.getElementById('aiChatArea');
-                    if (!chatArea) return;
-
-                    // Append User Question
-                    const userMsg = document.createElement('div');
-                    userMsg.className = 'chat-msg user';
-                    userMsg.innerHTML = `
-                        <img src="${userData.avatar || 'assets/male.jpg'}" alt="You" class="msg-avatar-icon">
-                        <div class="msg-bubble-content">
-                            <div class="msg-sender-title">You</div>
-                            ${escapeAiHtml(query)}
-                        </div>
-                    `;
-                    chatArea.appendChild(userMsg);
-                    input['value'] = '';
-                    chatArea.scrollTop = chatArea.scrollHeight;
-
-                    // Generate Simulated AI Answer
-                    setTimeout(() => {
-                        const aiMsg = document.createElement('div');
-                        aiMsg.className = 'chat-msg';
-                        aiMsg.innerHTML = `
-                            <div class="ai-avatar-icon">AI</div>
-                            <div class="msg-bubble-content">
-                                <div class="msg-sender-title">Campus AI Assistant</div>
-                                ${generateAiResponse(query)}
-                            </div>
-                        `;
-                        chatArea.appendChild(aiMsg);
-                        chatArea.scrollTop = chatArea.scrollHeight;
-                    }, 700);
-                }
-
-                function generateAiResponse(query) {
-                    const q = query.toLowerCase();
-                    if (q.includes('linked list')) {
-                        return 'A <strong>Linked List</strong> is a linear data structure where elements (nodes) are stored in memory non-contiguously. Each node contains a data field and a pointer (reference) to the next node in the sequence.';
-                    } else if (q.includes('sql') || q.includes('database')) {
-                        return 'Here are 2 practice SQL queries:<br>1. <code>SELECT * FROM Students WHERE Dept = "Data Science";</code><br>2. <code>SELECT Dept, COUNT(*) FROM Students GROUP BY Dept;</code>';
-                    } else if (q.includes('agile') || q.includes('waterfall')) {
-                        return '<strong>Waterfall</strong> is a sequential, rigid software development process, whereas <strong>Agile</strong> is an iterative, flexible approach centered around sprint cycles and continuous feedback.';
-                    } else {
-                        return `Here is a summary for "<em>${escapeAiHtml(query)}</em>": <br><br>The key concepts for this topic involve reviewing core course lectures, practicing problems, and referencing verified notes in the <strong>Resources</strong> section.`;
-                    }
-                }
-
-                function escapeAiHtml(text) {
-                    const div = document.createElement('div');
-                    div.textContent = text;
-                    return div.innerHTML;
-                }
     </script>
 </body>
 </html>

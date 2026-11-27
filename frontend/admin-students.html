@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Accounts | Campus Bazaar Admin</title>
+
+    <style>
+        :root {
+            --blue: #153e63;
+            --blue-dark: #0e2e4c;
+            --blue-light: #e8f1fa;
+            --yellow: #ffd84d;
+            --yellow-hover: #ffcd24;
+            --grey: #f1f3f5;
+            --white: #ffffff;
+            --text: #252a30;
+            --muted: #687582;
+            --border: #e0e5ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--grey);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+        }
+
+        /* ADMIN TOP NAVBAR */
+
+        .navbar {
+            background: var(--blue);
+            color: var(--white);
+            border-bottom: 4px solid var(--yellow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--white);
+            white-space: nowrap;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: var(--yellow);
+            color: var(--blue);
+            border-radius: 9px;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 700;
+                color: #d6e0e9;
+                padding: 6px 0;
+                border-bottom: 2px solid transparent;
+                transition: color 0.2s, border-color 0.2s;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active-link {
+                    color: var(--yellow);
+                    border-bottom-color: var(--yellow);
+                }
+
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            border-radius: 24px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-id-tag {
+            color: var(--yellow);
+        }
+
+        .btn-logout {
+            background: var(--yellow);
+            color: var(--blue);
+            border: none;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+            .btn-logout:hover {
+                background: var(--yellow-hover);
+            }
+
+        /* MAIN CONTENT */
+
+        .main-wrap {
+            flex: 1;
+            padding: 36px 0 60px;
+        }
+
+        .page-header {
+            margin-bottom: 26px;
+        }
+
+            .page-header h1 {
+                font-size: 25px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+                color: var(--muted);
+            }
+
+        .section-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px 28px;
+            box-shadow: 0 8px 22px rgba(21, 62, 99, 0.04);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .card-top h2 {
+                font-size: 18px;
+                font-weight: 800;
+                color: var(--blue);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+                .card-top h2::before {
+                    content: "";
+                    display: inline-block;
+                    width: 4px;
+                    height: 18px;
+                    background: var(--yellow);
+                    border-radius: 2px;
+                }
+
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+            .filters-row input,
+            .filters-row select {
+                height: 38px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 0 12px;
+                font-size: 13px;
+                background: var(--white);
+                outline: none;
+            }
+
+                .filters-row input:focus,
+                .filters-row select:focus {
+                    border-color: var(--blue);
+                }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+            .data-table th {
+                text-align: left;
+                padding: 13px 14px;
+                background: var(--grey);
+                color: var(--blue);
+                font-weight: 800;
+                border-bottom: 2px solid var(--border);
+                white-space: nowrap;
+            }
+
+            .data-table td {
+                padding: 14px;
+                border-bottom: 1px solid var(--border);
+                vertical-align: middle;
+            }
+
+            .data-table tr:last-child td {
+                border-bottom: none;
+            }
+
+        .dept-pill {
+            display: inline-block;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .status-pill {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+            .status-pill.active {
+                background: #ecfdf5;
+                color: #065f46;
+                border: 1px solid #a7f3d0;
+            }
+
+            .status-pill.suspended {
+                background: #fef2f2;
+                color: #991b1b;
+                border: 1px solid #fecaca;
+            }
+
+        .btn-sm {
+            border: none;
+            padding: 7px 13px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+            .btn-sm:hover {
+                opacity: 0.88;
+            }
+
+        .btn-suspend {
+            background: var(--yellow);
+            color: var(--blue);
+        }
+
+        .btn-restore {
+            background: var(--blue-light);
+            color: var(--blue);
+            border: 1px solid #cbd5e1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 28px 16px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer {
+            background: #202a34;
+            color: #bdc7d0;
+            text-align: center;
+            font-size: 12px;
+            padding: 18px;
+            margin-top: auto;
+        }
+
+        @media (max-width: 720px) {
+            .nav-content {
+                flex-wrap: wrap;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="admin-dashboard.html" class="logo">
+                <span class="logo-mark">CB</span>
+                <span>Campus Bazaar Admin</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-reports.html">Flagged Reports</a>
+                <a href="admin-students.html" class="active-link">Student Accounts</a>
+                <a href="admin-announcements.html">Announcements</a>
+            </nav>
+
+            <div class="admin-profile-pill">
+                <span class="admin-id-tag" id="navAdminId">ADM-IDS-01</span>
+                <button type="button" class="btn-logout" id="adminLogoutBtn">Log out</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrap">
+        <div class="container">
+
+            <div class="page-header">
+                <h1>Registered Student Accounts</h1>
+                <p>Manage verified student access across Data Science (DS), Software Engineering (SE), Business Data Analytics (BDA), and Applied Computing (AC).</p>
+            </div>
+
+            <section class="section-card">
+                <div class="card-top">
+                    <h2>Student Directory</h2>
+                    <div class="filters-row">
+                        <input type="text" id="studentSearchInput" placeholder="Search name, reg no, or email...">
+                        <select id="studentDeptFilter" aria-label="Filter students by department">
+                            <option value="all">All Departments</option>
+                            <option value="DS">DS — Data Science</option>
+                            <option value="SE">SE — Software Engineering</option>
+                            <option value="BDA">BDA — Business Data Analytics</option>
+                            <option value="AC">AC — Applied Computing</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Registration No</th>
+                                <th>Department</th>
+                                <th>University Email</th>
+                                <th>Uploads</th>
+                                <th>Status</th>
+                                <th>Account Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 Campus Bazaar Administrative Console. Built for the Institute of Data Science.
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script>
+        (function () {
+            const adminSession = JSON.parse(sessionStorage.getItem('cb_admin_session') || 'null');
+            if (!adminSession) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            document.getElementById('navAdminId').textContent = adminSession.adminId;
+
+            const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                ? APP_CONFIG.API_BASE_URL
+                : 'http://localhost:5195';
+
+            let studentAccounts = [
+                { id: 1, name: "Wajeeha", regNo: "2025-DS-04", department: "DS", email: "2025DS4@student.uet.edu.pk", uploads: 4, status: "Active" },
+                { id: 2, name: "Ayesha Khan", regNo: "2024-AC-12", department: "AC", email: "2024AC12@student.uet.edu.pk", uploads: 3, status: "Active" },
+                { id: 3, name: "Hamza Ahmed", regNo: "2024-SE-19", department: "SE", email: "2024SE19@student.uet.edu.pk", uploads: 2, status: "Active" },
+                { id: 4, name: "Zainab Tariq", regNo: "2024-BDA-08", department: "BDA", email: "2024BDA08@student.uet.edu.pk", uploads: 5, status: "Active" },
+                { id: 5, name: "Usman Tariq", regNo: "2025-DS-22", department: "DS", email: "2025DS22@student.uet.edu.pk", uploads: 1, status: "Suspended" }
+            ];
+
+            function getAuthHeaders() {
+                const token = sessionStorage.getItem('campus_bazaar_token');
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                return headers;
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = String(text || '');
+                return div.innerHTML;
+            }
+
+            function renderStudents() {
+                const tbody = document.getElementById('studentsTbody');
+                const searchEl = document.getElementById('studentSearchInput');
+                const deptEl = document.getElementById('studentDeptFilter');
+
+                const query = String((searchEl && searchEl["value"]) || '').toLowerCase().trim();
+                const dept = deptEl ? String(deptEl["value"] || 'all') : 'all';
+                if (!tbody) return;
+
+                const filtered = studentAccounts.filter(s => {
+                    const matchDept = dept === 'all' || s.department === dept;
+                    const matchQuery = !query ||
+                        s.name.toLowerCase().includes(query) ||
+                        s.regNo.toLowerCase().includes(query) ||
+                        s.email.toLowerCase().includes(query);
+                    return matchDept && matchQuery;
+                });
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="empty-state">No student accounts match your filter.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = filtered.map(s => {
+                    const isSuspended = s.status === 'Suspended';
+                    return `
+                        <tr>
+                            <td><strong>${escapeHtml(s.name)}</strong></td>
+                            <td>${escapeHtml(s.regNo)}</td>
+                            <td><span class="dept-pill">${escapeHtml(s.department)}</span></td>
+                            <td>${escapeHtml(s.email)}</td>
+                            <td>${s.uploads} files</td>
+                            <td><span class="status-pill ${isSuspended ? 'suspended' : 'active'}">${escapeHtml(s.status)}</span></td>
+                            <td>
+                                <button type="button" class="btn-sm ${isSuspended ? 'btn-restore' : 'btn-suspend'}" data-toggle-id="${s.id}">
+                                    ${isSuspended ? 'Restore Access' : 'Suspend Account'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.querySelectorAll('[data-toggle-id]').forEach(btn => {
+                    btn.addEventListener('click', async function () {
+                        const studentId = Number(btn.getAttribute('data-toggle-id'));
+                        const target = studentAccounts.find(item => item.id === studentId);
+                        if (!target) return;
+
+                        target.status = target.status === 'Active' ? 'Suspended' : 'Active';
+
+                        try {
+                            await fetch(`${baseUrl}/api/admin/students/${studentId}/status`, {
+                                method: 'PATCH',
+                                headers: getAuthHeaders(),
+                                body: JSON.stringify({ status: target.status })
+                            });
+                        } catch (e) {}
+
+                        renderStudents();
+                    });
+                });
+            }
+
+            async function loadStudentsFromApi() {
+                try {
+                    const res = await fetch(`${baseUrl}/api/admin/students`, { headers: getAuthHeaders() });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (Array.isArray(data) && data.length > 0) {
+                            studentAccounts = data;
+                        }
+                    }
+                } catch (e) {}
+                renderStudents();
+            }
+
+            document.getElementById('studentSearchInput').addEventListener('input', renderStudents);
+            document.getElementById('studentDeptFilter').addEventListener('change', renderStudents);
+
+            document.getElementById('adminLogoutBtn').addEventListener('click', function () {
+                sessionStorage.removeItem('cb_admin_session');
+                sessionStorage.removeItem('campus_bazaar_token');
+                window.location.href = 'admin-login.html';
+            });
+
+            loadStudentsFromApi();
+        })();
+    </script>
+</body>
+</html>

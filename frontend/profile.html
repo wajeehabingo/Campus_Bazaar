@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile | Campus Bazaar</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>My Profile & Analytics | Campus Bazaar</title>
 
     <style>
         :root {
@@ -26,7 +25,12 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
             font-family: Arial, Helvetica, sans-serif;
             color: var(--text);
             background: var(--grey);
@@ -40,12 +44,13 @@
             color: inherit;
         }
 
-        button, input {
+        button, input, select {
             font: inherit;
         }
 
-        .container {
-            width: min(1150px, 92%);
+        .page-shell {
+            width: min(1200px, 94%);
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -57,6 +62,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            width: 100%;
         }
 
         .nav-content {
@@ -156,291 +162,360 @@
             cursor: pointer;
         }
 
-        /* MAIN PROFILE LAYOUT (Isolated classes so style.css cannot override) */
+        /* PROFILE PAGE LAYOUT */
 
-        .cb-profile-layout {
-            padding: 35px 0 60px;
+        .profile-layout {
+            padding: 36px 0 64px;
             flex: 1;
             width: 100%;
         }
 
-        .cb-profile-grid {
-            display: flex;
-            align-items: flex-start;
-            gap: 25px;
+        /* BALANCED FULL-WIDTH HERO CARD */
+
+        .profile-hero {
             width: 100%;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 5px solid var(--blue);
+            border-radius: 16px;
+            padding: 32px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 28px rgba(21, 62, 99, 0.05);
         }
 
-        .cb-profile-sidebar {
-            width: 320px;
+        .profile-identity {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex: 1 1 380px;
+            min-width: 280px;
+        }
+
+        .profile-avatar-lg {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--yellow);
+            background: var(--grey);
             flex-shrink: 0;
         }
 
-        .cb-profile-main {
-            flex: 1;
+        .profile-details {
             min-width: 0;
+            flex: 1;
         }
 
-        .cb-box {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 25px;
-            margin-bottom: 25px;
-            width: 100%;
-            box-shadow: 0 4px 16px rgba(21, 62, 99, 0.04);
-        }
+            .profile-details h1 {
+                font-size: 26px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 6px;
+                text-transform: capitalize;
+            }
 
-        /* LEFT SIDEBAR: AVATAR & INFO CARD */
-
-        .cb-profile-card {
-            text-align: center;
-        }
-
-        .avatar-wrap {
-            position: relative;
-            width: 116px;
-            height: 116px;
-            margin: 0 auto 16px;
-        }
-
-        .profile-avatar {
-            width: 116px;
-            height: 116px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            border: 4px solid var(--yellow);
-            background: var(--white);
-            box-shadow: 0 6px 20px rgba(21, 62, 99, 0.12);
-        }
-
-        .badge-verified {
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 28px;
-            height: 28px;
-            background: var(--blue);
-            color: var(--yellow);
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            font-size: 13px;
-            font-weight: 900;
-            border: 2px solid var(--white);
-        }
-
-        .cb-profile-card h1 {
-            font-size: 22px;
-            color: var(--blue);
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .cb-profile-card p {
+        .profile-meta-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
             font-size: 13px;
             color: var(--muted);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
+            word-break: break-word;
         }
 
-        .badge-role {
-            display: inline-block;
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pill-yellow {
             background: var(--yellow);
             color: var(--blue);
             font-size: 11px;
             font-weight: 800;
-            text-transform: uppercase;
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 6px;
-            letter-spacing: 0.5px;
-            margin-bottom: 22px;
+            text-transform: uppercase;
+            white-space: nowrap;
         }
 
-        .info-list {
-            text-align: left;
-            border-top: 1px solid var(--border);
-            padding-top: 18px;
+        .pill-blue {
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
         }
 
-        .info-row {
-            margin-bottom: 14px;
+        .profile-kpis {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(105px, 125px));
+            gap: 14px;
+            flex-shrink: 0;
         }
 
-            .info-row:last-child {
-                margin-bottom: 0;
+        .kpi-box {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 14px;
+            text-align: center;
+        }
+
+            .kpi-box strong {
+                display: block;
+                font-size: 26px;
+                font-weight: 800;
+                color: var(--blue);
+                margin-bottom: 4px;
             }
 
-            .info-row span {
-                display: block;
+            .kpi-box span {
                 font-size: 11px;
                 font-weight: 700;
                 color: var(--muted);
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
-                margin-bottom: 3px;
+                letter-spacing: 0.4px;
             }
 
-            .info-row strong {
-                font-size: 14px;
-                color: var(--blue);
-            }
+        /* SYMMETRIC 50/50 ANALYTICS CHARTS GRID */
 
-        /* RIGHT SECTION: DETAILS & TABS */
+        .charts-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            margin-bottom: 28px;
+        }
 
-        .cb-box-title {
+        .section-card {
+            width: 100%;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px 28px;
+            box-shadow: 0 6px 20px rgba(21, 62, 99, 0.04);
+        }
+
+        .section-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
             margin-bottom: 20px;
+            padding-bottom: 14px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
         }
 
-            .cb-box-title h2 {
-                font-size: 18px;
-                color: var(--blue);
+            .section-head h2 {
+                font-size: 17px;
                 font-weight: 800;
+                color: var(--blue);
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 9px;
             }
 
-                .cb-box-title h2::before {
+                .section-head h2::before {
                     content: "";
                     display: inline-block;
                     width: 4px;
                     height: 18px;
                     background: var(--yellow);
                     border-radius: 2px;
-                    flex-shrink: 0;
                 }
 
-        /* STATS COUNTER */
-
-        .cb-stats-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-
-        .cb-stat-item {
-            flex: 1;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px 14px;
-            text-align: center;
-            box-shadow: 0 4px 16px rgba(21, 62, 99, 0.04);
-        }
-
-            .cb-stat-item strong {
-                display: block;
-                font-size: 26px;
-                color: var(--blue);
-                font-weight: 800;
-                margin-bottom: 4px;
-            }
-
-            .cb-stat-item span {
-                display: block;
-                font-size: 12px;
-                color: var(--muted);
-                font-weight: 600;
-            }
-
-        /* TAB ACTIVITY STYLING */
-
-        .cb-tab-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .cb-tab-btn {
-            background: var(--grey);
-            border: 1px solid var(--border);
+        .chart-subtitle {
+            font-size: 12px;
             color: var(--muted);
-            padding: 9px 18px;
-            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* ZERO-DEPENDENCY BAR CHART (QUIZ PERFORMANCE) */
+
+        .bar-chart-area {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 14px;
+            height: 210px;
+            padding: 18px 12px 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .bar-val {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--blue);
+        }
+
+        .bar-fill {
+            width: 100%;
+            max-width: 42px;
+            background: linear-gradient(180deg, var(--blue) 0%, #235d91 100%);
+            border-top: 4px solid var(--yellow);
+            border-radius: 6px 6px 0 0;
+            transition: height 0.4s ease;
+        }
+
+        .bar-labels-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 10px 12px 0;
+        }
+
+            .bar-labels-row span {
+                flex: 1;
+                text-align: center;
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--muted);
+            }
+
+        /* ZERO-DEPENDENCY CATEGORY BREAKDOWN (STUDY ACTIVITY MIX) */
+
+        .mix-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 4px;
+        }
+
+        .mix-item-head {
+            display: flex;
+            justify-content: space-between;
             font-size: 13px;
             font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            color: var(--blue);
+            margin-bottom: 6px;
         }
 
-            .cb-tab-btn.active {
+            .mix-item-head span:last-child {
+                color: var(--muted);
+            }
+
+        .mix-track {
+            width: 100%;
+            height: 10px;
+            background: var(--grey);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .mix-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: var(--blue);
+        }
+
+            .mix-fill.yellow {
+                background: #eab308;
+            }
+
+        /* HISTORY TABS & LOG TABLES */
+
+        .history-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: var(--grey);
+            border: 1px solid var(--border);
+            color: var(--blue);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .tab-btn.active {
                 background: var(--blue);
                 color: var(--white);
                 border-color: var(--blue);
             }
 
-        /* ITEM LIST */
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
+        .table-wrap {
+            overflow-x: auto;
         }
 
-            .activity-item:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+            .log-table th {
+                text-align: left;
+                padding: 13px 16px;
+                background: var(--grey);
+                color: var(--blue);
+                font-weight: 800;
+                border-bottom: 2px solid var(--border);
+                white-space: nowrap;
             }
 
-        .activity-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            min-width: 0;
-        }
+            .log-table td {
+                padding: 14px 16px;
+                border-bottom: 1px solid var(--border);
+                color: var(--text);
+                vertical-align: middle;
+            }
 
-        .resource-tag {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
+            .log-table tr:last-child td {
+                border-bottom: none;
+            }
+
+        .ext-chip {
+            display: inline-block;
             background: var(--yellow);
             color: var(--blue);
-            font-weight: 800;
             font-size: 11px;
-            border-radius: 8px;
-            display: grid;
-            place-items: center;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            margin-right: 4px;
         }
 
-        .activity-details h4 {
-            font-size: 14px;
-            color: var(--text);
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .activity-details p {
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .btn-action {
-            flex-shrink: 0;
+        .nowrap-cell {
             white-space: nowrap;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--blue);
-            background: var(--blue-light);
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: background 0.2s, color 0.2s;
         }
 
-            .btn-action:hover {
-                background: var(--blue);
-                color: var(--white);
-            }
+        .status-verified {
+            display: inline-block;
+            color: #065f46;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
 
         /* FOOTER */
 
@@ -449,6 +524,7 @@
             color: var(--white);
             padding: 20px 0;
             margin-top: auto;
+            width: 100%;
         }
 
         .footer-bottom {
@@ -459,14 +535,14 @@
 
         /* RESPONSIVE */
 
-        @media (max-width: 850px) {
-            .cb-profile-grid {
-                flex-direction: column;
+        @media (max-width: 980px) {
+            .profile-kpis {
+                width: 100%;
+                grid-template-columns: repeat(3, 1fr);
             }
 
-            .cb-profile-sidebar,
-            .cb-profile-main {
-                width: 100%;
+            .charts-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -500,11 +576,7 @@
                     border-top: 1px solid var(--border);
                 }
 
-            .cb-stats-row {
-                flex-direction: column;
-            }
-
-            .activity-item {
+            .profile-identity {
                 flex-direction: column;
                 align-items: flex-start;
             }
@@ -512,19 +584,18 @@
     </style>
 </head>
 <body>
-    <div id="page-loader"></div>
 
     <!-- NAVIGATION BAR -->
 
     <header class="navbar">
-        <div class="container nav-content">
+        <div class="page-shell nav-content">
 
             <a href="dashboard.html" class="logo" aria-label="Campus Bazaar homepage">
                 <span class="logo-mark">CB</span>
                 <span>Campus Bazaar</span>
             </a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
                 Menu
             </button>
 
@@ -532,6 +603,8 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="resources.html">Resources</a>
                 <a href="upload.html">Upload</a>
+                <a href="mentorship.html">Mentorship</a>
+                <a href="profile.html" class="active-link">My Profile</a>
                 <a href="chat.html">Messages</a>
                 <a href="ai-assistant.html">AI Assistant</a>
             </nav>
@@ -539,141 +612,114 @@
             <div class="user-nav-profile">
                 <img id="navAvatar" src="assets/male.jpg" alt="Profile Avatar" class="nav-avatar">
                 <span id="navName" class="nav-user-name">Student</span>
-                <button class="btn-logout" onclick="[logoutUser()">Log out</button>
+                <button type="button" class="btn-logout" id="logoutBtn">Log out</button>
             </div>
 
         </div>
     </header>
 
-    <!-- MAIN PROFILE SECTION -->
+    <!-- MAIN PROFILE & ANALYTICS CONTENT -->
 
-    <main class="cb-profile-layout">
-        <div class="container">
+    <main class="profile-layout">
+        <div class="page-shell">
 
-            <div class="cb-profile-grid">
+            <!-- BALANCED FULL-WIDTH HERO CARD -->
 
-                <!-- LEFT COLUMN: USER AVATAR & METADATA -->
-
-                <aside class="cb-profile-sidebar">
-                    <div class="cb-box cb-profile-card">
-                        <div class="avatar-wrap">
-                            <img id="profileAvatar" src="assets/male.jpg" alt="Official Assigned Avatar" class="profile-avatar">
-                            <div class="badge-verified" title="Official Department Account">&#10003;</div>
+            <section class="profile-hero">
+                <div class="profile-identity">
+                    <img id="profileAvatarLg" src="assets/male.jpg" alt="Student Avatar" class="profile-avatar-lg">
+                    <div class="profile-details">
+                        <h1 id="profileFullName">Student Name</h1>
+                        <div class="profile-meta-list">
+                            <span id="profileRegNo">Reg No: 2023-BS-DS-01</span>
+                            <span id="profileEmail">Email: student@university.edu</span>
                         </div>
-
-                        <h1 id="profileName">Student Name</h1>
-                        <p id="profileSub">Department of Data Science</p>
-                        <span id="profileRole" class="badge-role">Student</span>
-
-                        <div class="info-list">
-                            <div class="info-row">
-                                <span>ID / Registration No</span>
-                                <strong id="profileRegNo">2023-BS-DS-01</strong>
-                            </div>
-
-                            <div class="info-row">
-                                <span>Department Gender</span>
-                                <strong id="profileGender">Male</strong>
-                            </div>
-
-                            <div class="info-row">
-                                <span>Member Status</span>
-                                <strong style="color: #27ae60;">Active Academic Account</strong>
-                            </div>
+                        <div class="profile-badges">
+                            <span class="pill-yellow" id="profileDeptBadge">DS — Data Science</span>
+                            <span class="pill-blue">Verified Student Account</span>
                         </div>
                     </div>
-                </aside>
+                </div>
 
-                <!-- RIGHT COLUMN: STATS & USER ACTIVITY -->
-
-                <section class="cb-profile-main">
-
-                    <!-- ACADEMIC STATS -->
-
-                    <div class="cb-stats-row">
-                        <div class="cb-stat-item">
-                            <strong id="statNotes">4</strong>
-                            <span>Uploaded Notes</span>
-                        </div>
-                        <div class="cb-stat-item">
-                            <strong id="statDownloads">28</strong>
-                            <span>Material Downloads</span>
-                        </div>
-                        <div class="cb-stat-item">
-                            <strong id="statGroups">2</strong>
-                            <span>Study Groups</span>
-                        </div>
+                <div class="profile-kpis">
+                    <div class="kpi-box">
+                        <strong id="kpiUploads">3</strong>
+                        <span>Uploads</span>
                     </div>
-
-                    <!-- ACTIVITY & CONTRIBUTION TABS -->
-
-                    <div class="cb-box">
-                        <div class="cb-box-title">
-                            <h2>My Contributions</h2>
-                        </div>
-
-                        <div class="cb-tab-buttons">
-                            <button class="cb-tab-btn active" onclick="switchProfileTab('uploads', this)">My Uploads</button>
-                            <button class="cb-tab-btn" onclick="switchProfileTab('groups', this)">My Study Groups</button>
-                        </div>
-
-                        <!-- TAB CONTENT: MY UPLOADS -->
-
-                        <div id="tabUploads">
-                            <div class="activity-item">
-                                <div class="activity-left">
-                                    <div class="resource-tag">PDF</div>
-                                    <div class="activity-details">
-                                        <h4>Data Structures Lecture 04 - Linked Lists</h4>
-                                        <p>Shared on Oct 18, 2026 &bull; 14 downloads</p>
-                                    </div>
-                                </div>
-                                <a href="resource-details.html" class="btn-action">View</a>
-                            </div>
-
-                            <div class="activity-item">
-                                <div class="activity-left">
-                                    <div class="resource-tag">DOC</div>
-                                    <div class="activity-details">
-                                        <h4>Python Pandas &amp; Data Cleaning Cheat Sheet</h4>
-                                        <p>Shared on Oct 10, 2026 &bull; 14 downloads</p>
-                                    </div>
-                                </div>
-                                <a href="resource-details.html" class="btn-action">View</a>
-                            </div>
-                        </div>
-
-                        <!-- TAB CONTENT: MY STUDY GROUPS (HIDDEN BY DEFAULT) -->
-
-                        <div id="tabGroups" style="display: none;">
-                            <div class="activity-item">
-                                <div class="activity-left">
-                                    <div class="resource-tag">GRP</div>
-                                    <div class="activity-details">
-                                        <h4>Data Science Semester 3 Group</h4>
-                                        <p>12 Members &bull; Active yesterday</p>
-                                    </div>
-                                </div>
-                                <a href="chat.html" class="btn-action">Open Chat</a>
-                            </div>
-
-                            <div class="activity-item">
-                                <div class="activity-left">
-                                    <div class="resource-tag">GRP</div>
-                                    <div class="activity-details">
-                                        <h4>Software Engineering Project Group</h4>
-                                        <p>3 Members &bull; Active today</p>
-                                    </div>
-                                </div>
-                                <a href="chat.html" class="btn-action">Open Chat</a>
-                            </div>
-                        </div>
-
+                    <div class="kpi-box">
+                        <strong id="kpiDownloads">4</strong>
+                        <span>Downloads</span>
                     </div>
+                    <div class="kpi-box">
+                        <strong id="kpiAvgQuiz">83%</strong>
+                        <span>Avg Quiz</span>
+                    </div>
+                </div>
+            </section>
 
-                </section>
+            <!-- SYMMETRIC ANALYTICS CHARTS SECTION -->
 
-            </div>
+            <section class="charts-grid">
+                <div class="section-card">
+                    <div class="section-head">
+                        <h2>Quiz Performance Over Time</h2>
+                        <span class="chart-subtitle">AI Practice &amp; Course Quizzes (%)</span>
+                    </div>
+                    <div class="bar-chart-area" id="quizBarChart"></div>
+                    <div class="bar-labels-row" id="quizBarLabels"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-head">
+                        <h2>Study Activity Mix</h2>
+                        <span class="chart-subtitle">By Resource Category</span>
+                    </div>
+                    <div class="mix-list" id="activityMixList"></div>
+                </div>
+            </section>
+
+            <!-- UPLOAD HISTORY & DOWNLOAD LOGS -->
+
+            <section class="section-card">
+                <div class="section-head">
+                    <h2 id="historyHeading">My Upload History</h2>
+                    <div class="history-tabs">
+                        <button type="button" class="tab-btn active" id="tabUploads">Upload History</button>
+                        <button type="button" class="tab-btn" id="tabDownloads">Download Logs</button>
+                    </div>
+                </div>
+
+                <div class="table-wrap" id="uploadsTableWrap">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Document Title</th>
+                                <th>Course</th>
+                                <th>Dept</th>
+                                <th>Format &amp; Size</th>
+                                <th>Uploaded On</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="uploadsTbody"></tbody>
+                    </table>
+                </div>
+
+                <div class="table-wrap" id="downloadsTableWrap" style="display: none;">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Downloaded Resource</th>
+                                <th>Course</th>
+                                <th>Category</th>
+                                <th>Format</th>
+                                <th>Downloaded On</th>
+                            </tr>
+                        </thead>
+                        <tbody id="downloadsTbody"></tbody>
+                    </table>
+                </div>
+            </section>
 
         </div>
     </main>
@@ -681,75 +727,237 @@
     <!-- FOOTER -->
 
     <footer class="footer">
-        <div class="container footer-bottom">
+        <div class="page-shell footer-bottom">
             &copy; 2026 Campus Bazaar. Built for students, by students.
         </div>
     </footer>
+
     <script src="js/config.js"></script>
-    <script src="js/api.js"></script>
     <script src="js/main.js"></script>
 
     <script>
-                        (function () {
-                            // Mobile navigation toggle
-                            const menuToggle = document.getElementById("menuToggle");
-                            const navLinks = document.getElementById("navLinks");
+                (function () {
+                    const deptNames = {
+                        DS: 'Data Science',
+                        SE: 'Software Engineering',
+                        BDA: 'Business Data Analytics',
+                        AC: 'Applied Computing'
+                    };
 
-                            if (menuToggle && navLinks) {
-                                menuToggle.addEventListener("click", function () {
-                                    navLinks.classList.toggle("active");
-                                });
-                            }
+                    const fallbackUploads = [
+                        { title: 'Data Structures Linked Lists Notes', courseCode: 'CS-201', department: 'AC', fileType: 'PDF', sizeKb: 420, date: '2026-11-16', status: 'Verified (<1MB)' },
+                        { title: 'SQL Joins & Normalization Manual', courseCode: 'DS-302', department: 'DS', fileType: 'DOCX', sizeKb: 315, date: '2026-11-12', status: 'Verified (<1MB)' },
+                        { title: 'Agile Sprint Planning Deck', courseCode: 'SE-104', department: 'SE', fileType: 'PPTX', sizeKb: 690, date: '2026-11-05', status: 'Verified (<1MB)' }
+                    ];
 
-                            // Load logged in user profile details
-                            const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
-                                             JSON.parse(localStorage.getItem('currentUser') || 'null');
+                    const fallbackDownloads = [
+                        { title: 'Business Predictive Analytics Past Paper', courseCode: 'BDA-210', category: 'Past Papers', fileType: 'PDF', date: '2026-11-17' },
+                        { title: 'Inferential Statistics Quiz Bank', courseCode: 'DS-208', category: 'Quizzes', fileType: 'PDF', date: '2026-11-15' },
+                        { title: 'Capstone SRS & UML Template', courseCode: 'SE-305', category: 'Projects', fileType: 'DOCX', date: '2026-11-10' },
+                        { title: 'Computer Networks OSI Summary', courseCode: 'CS-310', category: 'PDFs', fileType: 'PDF', date: '2026-11-06' }
+                    ];
 
-                            if (userData) {
-                                const navName = document.getElementById('navName');
-                                const navAvatar = document.getElementById('navAvatar');
-                                const profileAvatar = document.getElementById('profileAvatar');
-                                const profileName = document.getElementById('profileName');
-                                const profileRegNo = document.getElementById('profileRegNo');
-                                const profileRole = document.getElementById('profileRole');
-                                const profileGender = document.getElementById('profileGender');
+                    // Mobile menu toggle
+                    const menuToggle = document.getElementById("menuToggle");
+                    const navLinks = document.getElementById("navLinks");
 
-                                if (navName) navName.textContent = userData.name || userData.regNo || 'User';
-                                if (userData.avatar) {
-                                    if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
-                                    if (profileAvatar) profileAvatar.setAttribute('src', userData.avatar);
-                                }
+                    if (menuToggle && navLinks) {
+                        menuToggle.addEventListener("click", function () {
+                            navLinks.classList.toggle("active");
+                            const isOpen = navLinks.classList.contains("active");
+                            menuToggle.setAttribute("aria-expanded", String(isOpen));
+                            menuToggle.textContent = isOpen ? "Close" : "Menu";
+                        });
+                    }
 
-                                if (profileName) profileName.textContent = userData.name || 'Student Name';
-                                if (profileRegNo) profileRegNo.textContent = userData.regNo || '2023-BS-DS-01';
-                                if (profileRole) profileRole.textContent = (userData.role || 'Student').toUpperCase();
+                    // Logout handler
+                    const logoutBtn = document.getElementById("logoutBtn");
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener("click", function () {
+                            localStorage.removeItem('currentUser');
+                            sessionStorage.removeItem('campus_bazaar_token');
+                            alert('You have logged out.');
+                            window.location.href = 'login.html';
+                        });
+                    }
 
-                                if (userData.gender && profileGender) {
-                                    const g = userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1);
-                                    profileGender.textContent = g;
-                                }
-                            }
-                        })();
+                    // Load active user profile
+                    const userData = JSON.parse(localStorage.getItem('registeredStudent') || 'null') ||
+                                     JSON.parse(localStorage.getItem('currentUser') || 'null');
 
-                        // Tab Switching Logic
-                        function switchProfileTab(tabName, element) {
-                            const tabUploads = document.getElementById('tabUploads');
-                            const tabGroups = document.getElementById('tabGroups');
-                            const buttons = document.querySelectorAll('.cb-tab-btn');
+                    if (userData) {
+                        const name = userData.name || userData.regNo || 'Student';
+                        const dept = userData.department || 'DS';
+                        const deptFull = deptNames[dept] || dept;
 
-                            buttons.forEach(btn => btn.classList.remove('active'));
-                            if (element) element.classList.add('active');
+                        const navName = document.getElementById('navName');
+                        const navAvatar = document.getElementById('navAvatar');
+                        const profileAvatarLg = document.getElementById('profileAvatarLg');
+                        const profileFullName = document.getElementById('profileFullName');
+                        const profileRegNo = document.getElementById('profileRegNo');
+                        const profileEmail = document.getElementById('profileEmail');
+                        const profileDeptBadge = document.getElementById('profileDeptBadge');
 
-                            if (tabUploads && tabGroups) {
-                                if (tabName === 'uploads') {
-                                    tabUploads.style.display = 'block';
-                                    tabGroups.style.display = 'none';
-                                } else {
-                                    tabUploads.style.display = 'none';
-                                    tabGroups.style.display = 'block';
-                                }
-                            }
+                        if (navName) navName.textContent = name;
+                        if (profileFullName) profileFullName.textContent = name;
+                        if (profileRegNo) profileRegNo.textContent = `Reg No: ${userData.regNo || '2023-BS-DS-01'}`;
+                        if (profileEmail) profileEmail.textContent = `Email: ${userData.email || 'student@university.edu'}`;
+                        if (profileDeptBadge) profileDeptBadge.textContent = `${dept} — ${deptFull}`;
+
+                        if (userData.avatar) {
+                            if (navAvatar) navAvatar.setAttribute('src', userData.avatar);
+                            if (profileAvatarLg) profileAvatarLg.setAttribute('src', userData.avatar);
                         }
+                    }
+
+                    function escapeProfHtml(text) {
+                        const div = document.createElement('div');
+                        div.textContent = String(text || '');
+                        return div.innerHTML;
+                    }
+
+                    function renderHistoryTables(uploads, downloads) {
+                        const uploadsTbody = document.getElementById('uploadsTbody');
+                        const downloadsTbody = document.getElementById('downloadsTbody');
+                        const kpiUploads = document.getElementById('kpiUploads');
+                        const kpiDownloads = document.getElementById('kpiDownloads');
+
+                        if (kpiUploads) kpiUploads.textContent = String(uploads.length);
+                        if (kpiDownloads) kpiDownloads.textContent = String(downloads.length);
+
+                        if (uploadsTbody) {
+                            uploadsTbody.innerHTML = uploads.map(u => `
+                                <tr>
+                                    <td><strong>${escapeProfHtml(u.title)}</strong></td>
+                                    <td class="nowrap-cell">${escapeProfHtml(u.courseCode)}</td>
+                                    <td class="nowrap-cell">${escapeProfHtml(u.department)}</td>
+                                    <td class="nowrap-cell"><span class="ext-chip">${escapeProfHtml(u.fileType)}</span> &bull; ${escapeProfHtml(u.sizeKb)} KB</td>
+                                    <td class="nowrap-cell">${escapeProfHtml(u.date)}</td>
+                                    <td class="nowrap-cell"><span class="status-verified">${escapeProfHtml(u.status || 'Verified')}</span></td>
+                                </tr>
+                            `).join('');
+                        }
+
+                        if (downloadsTbody) {
+                            downloadsTbody.innerHTML = downloads.map(d => `
+                                <tr>
+                                    <td><strong>${escapeProfHtml(d.title)}</strong></td>
+                                    <td class="nowrap-cell">${escapeProfHtml(d.courseCode)}</td>
+                                    <td class="nowrap-cell">${escapeProfHtml(d.category)}</td>
+                                    <td class="nowrap-cell"><span class="ext-chip">${escapeProfHtml(d.fileType)}</span></td>
+                                    <td class="nowrap-cell">${escapeProfHtml(d.date)}</td>
+                                </tr>
+                            `).join('');
+                        }
+                    }
+
+                    // Tab switching (Upload History vs Download Logs)
+                    const tabUploads = document.getElementById('tabUploads');
+                    const tabDownloads = document.getElementById('tabDownloads');
+                    const uploadsTableWrap = document.getElementById('uploadsTableWrap');
+                    const downloadsTableWrap = document.getElementById('downloadsTableWrap');
+                    const historyHeading = document.getElementById('historyHeading');
+
+                    if (tabUploads && tabDownloads && uploadsTableWrap && downloadsTableWrap) {
+                        tabUploads.addEventListener('click', function () {
+                            tabUploads.classList.add('active');
+                            tabDownloads.classList.remove('active');
+                            uploadsTableWrap.style.display = 'block';
+                            downloadsTableWrap.style.display = 'none';
+                            if (historyHeading) historyHeading.textContent = 'My Upload History';
+                        });
+
+                        tabDownloads.addEventListener('click', function () {
+                            tabDownloads.classList.add('active');
+                            tabUploads.classList.remove('active');
+                            downloadsTableWrap.style.display = 'block';
+                            uploadsTableWrap.style.display = 'none';
+                            if (historyHeading) historyHeading.textContent = 'My Download Logs';
+                        });
+                    }
+
+                    // Render Guaranteed Zero-Dependency Visual Charts
+                    function renderAnalyticsCharts(quizLabels, quizScores, categoryMix) {
+                        const barChartEl = document.getElementById('quizBarChart');
+                        const barLabelsEl = document.getElementById('quizBarLabels');
+                        const mixListEl = document.getElementById('activityMixList');
+                        const kpiAvgQuiz = document.getElementById('kpiAvgQuiz');
+
+                        if (quizScores.length > 0 && kpiAvgQuiz) {
+                            const avg = Math.round(quizScores.reduce((sum, s) => sum + s, 0) / quizScores.length);
+                            kpiAvgQuiz.textContent = `${avg}%`;
+                        }
+
+                        if (barChartEl && barLabelsEl) {
+                            barChartEl.innerHTML = quizScores.map(score => {
+                                const safeScore = Math.max(8, Math.min(100, Number(score) || 0));
+                                return `
+                                    <div class="bar-col">
+                                        <span class="bar-val">${safeScore}%</span>
+                                        <div class="bar-fill" style="height: ${safeScore}%;"></div>
+                                    </div>
+                                `;
+                            }).join('');
+
+                            barLabelsEl.innerHTML = quizLabels.map(lbl => `<span>${escapeProfHtml(lbl)}</span>`).join('');
+                        }
+
+                        if (mixListEl) {
+                            const total = categoryMix.reduce((sum, item) => sum + item.count, 0) || 1;
+                            mixListEl.innerHTML = categoryMix.map((item, idx) => {
+                                const pct = Math.round((item.count / total) * 100);
+                                const fillClass = idx % 2 === 1 ? 'mix-fill yellow' : 'mix-fill';
+                                return `
+                                    <div>
+                                        <div class="mix-item-head">
+                                            <span>${escapeProfHtml(item.label)}</span>
+                                            <span>${item.count} files (${pct}%)</span>
+                                        </div>
+                                        <div class="mix-track">
+                                            <div class="${fillClass}" style="width: ${pct}%;"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
+                        }
+                    }
+
+                    async function loadProfileAnalytics() {
+                        const defaultLabels = ['Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4', 'Quiz 5', 'Quiz 6'];
+                        const defaultScores = [72, 78, 81, 85, 88, 92];
+                        const defaultMix = [
+                            { label: 'PDFs & Notes', count: 6 },
+                            { label: 'Quizzes', count: 5 },
+                            { label: 'Past Papers', count: 4 },
+                            { label: 'Manuals', count: 3 },
+                            { label: 'Projects', count: 2 }
+                        ];
+
+                        const baseUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.API_BASE_URL)
+                            ? APP_CONFIG.API_BASE_URL
+                            : 'http://localhost:5195';
+
+                        try {
+                            const token = sessionStorage.getItem('campus_bazaar_token');
+                            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                            const res = await fetch(`${baseUrl}/api/profile/analytics`, { headers });
+                            if (!res.ok) throw new Error('Profile analytics offline');
+
+                            const data = await res.json();
+                            renderHistoryTables(data.uploads || fallbackUploads, data.downloads || fallbackDownloads);
+                            renderAnalyticsCharts(
+                                data.quizLabels || defaultLabels,
+                                data.quizScores || defaultScores,
+                                data.categoryMix || defaultMix
+                            );
+                        } catch (e) {
+                            renderHistoryTables(fallbackUploads, fallbackDownloads);
+                            renderAnalyticsCharts(defaultLabels, defaultScores, defaultMix);
+                        }
+                    }
+
+                    loadProfileAnalytics();
+                })();
     </script>
 </body>
 </html>
